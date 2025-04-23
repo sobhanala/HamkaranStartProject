@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
@@ -13,11 +12,14 @@ namespace Shell.DI
     {
         private static readonly string[] ProjectAssemblies =
         {
-            "Shell",        // Current project
-            "Persistence",  // Add other project names in your solution
+            "Shell", // Current project
+            "Persistence", // Add other project names in your solution
             "Domain",
             "Application"
         };
+
+        private static readonly List<Assembly> LoadedAssemblies = new List<Assembly>();
+
         public static void RegisterAll(IServiceCollection services)
         {
             // Load all assemblies from the application directory
@@ -28,14 +30,11 @@ namespace Shell.DI
             RegisterForms(services);
         }
 
-        private static readonly List<Assembly> LoadedAssemblies = new List<Assembly>();
-
         private static void LoadProjectAssemblies()
         {
             LoadedAssemblies.Clear();
 
-            foreach (string assem in ProjectAssemblies)
-            {
+            foreach (var assem in ProjectAssemblies)
                 try
                 {
                     var assembly = Assembly.Load(assem);
@@ -46,7 +45,6 @@ namespace Shell.DI
                 {
                     Debug.WriteLine($"Failed to load assembly: Error: {ex.Message}");
                 }
-            }
 
             var executingAssembly = Assembly.GetExecutingAssembly();
             if (!LoadedAssemblies.Contains(executingAssembly))

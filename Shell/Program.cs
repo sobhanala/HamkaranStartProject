@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Windows.Forms;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence;
 using Shell.DI;
@@ -8,12 +7,12 @@ using Shell.forms;
 
 namespace Shell
 {
-    static class Program
+    internal static class Program
     {
         private static ServiceProvider _serviceProvider;
 
         [STAThread]
-        static void Main()
+        private static void Main()
         {
             System.Windows.Forms.Application.EnableVisualStyles();
             System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
@@ -23,10 +22,7 @@ namespace Shell
             var welcomeForm = _serviceProvider.GetRequiredService<WelcomeForm>();
             System.Windows.Forms.Application.Run(welcomeForm);
 
-            if (_serviceProvider != null)
-            {
-                _serviceProvider.Dispose();
-            }
+            if (_serviceProvider != null) _serviceProvider.Dispose();
         }
 
         private static void ConfigureServices()
@@ -39,7 +35,7 @@ namespace Shell
             services.AddSingleton(provider =>
                 new DbConnectionFactory(appSettings.ConnectionString));
 
-            string modulesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Modules");
+            var modulesPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Modules");
             services.AddSingleton(provider => new ModuleLoader(modulesPath));
             ServiceRegistrar.RegisterAll(services);
 

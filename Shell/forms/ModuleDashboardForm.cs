@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Domain.Module;
 
@@ -20,23 +14,17 @@ namespace Shell.forms
         {
             _moduleLoader = moduleLoader;
             InitializeComponent();
-
         }
 
         private void ModuleDashboardForm_Load(object sender, EventArgs e)
         {
-            if (_modules==null)
+            if (_modules == null)
             {
                 ModulesAndAction.Nodes.Add("Hi");
                 return;
-
-            }
-            foreach (var module in _modules)
-            {
-                ModulesAndAction.Nodes.Add(module.Name,module.Description);
             }
 
-
+            foreach (var module in _modules) ModulesAndAction.Nodes.Add(module.Name, module.Description);
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
 using Microsoft.Extensions.DependencyInjection;
-using Shell.DI;
 
 namespace Shell.forms
 {
@@ -10,7 +9,7 @@ namespace Shell.forms
         private readonly IServiceProvider _serviceProvider;
 
 
-        public WelcomeForm( IServiceProvider serviceProvider)
+        public WelcomeForm(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
             InitializeComponent();

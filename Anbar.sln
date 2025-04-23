@@ -21,6 +21,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AnbarModule", "AnbarModule"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnbarDomain", "AnbarDomain\AnbarDomain.csproj", "{B8E234E3-3DC3-4380-BEE3-FC58BBF34156}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnbarForm", "AnbarForm\AnbarForm.csproj", "{18C1E892-429C-4533-980C-8653D3FB4DE7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{B8E234E3-3DC3-4380-BEE3-FC58BBF34156}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8E234E3-3DC3-4380-BEE3-FC58BBF34156}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8E234E3-3DC3-4380-BEE3-FC58BBF34156}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18C1E892-429C-4533-980C-8653D3FB4DE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18C1E892-429C-4533-980C-8653D3FB4DE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18C1E892-429C-4533-980C-8653D3FB4DE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18C1E892-429C-4533-980C-8653D3FB4DE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +67,7 @@ Global
 		{749A3C62-EECA-410E-87BD-4B5F621366CD} = {1411D1A8-E21B-460A-9517-76ACF26995D6}
 		{B300F1AD-7A24-4CC2-AEB6-1A0BC5A711DC} = {A37BA621-94BF-4ECA-B810-0552F8D938E1}
 		{B8E234E3-3DC3-4380-BEE3-FC58BBF34156} = {B300F1AD-7A24-4CC2-AEB6-1A0BC5A711DC}
+		{18C1E892-429C-4533-980C-8653D3FB4DE7} = {B300F1AD-7A24-4CC2-AEB6-1A0BC5A711DC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9B63AED2-29F7-4BD0-8716-813218DE89CA}

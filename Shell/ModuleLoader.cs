@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using Domain.Module;
 
 namespace Shell
@@ -21,9 +19,8 @@ namespace Shell
         public List<IModule> LoadModules()
         {
             var modules = new List<IModule>();
-            var dllFiles = Directory.GetFiles(_modulesDirectory,"*.dll");
+            var dllFiles = Directory.GetFiles(_modulesDirectory, "*.dll");
             foreach (var dll in dllFiles)
-            {
                 try
                 {
                     var assembly = Assembly.LoadFrom(dll);
@@ -32,8 +29,7 @@ namespace Shell
                                                                      && !t.IsAbstract).ToList();
                     foreach (var type in modulesType)
                     {
-                        var module = Activator.CreateInstance(type) as IModule;
-                        if(module != null)
+                        if (Activator.CreateInstance(type) is IModule module)
                             modules.Add(module);
                     }
                 }
@@ -42,13 +38,8 @@ namespace Shell
                     Console.WriteLine($"Error loading module from {dllFiles}: {e.Message}");
                     throw;
                 }
-            }
+
             return modules;
-
-
-
         }
-
-
     }
 }

@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Domain.Exceptions
 {
-    
     public abstract class BaseException : Exception
     {
-        public ExceptionSeverity Severity { get; }
-        public string UserFriendlyMessage { get; }
-        public ErrorCode ErrorCode { get; }
-
         protected BaseException(
             string message,
             string userFriendlyMessage,
@@ -22,6 +16,10 @@ namespace Domain.Exceptions
             UserFriendlyMessage = userFriendlyMessage;
             ErrorCode = errorCode;
         }
+
+        public ExceptionSeverity Severity { get; }
+        public string UserFriendlyMessage { get; }
+        public ErrorCode ErrorCode { get; }
 
         public string GetUserMessage()
         {

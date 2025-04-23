@@ -1,8 +1,8 @@
 ﻿namespace Domain.Users
 {
-    public enum  Roles 
+    public enum Roles
     {
-        Admin=0,
-        User=1
+        Admin = 0,
+        User = 1
     }
 }

@@ -2,8 +2,8 @@
 {
     public enum ExceptionSeverity
     {
-        Warning,    
-        Error,     
-        Critical   
+        Warning,
+        Error,
+        Critical
     }
 }

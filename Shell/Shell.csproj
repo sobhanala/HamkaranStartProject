@@ -65,7 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettings.cs" />
-    <Compile Include="Class1.cs" />
+    <Compile Include="ModuleLoader.cs" />
     <Compile Include="DI\ServiceRegistrar.cs" />
     <Compile Include="forms\ModuleDashboardForm.cs">
       <SubType>Form</SubType>

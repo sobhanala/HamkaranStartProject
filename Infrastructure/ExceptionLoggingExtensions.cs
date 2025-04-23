@@ -10,7 +10,7 @@ namespace Infrastructure
             var logMessage = $"[{ex.ErrorCode}] {ex.Message}\n" +
                              $"Severity: {ex.Severity}\n" +
                              $"Stack Trace: {ex.StackTrace}\n";
-            var level = LogLevel.Error; 
+            var level = LogLevel.Error;
 
             switch (ex.Severity)
             {

@@ -1,7 +1,6 @@
 ﻿// DatabaseException.cs
 
 using System;
-using Microsoft.Extensions.Logging;
 
 namespace Domain.Exceptions
 {
@@ -16,7 +15,7 @@ namespace Domain.Exceptions
                 technicalMessage,
                 userFriendlyMessage,
                 errorCode
-                )
+            )
         {
         }
     }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Persistence
@@ -71,6 +70,5 @@ namespace Persistence
         {
             return _connectionFactory.CreateParameter(name, value, dbType);
         }
-
     }
 }

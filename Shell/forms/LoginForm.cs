@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Application;
 using Domain.Exceptions;
@@ -9,8 +8,8 @@ namespace Shell.forms
 {
     public partial class LoginForm : Form
     {
-        private readonly IUserService _userService;
         private readonly IServiceProvider _serviceProvider;
+        private readonly IUserService _userService;
 
         public LoginForm(IUserService userService, IServiceProvider serviceProvider)
         {
@@ -22,7 +21,6 @@ namespace Shell.forms
         private void TextBox1_TextChanged(object sender, EventArgs e)
         {
         }
-
 
 
         private async void btnLogin_Click(object sender, EventArgs e)
@@ -40,7 +38,7 @@ namespace Shell.forms
                 button1.Enabled = false;
                 button1.Text = "Processing...";
 
-                var result = await _userService.LoginUser(name: textBox1.Text, password: textBox2.Text);
+                var result = await _userService.LoginUser(textBox1.Text, textBox2.Text);
 
                 if (result == null) return;
 
@@ -48,8 +46,7 @@ namespace Shell.forms
                 var moduleDashboard = _serviceProvider.GetRequiredService<ModuleDashboardForm>();
                 moduleDashboard.Show();
 
-                this.DialogResult = DialogResult.OK;
-
+                DialogResult = DialogResult.OK;
             }
             catch (ValidationException ex)
             {
@@ -66,15 +63,12 @@ namespace Shell.forms
                 MessageBox.Show("An unexpected error occurred during registration", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            
+
             finally
             {
                 button1.Enabled = true;
                 button1.Text = "Login";
             }
-
         }
-
-
     }
 }

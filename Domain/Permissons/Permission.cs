@@ -13,8 +13,5 @@ namespace Domain.Permissons
 
         public Module.Module Module { get; set; }
         public User User { get; set; }
-
-
-
     }
 }
