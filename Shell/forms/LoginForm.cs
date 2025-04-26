@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using Application;
 using Domain.Exceptions;
+using Domain.Users;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Shell.forms
@@ -40,11 +41,21 @@ namespace Shell.forms
 
                 var result = await _userService.LoginUser(textBox1.Text, textBox2.Text);
 
-                if (result == null) return;
 
+                switch (result.Role)
+                {
+                    case Roles.Admin:
+                        _serviceProvider.GetService<AdminForm>().Show();
+                        break;
+                    case Roles.User:
+                        _serviceProvider.GetService<ModuleDashboardForm>().Show();
+                        break;
+                    default:
+                        MessageBox.Show("Your account has an unrecognized role", "Access Denied",
+                            MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                }
 
-                var moduleDashboard = _serviceProvider.GetRequiredService<ModuleDashboardForm>();
-                moduleDashboard.Show();
 
                 DialogResult = DialogResult.OK;
             }
