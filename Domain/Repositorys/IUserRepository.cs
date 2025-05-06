@@ -5,11 +5,15 @@ using Domain.Users;
 
 namespace Domain.Repositorys
 {
-    public interface IUserRepository
+    public interface IUserRepository: IGenericRepository<User, int>
     {
         Task<User> GetByUsernameAsync(string username);
-        Task<int> InsertAsync(User user);
         Task<IEnumerable<Permission>> GetUserPermissions(int userId);
-        Task<IEnumerable<User>> GetAllAsync();
+        Task<IEnumerable<Permission>> GetUserPermissionsAsync(int userId);
+        Task AddPermissionAsync(IEnumerable<Permission> permissions);
+        Task UpdatePermissionAsync(Permission permission);
+        Task RemovePermissionAsync(int userId, int moduleId);
+
+
     }
 }

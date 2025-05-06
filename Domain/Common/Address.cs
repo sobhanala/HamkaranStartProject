@@ -4,7 +4,7 @@
     {
         public string Street;
 
-        public Address(string street, string city, string state, string postalCode, string country)
+        public Address(string street, string city, string postalCode, string country)
         {
             Street = street;
             City = city;

@@ -1,56 +1,76 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using Domain.Attribute;
+using Domain.Module;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Shell.DI
 {
     public static class ServiceRegistrar
     {
-        private static readonly string[] ProjectAssemblies =
-        {
-            "Shell", // Current project
-            "Persistence", // Add other project names in your solution
-            "Domain",
-            "Application"
-        };
+        public static string AssemblyPath;
 
         private static readonly List<Assembly> LoadedAssemblies = new List<Assembly>();
 
         public static void RegisterAll(IServiceCollection services)
         {
-            // Load all assemblies from the application directory
             LoadProjectAssemblies();
-
             RegisterRepositories(services);
             RegisterServices(services);
+            RegisterModules(services);
+
             RegisterForms(services);
         }
-
-        private static void LoadProjectAssemblies()
+        public static void LoadProjectAssemblies()
         {
+            if (!Directory.Exists(AssemblyPath))
+            {
+                Console.WriteLine($"Directory not found: {AssemblyPath}");
+                return;
+            }
+
             LoadedAssemblies.Clear();
 
-            foreach (var assem in ProjectAssemblies)
+            foreach (var dll in Directory.GetFiles(AssemblyPath, "*.dll"))
+            {
                 try
                 {
-                    var assembly = Assembly.Load(assem);
+                    var assembly = Assembly.LoadFrom(dll);
                     LoadedAssemblies.Add(assembly);
-                    Debug.WriteLine($"Loaded assembly: {assem}");
+                    Console.WriteLine($"Loaded assembly: {assembly.FullName}");
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine($"Failed to load assembly: Error: {ex.Message}");
+                    Console.WriteLine($"Failed to load {dll}: {ex.Message}");
                 }
+            }
 
             var executingAssembly = Assembly.GetExecutingAssembly();
             if (!LoadedAssemblies.Contains(executingAssembly))
             {
                 LoadedAssemblies.Add(executingAssembly);
-                Debug.WriteLine($"Loaded executing assembly: {executingAssembly.GetName().Name}");
+            }
+        }
+
+
+        public static void RegisterModules(IServiceCollection services)
+        {
+            var moduleTypes = LoadedAssemblies
+                .SelectMany(a => a.GetTypes())
+                .Where(t => typeof(IModule).IsAssignableFrom(t) &&
+                            !t.IsInterface &&
+                            !t.IsAbstract);
+
+            foreach (var type in moduleTypes)
+            {
+                services.AddTransient(typeof(IModule), type);
+                services.AddTransient(type);
+                Console.WriteLine($"Registered module: {type.FullName}");
             }
         }
 
@@ -68,17 +88,16 @@ namespace Shell.DI
                         return Type.EmptyTypes;
                     }
                 })
-                .Where(t => t.IsClass && !t.IsAbstract && t.Name.EndsWith("Repository"));
+                .Where(t => t.IsClass && !t.IsAbstract &&
+                            t.GetCustomAttribute<RepositoryAttribute>() != null);
 
             foreach (var repoType in repositoryTypes)
             {
-                var interfaceType = repoType.GetInterfaces()
-                    .FirstOrDefault(i => i.Name == $"I{repoType.Name}");
-
-                if (interfaceType != null)
+                var interfaces = repoType.GetInterfaces();
+                foreach (var interfaceType in interfaces)
                 {
                     services.AddScoped(interfaceType, repoType);
-                    Debug.WriteLine($"Registered repository: {repoType.FullName}");
+                    Console.WriteLine($"Registered repository: {repoType.FullName} as {interfaceType.FullName}");
                 }
             }
         }
@@ -97,17 +116,16 @@ namespace Shell.DI
                         return Type.EmptyTypes;
                     }
                 })
-                .Where(t => t.IsClass && !t.IsAbstract && t.Name.EndsWith("Service"));
+                .Where(t => t.IsClass && !t.IsAbstract && t.GetCustomAttribute<ServiceAttribute>()!=null);
 
             foreach (var serviceType in serviceTypes)
             {
-                var interfaceType = serviceType.GetInterfaces()
-                    .FirstOrDefault(i => i.Name == $"I{serviceType.Name}");
+                var interfaces = serviceType.GetInterfaces();
 
-                if (interfaceType != null)
+                foreach (var interfaceType in interfaces)
                 {
                     services.AddScoped(interfaceType, serviceType);
-                    Debug.WriteLine($"Registered service: {serviceType.FullName}");
+                    Console.WriteLine($"Registered Service : {serviceType.FullName} as {interfaceType.FullName}");
                 }
             }
         }
@@ -131,7 +149,22 @@ namespace Shell.DI
             foreach (var formType in formTypes)
             {
                 services.AddTransient(formType);
-                Debug.WriteLine($"Registered form: {formType.FullName}");
+                Console.WriteLine($"Registered form: {formType.FullName}");
+            }
+        }
+        private static IEnumerable<Type> SafeGetTypes(Assembly assembly)
+        {
+            try
+            {
+                return assembly.GetTypes();
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                return ex.Types.Where(t => t != null);
+            }
+            catch
+            {
+                return Type.EmptyTypes;
             }
         }
     }

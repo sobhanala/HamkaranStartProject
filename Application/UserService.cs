@@ -1,14 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Domain.Attribute;
 using Domain.Exceptions;
+using Domain.Module;
+using Domain.Permissons;
 using Domain.Repositorys;
 using Domain.Users;
 
 namespace Application
 {
+    [Service]
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        
 
         public UserService(IUserRepository userRepository)
         {
@@ -38,6 +45,14 @@ namespace Application
             await _userRepository.InsertAsync(user);
             return true;
         }
+        public async Task<List<User>> GetAllUsers(){
+
+
+            var users = await _userRepository.GetAllAsync();
+            return users.Where(u => u.Role != Roles.Admin).ToList();
+        }
+
+
 
 
         public async Task<User> LoginUser(string name, string password)
@@ -55,6 +70,33 @@ namespace Application
                 throw new AuthenticationException(".", "Incorrect", ErrorCode.PasswordWrong);
 
             return u;
+        }
+
+
+        //TODO
+        public async Task AddPermissionToUser(List<int>moduleId,int userId)
+        {
+            var permission = new List<Permission>();
+            foreach (var i in moduleId)
+            {
+                var m = ModuleManager.Modules[i];
+                var per = new Permission
+                {
+                    ModuleId = m.Id,
+                    Authority = Authority.All,
+                    UserId = userId,
+                    CreatedAt = DateTime.Now
+                };  
+                permission.Add(per);
+            }
+
+            await _userRepository.AddPermissionAsync(permission);
+        }
+
+        public async Task<List<Permission>> ShowAllUserPermission(int userId)
+        {
+            var permissinons= await _userRepository.GetUserPermissionsAsync(userId);
+            return permissinons.ToList();
         }
     }
 }

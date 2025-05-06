@@ -8,7 +8,6 @@ namespace Domain.Module
     {
         public string Name { get; set; }
         public string Description { get; set; }
-
         public ICollection<Permission> Permissions { get; set; } = new List<Permission>();
     }
 }

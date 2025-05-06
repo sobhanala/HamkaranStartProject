@@ -5,10 +5,19 @@
         /// validation Errors
         UserNameEmpty = 0,
         PasswordEmpty,
+        EmailEmpty,
+        
 
 
         /// Authentication Errors
-        UserExist,
-        PasswordWrong
+        UserExist=10,
+        PasswordWrong=11,
+        PartyNotFound,
+
+        /// Data base Errors 
+        DataBaseError=50,
+
+        Internal = 20
+
     }
 }
