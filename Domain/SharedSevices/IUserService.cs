@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Domain.Permissons;
 using Domain.Users;
 
-namespace Application
+namespace Domain.SharedSevices
 {
     public interface IUserService
     {

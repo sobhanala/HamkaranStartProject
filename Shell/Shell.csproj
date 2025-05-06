@@ -125,12 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettings.cs" />
-    <Compile Include="forms\AdminForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="forms\AdminForm.Designer.cs">
-      <DependentUpon>AdminForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="DI\ServiceRegistrar.cs" />
     <Compile Include="forms\ModuleDashboardForm.cs">
       <SubType>Form</SubType>
@@ -158,9 +152,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="forms\AdminForm.resx">
-      <DependentUpon>AdminForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="forms\ModuleDashboardForm.resx">
       <DependentUpon>ModuleDashboardForm.cs</DependentUpon>
     </EmbeddedResource>

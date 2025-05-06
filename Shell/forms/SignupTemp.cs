@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using Application;
 using Domain.Exceptions;
+using Domain.SharedSevices;
 
 namespace Shell.forms
 {

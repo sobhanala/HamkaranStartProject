@@ -7,6 +7,7 @@ using Domain.Exceptions;
 using Domain.Module;
 using Domain.Permissons;
 using Domain.Repositorys;
+using Domain.SharedSevices;
 using Domain.Users;
 
 namespace Application

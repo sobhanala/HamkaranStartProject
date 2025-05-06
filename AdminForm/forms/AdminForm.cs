@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Application;
 using Domain.Module;
-using Domain.Permissons;
+using Domain.SharedSevices;
 using Domain.Users;
 
-namespace Shell.forms
+namespace AdminForm.forms
 {
     public partial class AdminForm : Form
     {
-        private readonly IServiceProvider _serviceProvider;
         private readonly IUserService _userService;
         private User _selectedUser = null;
         private List<int> _selctedModules = new List<int>();
@@ -26,18 +22,13 @@ namespace Shell.forms
 
 
 
-        public AdminForm(IUserService userService, IServiceProvider serviceProvider, ModuleLoader loader)
+        public AdminForm(IUserService userService)
         {
             _userService = userService;
-            _serviceProvider = serviceProvider;
             InitializeComponent();
 
         }
-            
-        public AdminForm(ModuleLoader loader)
-        {
-            InitializeComponent();
-        }
+        
 
         private async void AdminForm_Load(object sender, EventArgs e)
         {

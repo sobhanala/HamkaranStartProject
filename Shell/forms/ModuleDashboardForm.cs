@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using Application;
 using Domain.Module;
@@ -27,15 +28,28 @@ namespace Shell.forms
                 return;
             }
 
-            foreach (var module in ModuleManager.Modules)
+            var groupedModules = ModuleManager.Modules.GroupBy(m => m.Name);
+
+            foreach (var group in groupedModules)
             {
-                var node = new TreeNode
+                var parentNode = new TreeNode
                 {
-                    Tag = module,
-                    Text = module.Description
+                    Text = group.Key 
                 };
-                ModulesAndAction.Nodes.Add(node);
+
+                foreach (var module in group)
+                {
+                    var childNode = new TreeNode
+                    {
+                        Tag = module,
+                        Text = module.Description 
+                    };
+                    parentNode.Nodes.Add(childNode);
+                }
+
+                ModulesAndAction.Nodes.Add(parentNode);
             }
+
         }
         private void OnModuleNodeClicked(object sender, TreeNodeMouseClickEventArgs e)
         {

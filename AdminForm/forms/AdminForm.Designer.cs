@@ -1,4 +1,4 @@
-﻿namespace Shell.forms
+﻿namespace AdminForm.forms
 {
     partial class AdminForm
     {
