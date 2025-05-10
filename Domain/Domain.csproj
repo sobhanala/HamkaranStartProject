@@ -105,6 +105,7 @@
     <Compile Include="Permissons\Authority.cs" />
     <Compile Include="Permissons\Permission.cs" />
     <Compile Include="Repositorys\BaseRepository.cs" />
+    <Compile Include="Repositorys\IPermissionRepository.cs" />
     <Compile Include="Repositorys\TypedDataSetRepository.cs" />
     <Compile Include="Repositorys\DbConnectionFactory.cs" />
     <Compile Include="Repositorys\IGenericRepository.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Runtime.Remoting.Channels;
 using System.Text;
@@ -33,6 +34,11 @@ namespace AnbarService
 
 
             await _partyRepository.InsertAsync(party1);
+        }
+
+        public async  Task SaveAllChanges(DataTable partiesTable)
+        {
+            await _partyRepository.SaveChangesFromDataTable(partiesTable);
         }
 
 

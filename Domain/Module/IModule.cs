@@ -7,10 +7,10 @@ namespace Domain.Module
     {
 
         string Name { get; }
-        string Description { get; }
+        string Subname { get; }
         Form GetMainForm();  
         void Initialize();
-        int Id { get; } // new property
+        int Id { get; } 
 
 
         //IEnumerable<ISubModule> GetSubModules();

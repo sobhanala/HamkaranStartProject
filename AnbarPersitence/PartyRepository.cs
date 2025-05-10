@@ -23,8 +23,6 @@ namespace AnbarPersitence
         private readonly ILogger<PartyRepository> _logger;
 
 
-  
-
 
 
         public PartyRepository(DbConnectionFactory connectionFactory, ILogger<PartyRepository> logger)
@@ -32,6 +30,55 @@ namespace AnbarPersitence
         {
             _logger = logger;
         }
+
+        //public async Task SyncPermissionsViaDataTable(List<Party> selectedModuleIds, int userId)
+        //{
+        //    var existing = (await GetAllAsync()).Where(p => p.UserId == userId).ToList();
+        //    var existingModules = existing.ToHashSet();
+
+        //    var ds = new AnbarDataSet();
+        //    var permissionTable = ds.Parties;
+
+        //    foreach (var permission in selectedModuleIds)
+        //    {
+        //        if (!existingModules.Contains(permission))
+        //        {
+        //            var row = MapPermissionToRow(permission, permissionTable);
+        //            permissionTable.AddPermissionsRow(row);
+
+        //        }
+        //    }
+
+        //    foreach (var permission in existingModules)
+        //    {
+        //        if (!selectedModuleIds.Contains(permission))
+        //        {
+        //            var deleteRow = MapPermissionToRow(permission, permissionTable);
+        //            permissionTable.AddPermissionsRow(deleteRow);
+        //            deleteRow.AcceptChanges();
+        //            deleteRow.Delete();
+        //        }
+        //    }
+
+        //    var commands = new Dictionary<string, SqlCommand>();
+
+        //    var insert =
+        //        new SqlCommand(
+        //            "INSERT INTO Permissions (UserId, ModuleId, Authority, CreatedAt) VALUES (@UserId, @ModuleId, @Authority, @CreatedAt)");
+        //    insert.Parameters.Add("@UserId", SqlDbType.Int, 0, "UserId");
+        //    insert.Parameters.Add("@ModuleId", SqlDbType.Int, 0, "ModuleId");
+        //    insert.Parameters.Add("@Authority", SqlDbType.Int, 0, "Authority");
+        //    insert.Parameters.Add("@CreatedAt", SqlDbType.DateTime, 0, "CreatedAt");
+
+        //    var delete = new SqlCommand("DELETE FROM Permissions WHERE UserId = @UserId AND ModuleId = @ModuleId");
+        //    delete.Parameters.Add("@UserId", SqlDbType.Int, 0, "UserId");
+        //    delete.Parameters.Add("@ModuleId", SqlDbType.Int, 0, "ModuleId");
+
+        //    commands.Add("Insert", insert);
+        //    commands.Add("Delete", delete);
+
+        //    await ExecuteDataAdapterUpdateAsync(ds, "Permissions", commands);
+        //}
 
 
         public override async Task<IEnumerable<Party>> GetAllAsync()
@@ -98,6 +145,50 @@ namespace AnbarPersitence
             }
         }
 
+        public async Task<int> SaveChangesFromDataTable(DataTable partiesTable)
+        {
+            var commands = new Dictionary<string, SqlCommand>();
+
+
+            var insertCommand = new SqlCommand(
+                GenerateInsertQuery(partiesTable.TableName, GetColumnNames(partiesTable).Where(c => c!=KeyColumn)));
+            insertCommand.Parameters.Add("@Name", SqlDbType.NVarChar,0, "Name");
+            insertCommand.Parameters.Add("@Email", SqlDbType.NVarChar,0, "Email");
+            insertCommand.Parameters.Add("@Street", SqlDbType.NVarChar,0, "Street");
+            insertCommand.Parameters.Add("@City", SqlDbType.NVarChar, 50, "City");
+            insertCommand.Parameters.Add("@PostalCode", SqlDbType.NVarChar, 0, "PostalCode");
+            insertCommand.Parameters.Add("@Country", SqlDbType.NVarChar, 0, "Country");
+            insertCommand.Parameters.Add("@PartyType", SqlDbType.Int, 0, "PartyType");
+            insertCommand.Parameters.Add("@IsActive", SqlDbType.Bit, 0, "IsActive");
+            insertCommand.Parameters.Add("@CreatedAt", SqlDbType.DateTime, 0, "CreatedAt").IsNullable = true;
+
+
+            var updateCommand = new SqlCommand(
+                GenerateUpdateQuery(partiesTable.TableName, GetColumnNames(partiesTable),KeyColumn));
+            updateCommand.Parameters.Add("@Name", SqlDbType.NVarChar, 0, "Name");
+            updateCommand.Parameters.Add("@Email", SqlDbType.NVarChar, 0, "Email");
+            updateCommand.Parameters.Add("@Street", SqlDbType.NVarChar, 0, "Street");
+            updateCommand.Parameters.Add("@City", SqlDbType.NVarChar, 50, "City");
+            updateCommand.Parameters.Add("@PostalCode", SqlDbType.NVarChar, 0, "PostalCode");
+            updateCommand.Parameters.Add("@Country", SqlDbType.NVarChar, 0, "Country");
+            updateCommand.Parameters.Add("@PartyType", SqlDbType.Int, 0, "PartyType");
+            updateCommand.Parameters.Add("@IsActive", SqlDbType.Bit, 0, "IsActive");
+            updateCommand.Parameters.Add("@CreatedAt", SqlDbType.DateTime, 0, "CreatedAt").IsNullable = true;
+            updateCommand.Parameters.Add("@Id", SqlDbType.Int, 0, "Id");
+
+
+            var deleteCommand = new SqlCommand(GenerateDeleteQuery(partiesTable.TableName,KeyColumn));
+            deleteCommand.Parameters.Add("@Id", SqlDbType.Int, 0, "Id");
+
+
+            commands.Add("Insert", insertCommand);
+            commands.Add("Update", updateCommand);
+            commands.Add("Delete", deleteCommand);
+
+
+            return await ExecuteDataAdapterUpdateAsyncOnDataTabel(partiesTable,commands);
+        }
+
 
         protected override IEnumerable<Party> MapResultsToEntities(AnbarDataSet dataSet)
         {
@@ -109,16 +200,19 @@ namespace AnbarPersitence
             return dataSet.Parties.Count > 0 ? MapToDomainEntity(dataSet.Parties[0]) : null;
         }
 
-        protected override IEnumerable<SqlParameter> CreateParametersFromEntity(Party entity)
+        protected override IEnumerable<SqlParameter> CreateParametersFromEntity(Party party)
         {
             return new[]
             {
-                CreateParameter("@Username", entity.Name, DbType.String),
-                CreateParameter("@IsActive", entity.IsActive, DbType.Boolean),
-                CreateParameter("@CreatedAt", entity.CreatedAt, DbType.DateTime),
-                CreateParameter("@LastLogin", entity.LastUpdated ?? DateTime.Now, DbType.DateTime),
-                CreateParameter("@Role", entity.IsActive, DbType.Byte),
-                CreateParameter("@PasswordHash", entity.Address, DbType.String),
+                CreateParameter("@Name", party.Name, DbType.String),
+                CreateParameter("@Street", party.Address?.Street, DbType.String),
+                CreateParameter("@City", party.Address?.City, DbType.String),
+                CreateParameter("@PostalCode", party.Address?.PostalCode, DbType.String),
+                CreateParameter("@Country", party.Address?.Country, DbType.String),
+                CreateParameter("@Email", party.Email, DbType.String),
+                CreateParameter("@PartyType", (int)party.PartyType, DbType.Int32),
+                CreateParameter("@IsActive", party.IsActive, DbType.Boolean),
+                CreateParameter("@CreatedAt", DateTime.Now, DbType.DateTime),
             };
         }
 
@@ -136,7 +230,8 @@ namespace AnbarPersitence
                     row.IsCountryNull() ? null : row.Country),
                 Email = row.Email,
                 PartyType = (PartyType)row.PartyType,
-                IsActive = row.IsActive
+                IsActive = row.IsActive,
+                CreatedAt = row.IsCreatedAtNull() ? DateTime.Now : row.CreatedAt
             };
         }
 
@@ -151,21 +246,7 @@ namespace AnbarPersitence
             row.PartyType = (int)party.PartyType;
             row.IsActive = party.IsActive;
             row.CreatedAt=DateTime.Now;
-            row.LastUpdated=DateTime.Now;
         }
 
-        private void AddPartyParameters(IDbCommand command, Party party)
-        {
-            command.Parameters.Add(CreateParameter("@Name", party.Name, DbType.String));
-            command.Parameters.Add(CreateParameter("@Street", party.Address?.Street, DbType.String));
-            command.Parameters.Add(CreateParameter("@City", party.Address?.City, DbType.String));
-            command.Parameters.Add(CreateParameter("@PostalCode", party.Address?.PostalCode, DbType.String));
-            command.Parameters.Add(CreateParameter("@Country", party.Address?.Country, DbType.String));
-            command.Parameters.Add(CreateParameter("@Email", party.Email, DbType.String));
-            command.Parameters.Add(CreateParameter("@PartyType", (int)party.PartyType, DbType.Int32));
-            command.Parameters.Add(CreateParameter("@IsActive", party.IsActive, DbType.Boolean));
-            command.Parameters.Add(CreateParameter("@CreatedAt", DateTime.Now, DbType.DateTime));
-            command.Parameters.Add(CreateParameter("@LastUpdated", DateTime.Now, DbType.DateTime));
-        }
     }
 }

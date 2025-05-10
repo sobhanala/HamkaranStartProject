@@ -5,6 +5,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
+
+//TODO Fully fix the bulk updata and ... in another way than list change and .. just using data set and data adapter in form
 namespace Domain.Repositorys
 {
     public abstract class BaseRepository
@@ -53,16 +55,18 @@ namespace Domain.Repositorys
             }
         }
 
-
         protected async Task<int> ExecuteDataAdapterUpdateAsync<T>(
             T dataSet,
             string tableName,
             Dictionary<string, SqlCommand> commands = null) where T : DataSet
         {
-            using (var connection = _connectionFactory.CreateConnection())
-            {
-                var adapter = _connectionFactory.CreateDataAdapter(null);
+            var connection = _connectionFactory.CreateConnection();
+            await connection.OpenAsync();
 
+            var adapter = new SqlDataAdapter();
+
+            try
+            {
                 if (commands != null)
                 {
                     if (commands.TryGetValue("Insert", out var insertCommand))
@@ -84,9 +88,65 @@ namespace Domain.Repositorys
                     }
                 }
 
-                return await Task.Run(() => adapter.Update(dataSet, tableName));
+                return adapter.Update(dataSet, tableName);
+            }
+            finally
+            {
+                adapter.Dispose();
+                if (connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+                connection.Dispose();
             }
         }
+
+        protected async Task<int> ExecuteDataAdapterUpdateAsyncOnDataTabel<T>(
+            T dataTable,
+            Dictionary<string, SqlCommand> commands = null) where T : DataTable
+        {
+            var connection =_connectionFactory.CreateConnection();
+            connection.Close();
+            await connection.OpenAsync();
+
+            var adapter = new SqlDataAdapter();
+
+            try
+            {
+                if (commands != null)
+                {
+                    if (commands.TryGetValue("Insert", out var insertCommand))
+                    {
+                        insertCommand.Connection = connection;
+                        adapter.InsertCommand = insertCommand;
+                    }
+
+                    if (commands.TryGetValue("Update", out var updateCommand))
+                    {
+                        updateCommand.Connection = connection;
+                        adapter.UpdateCommand = updateCommand;
+                    }
+
+                    if (commands.TryGetValue("Delete", out var deleteCommand))
+                    {
+                        deleteCommand.Connection = connection;
+                        adapter.DeleteCommand = deleteCommand;
+                    }
+                }
+
+                return adapter.Update(dataTable);
+            }
+            finally
+            {
+                adapter.Dispose();
+                if (connection.State == ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+                connection.Dispose();
+            }
+        }
+
         protected async Task<int> ExecuteWriterCommandAsync(string commandText, CommandType type,
             params SqlParameter[] parameters)
         {

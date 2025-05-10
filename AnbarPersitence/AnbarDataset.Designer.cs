@@ -299,8 +299,6 @@ namespace AnbarPersitence {
             
             private global::System.Data.DataColumn columnCreatedAt;
             
-            private global::System.Data.DataColumn columnLastUpdated;
-            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public PartiesDataTable() {
@@ -416,14 +414,6 @@ namespace AnbarPersitence {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn LastUpdatedColumn {
-                get {
-                    return this.columnLastUpdated;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -459,7 +449,7 @@ namespace AnbarPersitence {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public PartiesRow AddPartiesRow(string Name, string Street, string City, string PostalCode, string Country, string Email, int PartyType, bool IsActive, System.DateTime CreatedAt, System.DateTime LastUpdated) {
+            public PartiesRow AddPartiesRow(string Name, string Street, string City, string PostalCode, string Country, string Email, int PartyType, bool IsActive, System.DateTime CreatedAt) {
                 PartiesRow rowPartiesRow = ((PartiesRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -471,8 +461,7 @@ namespace AnbarPersitence {
                         Email,
                         PartyType,
                         IsActive,
-                        CreatedAt,
-                        LastUpdated};
+                        CreatedAt};
                 rowPartiesRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowPartiesRow);
                 return rowPartiesRow;
@@ -512,7 +501,6 @@ namespace AnbarPersitence {
                 this.columnPartyType = base.Columns["PartyType"];
                 this.columnIsActive = base.Columns["IsActive"];
                 this.columnCreatedAt = base.Columns["CreatedAt"];
-                this.columnLastUpdated = base.Columns["LastUpdated"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -538,8 +526,6 @@ namespace AnbarPersitence {
                 base.Columns.Add(this.columnIsActive);
                 this.columnCreatedAt = new global::System.Data.DataColumn("CreatedAt", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnCreatedAt);
-                this.columnLastUpdated = new global::System.Data.DataColumn("LastUpdated", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnLastUpdated);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnId}, true));
                 this.columnId.AutoIncrement = true;
@@ -550,16 +536,12 @@ namespace AnbarPersitence {
                 this.columnId.Unique = true;
                 this.columnName.AllowDBNull = false;
                 this.columnName.MaxLength = 100;
-                this.columnStreet.MaxLength = 100;
-                this.columnCity.MaxLength = 50;
+                this.columnStreet.MaxLength = 200;
+                this.columnCity.MaxLength = 100;
                 this.columnPostalCode.MaxLength = 20;
-                this.columnCountry.MaxLength = 50;
-                this.columnEmail.AllowDBNull = false;
+                this.columnCountry.MaxLength = 100;
                 this.columnEmail.MaxLength = 100;
                 this.columnPartyType.AllowDBNull = false;
-                this.columnIsActive.AllowDBNull = false;
-                this.columnCreatedAt.AllowDBNull = false;
-                this.columnLastUpdated.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -790,7 +772,12 @@ namespace AnbarPersitence {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public string Email {
                 get {
-                    return ((string)(this[this.tableParties.EmailColumn]));
+                    try {
+                        return ((string)(this[this.tableParties.EmailColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Email\' in table \'Parties\' is DBNull.", e);
+                    }
                 }
                 set {
                     this[this.tableParties.EmailColumn] = value;
@@ -812,7 +799,12 @@ namespace AnbarPersitence {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsActive {
                 get {
-                    return ((bool)(this[this.tableParties.IsActiveColumn]));
+                    try {
+                        return ((bool)(this[this.tableParties.IsActiveColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'IsActive\' in table \'Parties\' is DBNull.", e);
+                    }
                 }
                 set {
                     this[this.tableParties.IsActiveColumn] = value;
@@ -823,21 +815,15 @@ namespace AnbarPersitence {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public System.DateTime CreatedAt {
                 get {
-                    return ((global::System.DateTime)(this[this.tableParties.CreatedAtColumn]));
+                    try {
+                        return ((global::System.DateTime)(this[this.tableParties.CreatedAtColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'CreatedAt\' in table \'Parties\' is DBNull.", e);
+                    }
                 }
                 set {
                     this[this.tableParties.CreatedAtColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public System.DateTime LastUpdated {
-                get {
-                    return ((global::System.DateTime)(this[this.tableParties.LastUpdatedColumn]));
-                }
-                set {
-                    this[this.tableParties.LastUpdatedColumn] = value;
                 }
             }
             
@@ -887,6 +873,42 @@ namespace AnbarPersitence {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetCountryNull() {
                 this[this.tableParties.CountryColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsEmailNull() {
+                return this.IsNull(this.tableParties.EmailColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetEmailNull() {
+                this[this.tableParties.EmailColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsIsActiveNull() {
+                return this.IsNull(this.tableParties.IsActiveColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetIsActiveNull() {
+                this[this.tableParties.IsActiveColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsCreatedAtNull() {
+                return this.IsNull(this.tableParties.CreatedAtColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetCreatedAtNull() {
+                this[this.tableParties.CreatedAtColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -1059,11 +1081,10 @@ namespace AnbarPersitence.AnbarDataSetTableAdapters {
             tableMapping.ColumnMappings.Add("PartyType", "PartyType");
             tableMapping.ColumnMappings.Add("IsActive", "IsActive");
             tableMapping.ColumnMappings.Add("CreatedAt", "CreatedAt");
-            tableMapping.ColumnMappings.Add("LastUpdated", "LastUpdated");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [dbo].[Parties] WHERE (([Id] = @Original_Id) AND ([Name] = @Original_Name) AND ((@IsNull_Street = 1 AND [Street] IS NULL) OR ([Street] = @Original_Street)) AND ((@IsNull_City = 1 AND [City] IS NULL) OR ([City] = @Original_City)) AND ((@IsNull_PostalCode = 1 AND [PostalCode] IS NULL) OR ([PostalCode] = @Original_PostalCode)) AND ((@IsNull_Country = 1 AND [Country] IS NULL) OR ([Country] = @Original_Country)) AND ([Email] = @Original_Email) AND ([PartyType] = @Original_PartyType) AND ([IsActive] = @Original_IsActive) AND ([CreatedAt] = @Original_CreatedAt) AND ([LastUpdated] = @Original_LastUpdated))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM [dbo].[Parties] WHERE (([Id] = @Original_Id) AND ([Name] = @Original_Name) AND ((@IsNull_Street = 1 AND [Street] IS NULL) OR ([Street] = @Original_Street)) AND ((@IsNull_City = 1 AND [City] IS NULL) OR ([City] = @Original_City)) AND ((@IsNull_PostalCode = 1 AND [PostalCode] IS NULL) OR ([PostalCode] = @Original_PostalCode)) AND ((@IsNull_Country = 1 AND [Country] IS NULL) OR ([Country] = @Original_Country)) AND ((@IsNull_Email = 1 AND [Email] IS NULL) OR ([Email] = @Original_Email)) AND ([PartyType] = @Original_PartyType) AND ((@IsNull_IsActive = 1 AND [IsActive] IS NULL) OR ([IsActive] = @Original_IsActive)) AND ((@IsNull_CreatedAt = 1 AND [CreatedAt] IS NULL) OR ([CreatedAt] = @Original_CreatedAt)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Id", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Id", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Name", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Name", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
@@ -1075,15 +1096,17 @@ namespace AnbarPersitence.AnbarDataSetTableAdapters {
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_PostalCode", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PostalCode", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_Country", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Country", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Country", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Country", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_Email", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Email", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Email", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Email", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_PartyType", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PartyType", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_IsActive", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "IsActive", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_IsActive", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "IsActive", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_CreatedAt", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "CreatedAt", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_CreatedAt", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "CreatedAt", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_LastUpdated", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LastUpdated", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.InsertCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"INSERT INTO [dbo].[Parties] ([Name], [Street], [City], [PostalCode], [Country], [Email], [PartyType], [IsActive], [CreatedAt], [LastUpdated]) VALUES (@Name, @Street, @City, @PostalCode, @Country, @Email, @PartyType, @IsActive, @CreatedAt, @LastUpdated);
-SELECT Id, Name, Street, City, PostalCode, Country, Email, PartyType, IsActive, CreatedAt, LastUpdated FROM Parties WHERE (Id = SCOPE_IDENTITY())";
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO [dbo].[Parties] ([Name], [Street], [City], [PostalCode], [Country], [Email], [PartyType], [IsActive], [CreatedAt]) VALUES (@Name, @Street, @City, @PostalCode, @Country, @Email, @PartyType, @IsActive, @CreatedAt);
+SELECT Id, Name, Street, City, PostalCode, Country, Email, PartyType, IsActive, CreatedAt FROM Parties WHERE (Id = SCOPE_IDENTITY())";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Name", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Street", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Street", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -1094,11 +1117,10 @@ SELECT Id, Name, Street, City, PostalCode, Country, Email, PartyType, IsActive, 
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PartyType", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PartyType", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsActive", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "IsActive", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@CreatedAt", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "CreatedAt", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LastUpdated", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LastUpdated", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand = new global::System.Data.SqlClient.SqlCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[Parties] SET [Name] = @Name, [Street] = @Street, [City] = @City, [PostalCode] = @PostalCode, [Country] = @Country, [Email] = @Email, [PartyType] = @PartyType, [IsActive] = @IsActive, [CreatedAt] = @CreatedAt, [LastUpdated] = @LastUpdated WHERE (([Id] = @Original_Id) AND ([Name] = @Original_Name) AND ((@IsNull_Street = 1 AND [Street] IS NULL) OR ([Street] = @Original_Street)) AND ((@IsNull_City = 1 AND [City] IS NULL) OR ([City] = @Original_City)) AND ((@IsNull_PostalCode = 1 AND [PostalCode] IS NULL) OR ([PostalCode] = @Original_PostalCode)) AND ((@IsNull_Country = 1 AND [Country] IS NULL) OR ([Country] = @Original_Country)) AND ([Email] = @Original_Email) AND ([PartyType] = @Original_PartyType) AND ([IsActive] = @Original_IsActive) AND ([CreatedAt] = @Original_CreatedAt) AND ([LastUpdated] = @Original_LastUpdated));
-SELECT Id, Name, Street, City, PostalCode, Country, Email, PartyType, IsActive, CreatedAt, LastUpdated FROM Parties WHERE (Id = @Id)";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE [dbo].[Parties] SET [Name] = @Name, [Street] = @Street, [City] = @City, [PostalCode] = @PostalCode, [Country] = @Country, [Email] = @Email, [PartyType] = @PartyType, [IsActive] = @IsActive, [CreatedAt] = @CreatedAt WHERE (([Id] = @Original_Id) AND ([Name] = @Original_Name) AND ((@IsNull_Street = 1 AND [Street] IS NULL) OR ([Street] = @Original_Street)) AND ((@IsNull_City = 1 AND [City] IS NULL) OR ([City] = @Original_City)) AND ((@IsNull_PostalCode = 1 AND [PostalCode] IS NULL) OR ([PostalCode] = @Original_PostalCode)) AND ((@IsNull_Country = 1 AND [Country] IS NULL) OR ([Country] = @Original_Country)) AND ((@IsNull_Email = 1 AND [Email] IS NULL) OR ([Email] = @Original_Email)) AND ([PartyType] = @Original_PartyType) AND ((@IsNull_IsActive = 1 AND [IsActive] IS NULL) OR ([IsActive] = @Original_IsActive)) AND ((@IsNull_CreatedAt = 1 AND [CreatedAt] IS NULL) OR ([CreatedAt] = @Original_CreatedAt)));
+SELECT Id, Name, Street, City, PostalCode, Country, Email, PartyType, IsActive, CreatedAt FROM Parties WHERE (Id = @Id)";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Name", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Name", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Street", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Street", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
@@ -1109,7 +1131,6 @@ SELECT Id, Name, Street, City, PostalCode, Country, Email, PartyType, IsActive, 
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@PartyType", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PartyType", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsActive", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "IsActive", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@CreatedAt", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "CreatedAt", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@LastUpdated", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LastUpdated", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Id", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Id", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Name", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Name", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_Street", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Street", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
@@ -1120,11 +1141,13 @@ SELECT Id, Name, Street, City, PostalCode, Country, Email, PartyType, IsActive, 
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_PostalCode", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PostalCode", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_Country", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Country", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Country", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Country", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_Email", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Email", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_Email", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, 0, 0, "Email", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_PartyType", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "PartyType", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_IsActive", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "IsActive", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_IsActive", global::System.Data.SqlDbType.Bit, 0, global::System.Data.ParameterDirection.Input, 0, 0, "IsActive", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@IsNull_CreatedAt", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, 0, 0, "CreatedAt", global::System.Data.DataRowVersion.Original, true, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_CreatedAt", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "CreatedAt", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Original_LastUpdated", global::System.Data.SqlDbType.DateTime, 0, global::System.Data.ParameterDirection.Input, 0, 0, "LastUpdated", global::System.Data.DataRowVersion.Original, false, null, "", "", ""));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Id", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "Id", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
@@ -1142,7 +1165,7 @@ SELECT Id, Name, Street, City, PostalCode, Country, Email, PartyType, IsActive, 
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT Id, Name, Street, City, PostalCode, Country, Email, PartyType, IsActive, C" +
-                "reatedAt, LastUpdated FROM dbo.Parties";
+                "reatedAt FROM dbo.Parties";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -1203,7 +1226,7 @@ SELECT Id, Name, Street, City, PostalCode, Country, Email, PartyType, IsActive, 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_Id, string Original_Name, string Original_Street, string Original_City, string Original_PostalCode, string Original_Country, string Original_Email, int Original_PartyType, bool Original_IsActive, System.DateTime Original_CreatedAt, System.DateTime Original_LastUpdated) {
+        public virtual int Delete(int Original_Id, string Original_Name, string Original_Street, string Original_City, string Original_PostalCode, string Original_Country, string Original_Email, int Original_PartyType, global::System.Nullable<bool> Original_IsActive, global::System.Nullable<global::System.DateTime> Original_CreatedAt) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_Id));
             if ((Original_Name == null)) {
                 throw new global::System.ArgumentNullException("Original_Name");
@@ -1244,15 +1267,30 @@ SELECT Id, Name, Street, City, PostalCode, Country, Email, PartyType, IsActive, 
                 this.Adapter.DeleteCommand.Parameters[9].Value = ((string)(Original_Country));
             }
             if ((Original_Email == null)) {
-                throw new global::System.ArgumentNullException("Original_Email");
+                this.Adapter.DeleteCommand.Parameters[10].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[11].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.DeleteCommand.Parameters[10].Value = ((string)(Original_Email));
+                this.Adapter.DeleteCommand.Parameters[10].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[11].Value = ((string)(Original_Email));
             }
-            this.Adapter.DeleteCommand.Parameters[11].Value = ((int)(Original_PartyType));
-            this.Adapter.DeleteCommand.Parameters[12].Value = ((bool)(Original_IsActive));
-            this.Adapter.DeleteCommand.Parameters[13].Value = ((System.DateTime)(Original_CreatedAt));
-            this.Adapter.DeleteCommand.Parameters[14].Value = ((System.DateTime)(Original_LastUpdated));
+            this.Adapter.DeleteCommand.Parameters[12].Value = ((int)(Original_PartyType));
+            if ((Original_IsActive.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[13].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[14].Value = ((bool)(Original_IsActive.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[13].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[14].Value = global::System.DBNull.Value;
+            }
+            if ((Original_CreatedAt.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[15].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[16].Value = ((System.DateTime)(Original_CreatedAt.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[15].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[16].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -1273,7 +1311,7 @@ SELECT Id, Name, Street, City, PostalCode, Country, Email, PartyType, IsActive, 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(string Name, string Street, string City, string PostalCode, string Country, string Email, int PartyType, bool IsActive, System.DateTime CreatedAt, System.DateTime LastUpdated) {
+        public virtual int Insert(string Name, string Street, string City, string PostalCode, string Country, string Email, int PartyType, global::System.Nullable<bool> IsActive, global::System.Nullable<global::System.DateTime> CreatedAt) {
             if ((Name == null)) {
                 throw new global::System.ArgumentNullException("Name");
             }
@@ -1305,15 +1343,24 @@ SELECT Id, Name, Street, City, PostalCode, Country, Email, PartyType, IsActive, 
                 this.Adapter.InsertCommand.Parameters[4].Value = ((string)(Country));
             }
             if ((Email == null)) {
-                throw new global::System.ArgumentNullException("Email");
+                this.Adapter.InsertCommand.Parameters[5].Value = global::System.DBNull.Value;
             }
             else {
                 this.Adapter.InsertCommand.Parameters[5].Value = ((string)(Email));
             }
             this.Adapter.InsertCommand.Parameters[6].Value = ((int)(PartyType));
-            this.Adapter.InsertCommand.Parameters[7].Value = ((bool)(IsActive));
-            this.Adapter.InsertCommand.Parameters[8].Value = ((System.DateTime)(CreatedAt));
-            this.Adapter.InsertCommand.Parameters[9].Value = ((System.DateTime)(LastUpdated));
+            if ((IsActive.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[7].Value = ((bool)(IsActive.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[7].Value = global::System.DBNull.Value;
+            }
+            if ((CreatedAt.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[8].Value = ((System.DateTime)(CreatedAt.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[8].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -1342,9 +1389,8 @@ SELECT Id, Name, Street, City, PostalCode, Country, Email, PartyType, IsActive, 
                     string Country, 
                     string Email, 
                     int PartyType, 
-                    bool IsActive, 
-                    System.DateTime CreatedAt, 
-                    System.DateTime LastUpdated, 
+                    global::System.Nullable<bool> IsActive, 
+                    global::System.Nullable<global::System.DateTime> CreatedAt, 
                     int Original_Id, 
                     string Original_Name, 
                     string Original_Street, 
@@ -1353,9 +1399,8 @@ SELECT Id, Name, Street, City, PostalCode, Country, Email, PartyType, IsActive, 
                     string Original_Country, 
                     string Original_Email, 
                     int Original_PartyType, 
-                    bool Original_IsActive, 
-                    System.DateTime Original_CreatedAt, 
-                    System.DateTime Original_LastUpdated, 
+                    global::System.Nullable<bool> Original_IsActive, 
+                    global::System.Nullable<global::System.DateTime> Original_CreatedAt, 
                     int Id) {
             if ((Name == null)) {
                 throw new global::System.ArgumentNullException("Name");
@@ -1388,65 +1433,89 @@ SELECT Id, Name, Street, City, PostalCode, Country, Email, PartyType, IsActive, 
                 this.Adapter.UpdateCommand.Parameters[4].Value = ((string)(Country));
             }
             if ((Email == null)) {
-                throw new global::System.ArgumentNullException("Email");
+                this.Adapter.UpdateCommand.Parameters[5].Value = global::System.DBNull.Value;
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[5].Value = ((string)(Email));
             }
             this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(PartyType));
-            this.Adapter.UpdateCommand.Parameters[7].Value = ((bool)(IsActive));
-            this.Adapter.UpdateCommand.Parameters[8].Value = ((System.DateTime)(CreatedAt));
-            this.Adapter.UpdateCommand.Parameters[9].Value = ((System.DateTime)(LastUpdated));
-            this.Adapter.UpdateCommand.Parameters[10].Value = ((int)(Original_Id));
+            if ((IsActive.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((bool)(IsActive.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[7].Value = global::System.DBNull.Value;
+            }
+            if ((CreatedAt.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[8].Value = ((System.DateTime)(CreatedAt.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[8].Value = global::System.DBNull.Value;
+            }
+            this.Adapter.UpdateCommand.Parameters[9].Value = ((int)(Original_Id));
             if ((Original_Name == null)) {
                 throw new global::System.ArgumentNullException("Original_Name");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((string)(Original_Name));
+                this.Adapter.UpdateCommand.Parameters[10].Value = ((string)(Original_Name));
             }
             if ((Original_Street == null)) {
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[13].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[12].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((string)(Original_Street));
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((string)(Original_Street));
             }
             if ((Original_City == null)) {
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[15].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[14].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((string)(Original_City));
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((string)(Original_City));
             }
             if ((Original_PostalCode == null)) {
-                this.Adapter.UpdateCommand.Parameters[16].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[17].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[16].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[16].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[17].Value = ((string)(Original_PostalCode));
+                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[16].Value = ((string)(Original_PostalCode));
             }
             if ((Original_Country == null)) {
-                this.Adapter.UpdateCommand.Parameters[18].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[19].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[17].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[18].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[18].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[19].Value = ((string)(Original_Country));
+                this.Adapter.UpdateCommand.Parameters[17].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[18].Value = ((string)(Original_Country));
             }
             if ((Original_Email == null)) {
-                throw new global::System.ArgumentNullException("Original_Email");
+                this.Adapter.UpdateCommand.Parameters[19].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[20].Value = global::System.DBNull.Value;
             }
             else {
+                this.Adapter.UpdateCommand.Parameters[19].Value = ((object)(0));
                 this.Adapter.UpdateCommand.Parameters[20].Value = ((string)(Original_Email));
             }
             this.Adapter.UpdateCommand.Parameters[21].Value = ((int)(Original_PartyType));
-            this.Adapter.UpdateCommand.Parameters[22].Value = ((bool)(Original_IsActive));
-            this.Adapter.UpdateCommand.Parameters[23].Value = ((System.DateTime)(Original_CreatedAt));
-            this.Adapter.UpdateCommand.Parameters[24].Value = ((System.DateTime)(Original_LastUpdated));
-            this.Adapter.UpdateCommand.Parameters[25].Value = ((int)(Id));
+            if ((Original_IsActive.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[22].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[23].Value = ((bool)(Original_IsActive.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[22].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[23].Value = global::System.DBNull.Value;
+            }
+            if ((Original_CreatedAt.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[24].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[25].Value = ((System.DateTime)(Original_CreatedAt.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[24].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[25].Value = global::System.DBNull.Value;
+            }
+            this.Adapter.UpdateCommand.Parameters[26].Value = ((int)(Id));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -1475,9 +1544,8 @@ SELECT Id, Name, Street, City, PostalCode, Country, Email, PartyType, IsActive, 
                     string Country, 
                     string Email, 
                     int PartyType, 
-                    bool IsActive, 
-                    System.DateTime CreatedAt, 
-                    System.DateTime LastUpdated, 
+                    global::System.Nullable<bool> IsActive, 
+                    global::System.Nullable<global::System.DateTime> CreatedAt, 
                     int Original_Id, 
                     string Original_Name, 
                     string Original_Street, 
@@ -1486,10 +1554,9 @@ SELECT Id, Name, Street, City, PostalCode, Country, Email, PartyType, IsActive, 
                     string Original_Country, 
                     string Original_Email, 
                     int Original_PartyType, 
-                    bool Original_IsActive, 
-                    System.DateTime Original_CreatedAt, 
-                    System.DateTime Original_LastUpdated) {
-            return this.Update(Name, Street, City, PostalCode, Country, Email, PartyType, IsActive, CreatedAt, LastUpdated, Original_Id, Original_Name, Original_Street, Original_City, Original_PostalCode, Original_Country, Original_Email, Original_PartyType, Original_IsActive, Original_CreatedAt, Original_LastUpdated, Original_Id);
+                    global::System.Nullable<bool> Original_IsActive, 
+                    global::System.Nullable<global::System.DateTime> Original_CreatedAt) {
+            return this.Update(Name, Street, City, PostalCode, Country, Email, PartyType, IsActive, CreatedAt, Original_Id, Original_Name, Original_Street, Original_City, Original_PostalCode, Original_Country, Original_Email, Original_PartyType, Original_IsActive, Original_CreatedAt, Original_Id);
         }
     }
     

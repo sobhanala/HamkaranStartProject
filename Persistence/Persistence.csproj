@@ -71,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PermissionRepository.cs" />
     <Compile Include="Data\AnbarProjectDataSet.cs">
       <DependentUpon>AnbarProjectDataSet.xsd</DependentUpon>
     </Compile>

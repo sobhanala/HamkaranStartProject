@@ -1,17 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using Domain.Module;
-using AnbarForm.MainForm;
 using Infrastructure;
 
-namespace AnbarForm
+namespace AnbarForm.Modules
 {
     public class WarehouseModuleEntry : IModule
     {
 
-        public int Id => PasswordHasher.GetDeterministicHashCode(Name);
-        public string Name => "Warehouse Management";
-        public string Description => "Manages warehouse operations like inventory, stock, and orders.";
+        public int Id => PasswordHasher.GetDeterministicHashCode(Subname);
+        public string Name => "Party Management";
+        public string Subname => "Manages warehouse operations like inventory, stock, and orders.";
 
         public void Initialize()
         {

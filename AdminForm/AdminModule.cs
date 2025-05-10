@@ -15,14 +15,15 @@ namespace AdminForm
             _userManagement = userManagement;
         }
 
+        public int Id => PasswordHasher.GetDeterministicHashCode(Subname);
+
         public string Name => "Admin";
-        public string Description => "this module is for Admin to assign roles ";
+        public string Subname => "this module is for Admin to assign roles ";
 
         public void Initialize()
         {
         }
 
-        public int Id => PasswordHasher.GetDeterministicHashCode(Name);
 
         public Form GetMainForm()
         {

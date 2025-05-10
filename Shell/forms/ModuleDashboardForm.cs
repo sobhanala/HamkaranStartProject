@@ -4,52 +4,75 @@ using System.Linq;
 using System.Windows.Forms;
 using Application;
 using Domain.Module;
+using Domain.SharedSevices;
+using Domain.Users;
 
 
 namespace Shell.forms
 {
     public partial class ModuleDashboardForm : Form
     {
-        private readonly ModuleLoader _moduleLoader;
+        private readonly IUserService _userService;
+        public User Logeduser { get; set; }
 
-        public ModuleDashboardForm(ModuleLoader moduleLoader)
+        public ModuleDashboardForm( IUserService userService)
         {
-            _moduleLoader = moduleLoader;
+            _userService = userService;
             InitializeComponent();
             ModulesAndAction.NodeMouseClick += OnModuleNodeClicked;
 
         }
 
-        private void ModuleDashboardForm_Load(object sender, EventArgs e)
+        private async void ModuleDashboardForm_Load(object sender, EventArgs e)
         {
-            if (ModuleManager.Modules == null)
+            try
             {
-                ModulesAndAction.Nodes.Add("Hi");
-                return;
-            }
-
-            var groupedModules = ModuleManager.Modules.GroupBy(m => m.Name);
-
-            foreach (var group in groupedModules)
-            {
-                var parentNode = new TreeNode
+                if (ModuleManager.Modules == null)
                 {
-                    Text = group.Key 
-                };
-
-                foreach (var module in group)
-                {
-                    var childNode = new TreeNode
-                    {
-                        Tag = module,
-                        Text = module.Description 
-                    };
-                    parentNode.Nodes.Add(childNode);
+                    ModulesAndAction.Nodes.Add("Hi");
+                    return;
                 }
 
-                ModulesAndAction.Nodes.Add(parentNode);
-            }
+                var permissions = await _userService.ShowAllUserPermission(userId: Logeduser.Id);
+                var permittedModuleIds = permissions.Select(p => p.ModuleId).ToHashSet();
 
+                var groupedModules = ModuleManager.Modules.GroupBy(m => m.Name);
+
+                foreach (var group in groupedModules)
+                {
+                    var parentNode = new TreeNode
+                    {
+                        Text = group.Key
+                    };
+
+                    foreach (var module in group)
+                    {
+                        if (!permittedModuleIds.Contains(module.Id))
+                            continue;
+
+                        var childNode = new TreeNode
+                        {
+                            Tag = module,
+                            Text = module.Subname
+                        };
+
+                        parentNode.Nodes.Add(childNode);
+                    }
+
+                    if (parentNode.Nodes.Count > 0)
+                    {
+                        ModulesAndAction.Nodes.Add(parentNode);
+                    }
+                }
+
+            }
+            catch (Exception exception)
+            {
+             
+                    MessageBox.Show($"Error loading module: {exception.Message}", "Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+            }
         }
         private void OnModuleNodeClicked(object sender, TreeNodeMouseClickEventArgs e)
         {

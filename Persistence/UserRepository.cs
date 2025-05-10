@@ -9,7 +9,6 @@ using Domain.Exceptions;
 using Domain.Permissons;
 using Domain.Repositorys;
 using Domain.Users;
-using Infrastructure;
 using Microsoft.Extensions.Logging;
 using Persistence.Data;
 
@@ -21,8 +20,6 @@ namespace Persistence
         private readonly ILogger<UserRepository> _logger;
 
 
-
-   
 
         public UserRepository(DbConnectionFactory connectionFactory, ILogger<UserRepository> logger)
             : base(connectionFactory, "Users", "Id", GetColumnNames(new AnbarProjectDataSet.UsersDataTable()))
@@ -107,11 +104,11 @@ namespace Persistence
             }
         }
 
-        public override async Task<int> UpdateAsync(User user,string key)
+        public override async Task<int> UpdateAsync(User user, string key)
         {
             try
             {
-                return await base.UpdateAsync(user,key);
+                return await base.UpdateAsync(user, key);
             }
             catch (Exception ex)
             {
@@ -122,9 +119,7 @@ namespace Persistence
             }
         }
 
-        #endregion
-
-        #region Permission Operations
+        
 
         public async Task<IEnumerable<Permission>> GetUserPermissionsAsync(int userId)
         {
@@ -152,111 +147,14 @@ namespace Persistence
             }
         }
 
-        public async Task AddPermissionAsync(IEnumerable<Permission> permissions)
-        {
-            try
-            {
-                if (!permissions.Any())
-                    return;
-
-                var userId = permissions.First().UserId;
-                var userParam = CreateParameter("@Id", userId, DbType.Int32);
-
-                var dataset = await ExecuteTypedDataSetAsync<AnbarProjectDataSet>(
-                    GenerateSelectQuery(TableName, TableColumns, "Id = @Id"),
-                    CommandType.Text,
-                    TableName,
-                    userParam);
-
-                foreach (var permission in permissions)
-                {
-                    var row = dataset.Permissions.NewPermissionsRow();
-                    row.ModuleId = permission.ModuleId;
-                    row.Authority = (int)permission.Authority;
-                    row.UserId = permission.UserId;
-                    row.CreatedAt = permission.CreatedAt;
-                    dataset.Permissions.AddPermissionsRow(row);
-                }
-
-                var permissionColumns = GetColumnNames(new AnbarProjectDataSet.PermissionsDataTable());
-                
-                                var insertCommand = new SqlCommand(
-                    GenerateInsertQuery("Permissions", permissionColumns.Where(c => c != "Id")));
-
-                insertCommand.Parameters.Add("@UserId", SqlDbType.Int).SourceColumn = "UserId";
-                insertCommand.Parameters.Add("@ModuleId", SqlDbType.Int).SourceColumn = "ModuleId";
-                insertCommand.Parameters.Add("@Authority", SqlDbType.Int).SourceColumn = "Authority";
-                insertCommand.Parameters.Add("@CreatedAt", SqlDbType.DateTime2).SourceColumn = "CreatedAt";
-
-                // Execute the update
-                var commands = new Dictionary<string, SqlCommand> { { "Insert", insertCommand } };
-                await ExecuteDataAdapterUpdateAsync(dataset, "Permissions", commands);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to add permissions for user {UserId}",
-                    permissions.FirstOrDefault()?.UserId);
-
-                throw new DatabaseException("Failed to add permissions",
-                    "Error adding user permissions",
-                    ErrorCode.DataBaseError, ex);
-            }
-        }
 
 
-        public async Task UpdatePermissionAsync(Permission permission)
-        {
-            try
-            {
-                var query = "UPDATE Permissions SET Authority = @Authority " +
-                            "WHERE UserId = @UserId AND ModuleId = @ModuleId";
 
-                var parameters = new[]
-                {
-                    CreateParameter("@UserId", permission.UserId, DbType.Int32),
-                    CreateParameter("@ModuleId", permission.ModuleId, DbType.Int32),
-                    CreateParameter("@Authority", (int)permission.Authority, DbType.Int32)
-                };
+    #endregion
 
-                await ExecuteWriterCommandAsync(query, CommandType.Text, parameters);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to update permission for user {UserId}", permission.UserId);
-                throw new DatabaseException("Failed to update permission",
-                    $"Error updating permission for user {permission.UserId}",
-                    ErrorCode.DataBaseError, ex);
-            }
-        }
+    #region Mapping Methods
 
-        public async Task RemovePermissionAsync(int userId, int moduleId)
-        {
-            try
-            {
-                var query = "DELETE FROM Permissions WHERE UserId = @UserId AND ModuleId = @ModuleId";
-
-                var parameters = new[]
-                {
-                    CreateParameter("@UserId", userId, DbType.Int32),
-                    CreateParameter("@ModuleId", moduleId, DbType.Int32)
-                };
-
-                await ExecuteWriterCommandAsync(query, CommandType.Text, parameters);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to remove permission for user {UserId}", userId);
-                throw new DatabaseException("Failed to remove permission",
-                    $"Error removing permission for user {userId}",
-                    ErrorCode.DataBaseError, ex);
-            }
-        }
-
-        #endregion
-
-        #region Mapping Methods
-
-        protected override IEnumerable<User> MapResultsToEntities(AnbarProjectDataSet dataSet)
+    protected override IEnumerable<User> MapResultsToEntities(AnbarProjectDataSet dataSet)
         {
             return dataSet.Users.Select(MapUserFromRow).ToList();
         }

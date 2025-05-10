@@ -16,11 +16,12 @@ namespace Application
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        
+        private readonly IPermissionRepository _permissionRepository;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IPermissionRepository permissionRepository)
         {
             _userRepository = userRepository;
+            _permissionRepository = permissionRepository;
         }
 
         public async Task<bool> AddUser(string name, string password, Roles role = 0)
@@ -74,7 +75,6 @@ namespace Application
         }
 
 
-        //TODO
         public async Task AddPermissionToUser(List<int>moduleId,int userId)
         {
             var permission = new List<Permission>();
@@ -91,7 +91,7 @@ namespace Application
                 permission.Add(per);
             }
 
-            await _userRepository.AddPermissionAsync(permission);
+            await _permissionRepository.SyncPermissionsViaDataTable(permission,userId);
         }
 
         public async Task<List<Permission>> ShowAllUserPermission(int userId)
@@ -99,5 +99,6 @@ namespace Application
             var permissinons= await _userRepository.GetUserPermissionsAsync(userId);
             return permissinons.ToList();
         }
+
     }
 }

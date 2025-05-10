@@ -42,9 +42,8 @@ namespace Shell.forms
 
                 var result = await _userService.LoginUser(textBox1.Text, textBox2.Text);
 
+                SetupSession(result);
 
-
-                _serviceProvider.GetService<ModuleDashboardForm>().Show();
                        
                 DialogResult = DialogResult.OK;
             }
@@ -69,6 +68,15 @@ namespace Shell.forms
                 button1.Enabled = true;
                 button1.Text = "Login";
             }
+        }
+
+
+
+        private void SetupSession(User u)
+        {
+            var moduleForm = _serviceProvider.GetService<ModuleDashboardForm>();
+            moduleForm.Logeduser = u;
+            moduleForm.Show();
         }
     }
 }

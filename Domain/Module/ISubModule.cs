@@ -6,7 +6,7 @@
 //    {
 //        string Id { get; }
 //        string Name { get; }
-//        string Description { get; }
+//        string subname { get; }
 
 //        void Initialize(); // if needed
 //        Form GetForm();

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 using AnbarDomain.Partys;
 using Domain.Common;
@@ -15,5 +16,8 @@ namespace AnbarService
         Task<List<Party>> GetAllParties();
 
         Task AddParty(Party party);
+        Task SaveAllChanges(DataTable partiesTable);
+
+
     }
 }

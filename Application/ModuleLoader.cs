@@ -44,7 +44,7 @@ namespace Application
             Console.WriteLine($"\nLoaded {modules.Count} modules:");
             foreach (var module in modules)
             {
-                Console.WriteLine($"- {module.Name}: {module.Description}");
+                Console.WriteLine($"- {module.Name}: {module.Subname}");
             }
         }
     }

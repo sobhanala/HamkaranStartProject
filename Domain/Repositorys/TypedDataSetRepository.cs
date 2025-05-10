@@ -49,7 +49,10 @@ namespace Domain.Repositorys
 
         public virtual async Task<int> InsertAsync(TEntity entity)
         {
-            var query = GenerateInsertQuery(TableName, TableColumns);
+            var insertColumns = TableColumns.Where(c => c != KeyColumn).ToList();
+
+            var query = GenerateInsertQuery(TableName, insertColumns);
+
             var parameters = CreateParametersFromEntity(entity);
 
             return await ExecuteWriterCommandAsync(query, CommandType.Text, parameters.ToArray());
@@ -95,5 +98,38 @@ namespace Domain.Repositorys
 
             return DbType.Object;
         }
+
+        //public virtual async Task SyncDataTableAsync(DataTable dataTable)
+        //{
+        //    if (dataTable == null || dataTable.TableName != TableName)
+        //        throw new ArgumentException("Invalid table passed to sync.");
+
+        //    using var connection = ConnectionFactory.CreateConnection();
+        //    await connection.OpenAsync();
+
+        //    using var adapter = new SqlDataAdapter();
+
+        //    var insertCols = TableColumns.Where(c => c != KeyColumn).ToArray();
+        //    var insertQuery = $"INSERT INTO {TableName} ({string.Join(", ", insertCols)}) VALUES ({string.Join(", ", insertCols.Select(c => "@" + c))})";
+        //    var insertCmd = new SqlCommand(insertQuery, (SqlConnection)connection);
+        //    foreach (var col in insertCols)
+        //        insertCmd.Parameters.Add("@" + col, SqlDbTypeFromName(dataTable.Columns[col].DataType)).SourceColumn = col;
+        //    adapter.InsertCommand = insertCmd;
+
+        //    // UPDATE
+        //    var updateSet = string.Join(", ", TableColumns.Where(c => c != KeyColumn).Select(c => $"{c} = @{c}"));
+        //    var updateQuery = $"UPDATE {TableName} SET {updateSet} WHERE {KeyColumn} = @{KeyColumn}";
+        //    var updateCmd = new SqlCommand(updateQuery, (SqlConnection)connection);
+        //    foreach (var col in TableColumns)
+        //        updateCmd.Parameters.Add("@" + col, SqlDbTypeFromName(dataTable.Columns[col].DataType)).SourceColumn = col;
+        //    adapter.UpdateCommand = updateCmd;
+
+        //    // DELETE
+        //    var deleteCmd = new SqlCommand($"DELETE FROM {TableName} WHERE {KeyColumn} = @{KeyColumn}", (SqlConnection)connection);
+        //    deleteCmd.Parameters.Add("@" + KeyColumn, SqlDbTypeFromName(dataTable.Columns[KeyColumn].DataType)).SourceColumn = KeyColumn;
+        //    adapter.DeleteCommand = deleteCmd;
+
+        //    adapter.Update(dataTable);
+        //}
     }
 }

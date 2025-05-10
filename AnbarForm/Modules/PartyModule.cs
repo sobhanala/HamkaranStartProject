@@ -20,15 +20,14 @@ namespace AnbarForm.Modules
         {
             _partyManagement = partyManagement;
         }
-
+        public int Id => PasswordHasher.GetDeterministicHashCode(Subname);
         public string Name => "Party Management";
-        public string Description => "Manage customers, vendors, and other business parties";
+        public string Subname => "Manage customers, vendors, and other business parties";
 
         public void Initialize()
         {
         }
 
-        public int Id => PasswordHasher.GetDeterministicHashCode(Name);
 
         public Form GetMainForm()
         {

@@ -15,6 +15,5 @@ namespace AnbarDomain.Shipping
         public MovementType MovementType { get; set; }
         public string FromLocation { get; set; }
         public string ToLocation { get; set; }
-
     }
 }
