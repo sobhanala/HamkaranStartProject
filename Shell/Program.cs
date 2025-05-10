@@ -51,8 +51,11 @@ namespace Shell
             services.AddSingleton(new AppSettings());
 
             services.AddSingleton(provider =>
-                new DbConnectionFactory(provider.GetRequiredService<AppSettings>().ConnectionString));
-
+                new DbConnectionFactory(
+                    provider.GetRequiredService<AppSettings>().ConnectionString,
+                    provider.GetRequiredService<ILogger<DbConnectionFactory>>()
+                )
+            );
             ServiceRegistrar.RegisterAll(services);
 
             services.AddSingleton<ModuleLoader>();

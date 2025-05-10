@@ -10,7 +10,7 @@
 
 #pragma warning disable 1591
 
-namespace AnbarPersitence {
+namespace AnbarDomain.Tabels {
     
     
     /// <summary>
@@ -947,7 +947,7 @@ namespace AnbarPersitence {
         }
     }
 }
-namespace AnbarPersitence.AnbarDataSetTableAdapters {
+namespace AnbarDomain.Tabels.AnbarDataSetTableAdapters {
     
     
     /// <summary>
@@ -1155,7 +1155,7 @@ SELECT Id, Name, Street, City, PostalCode, Country, Email, PartyType, IsActive, 
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::AnbarPersitence.Properties.Settings.Default.AnbarProjectConnectionString;
+            this._connection.ConnectionString = global::AnbarDomain.Properties.Settings.Default.AnbarProjectConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

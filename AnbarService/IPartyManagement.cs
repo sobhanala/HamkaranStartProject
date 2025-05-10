@@ -2,8 +2,7 @@
 using System.Data;
 using System.Threading.Tasks;
 using AnbarDomain.Partys;
-using Domain.Common;
-using Domain.Users;
+using AnbarDomain.Tabels;
 
 namespace AnbarService
 {
@@ -14,6 +13,8 @@ namespace AnbarService
         Task UpdateParty(Party party);
 
         Task<List<Party>> GetAllParties();
+        Task<AnbarDataSet> GetPartyDataSetAsync();
+
 
         Task AddParty(Party party);
         Task SaveAllChanges(DataTable partiesTable);

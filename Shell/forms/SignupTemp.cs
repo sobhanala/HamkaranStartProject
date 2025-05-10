@@ -50,7 +50,7 @@ namespace Shell.forms
                 MessageBox.Show(ex.UserFriendlyMessage, "Registration Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 MessageBox.Show("An unexpected error occurred during registration", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);

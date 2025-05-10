@@ -2,16 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Runtime.Remoting.Channels;
-using System.Text;
 using System.Threading.Tasks;
 using AnbarDomain.Partys;
 using AnbarDomain.repositorys;
+using AnbarDomain.Tabels;
 using Domain.Attribute;
-using Domain.Common;
 using Domain.Exceptions;
-using Domain.Users;
-using AuthenticationException = System.Security.Authentication.AuthenticationException;
 
 namespace AnbarService
 {
@@ -24,6 +20,12 @@ namespace AnbarService
         {
             _partyRepository = partyRepository;
         }
+
+        public async Task<AnbarDataSet> GetPartyDataSetAsync()
+        {
+            return await _partyRepository.GetPartyDataSetAsync();
+        }
+
         public async Task AddParty(Party party1)
         {
             if (string.IsNullOrWhiteSpace(party1.Name))
@@ -38,6 +40,7 @@ namespace AnbarService
 
         public async  Task SaveAllChanges(DataTable partiesTable)
         {
+
             await _partyRepository.SaveChangesFromDataTable(partiesTable);
         }
 

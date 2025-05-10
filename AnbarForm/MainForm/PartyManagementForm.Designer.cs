@@ -1,4 +1,7 @@
-﻿namespace AnbarForm.MainForm
+﻿using AnbarDomain.Tabels;
+using AnbarDomain.Tabels.AnbarDataSetTableAdapters;
+
+namespace AnbarForm.MainForm
 {
     partial class PartyManagementForm
     {
@@ -40,8 +43,9 @@
             this.tb_street = new System.Windows.Forms.TextBox();
             this.tb_country = new System.Windows.Forms.TextBox();
             this.btn_save_all = new System.Windows.Forms.Button();
-            this.anbarDataSet1 = new AnbarPersitence.AnbarDataSet();
-            this.partiesTableAdapter1 = new AnbarPersitence.AnbarDataSetTableAdapters.PartiesTableAdapter();
+            this.anbarDataSet1 = new AnbarDomain.Tabels.AnbarDataSet();
+            this.partiesTableAdapter1 = new AnbarDomain.Tabels.AnbarDataSetTableAdapters.PartiesTableAdapter();
+            this.delete = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.anbarDataSet1)).BeginInit();
             this.SuspendLayout();
@@ -114,11 +118,14 @@
             // 
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.delete});
             this.dataGridView1.Location = new System.Drawing.Point(139, 12);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(280, 278);
             this.dataGridView1.TabIndex = 8;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellContentClick);
             // 
             // tb_street
             // 
@@ -155,6 +162,13 @@
             // partiesTableAdapter1
             // 
             this.partiesTableAdapter1.ClearBeforeFill = true;
+            // 
+            // delete
+            // 
+            this.delete.HeaderText = "Delete";
+            this.delete.Name = "delete";
+            this.delete.Text = "Delete";
+            this.delete.UseColumnTextForButtonValue = true;
             // 
             // PartyManagementForm
             // 
@@ -193,7 +207,8 @@
         private System.Windows.Forms.TextBox tb_street;
         private System.Windows.Forms.TextBox tb_country;
         private System.Windows.Forms.Button btn_save_all;
-        private AnbarPersitence.AnbarDataSet anbarDataSet1;
-        private AnbarPersitence.AnbarDataSetTableAdapters.PartiesTableAdapter partiesTableAdapter1;
+        private AnbarDataSet anbarDataSet1;
+        private PartiesTableAdapter partiesTableAdapter1;
+        private System.Windows.Forms.DataGridViewButtonColumn delete;
     }
 }

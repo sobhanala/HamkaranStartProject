@@ -2,9 +2,10 @@
 <xs:schema id="AnbarDataSet" targetNamespace="http://tempuri.org/AnbarDataSet.xsd" xmlns:mstns="http://tempuri.org/AnbarDataSet.xsd" xmlns="http://tempuri.org/AnbarDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
   <xs:annotation>
     <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
-      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="1" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
         <Connections>
-          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="AnbarProjectConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="AnbarProjectConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.AnbarPersitence.Properties.Settings.GlobalReference.Default.AnbarProjectConnectionString" Provider="System.Data.SqlClient" />
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="AnbarProjectConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="AnbarProjectConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.AnbarDomain.Properties.Settings.GlobalReference.Default.AnbarProjectConnectionString" Provider="System.Data.SqlClient" />
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="AnbarProjectConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="AnbarProjectConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.AnbarDomain.Properties.Settings.GlobalReference.Default.AnbarProjectConnectionString" Provider="System.Data.SqlClient" />
         </Connections>
         <Tables>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="PartiesTableAdapter" GeneratorDataComponentClassName="PartiesTableAdapter" Name="Parties" UserDataComponentName="PartiesTableAdapter">

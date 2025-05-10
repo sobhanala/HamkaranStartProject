@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AnbarDomain.Partys;
 using AnbarDomain.repositorys;
+using AnbarDomain.Tabels;
 using Domain.Attribute;
 using Domain.Common;
 using Domain.Exceptions;
@@ -31,54 +32,22 @@ namespace AnbarPersitence
             _logger = logger;
         }
 
-        //public async Task SyncPermissionsViaDataTable(List<Party> selectedModuleIds, int userId)
-        //{
-        //    var existing = (await GetAllAsync()).Where(p => p.UserId == userId).ToList();
-        //    var existingModules = existing.ToHashSet();
+        public async Task<AnbarDataSet> GetPartyDataSetAsync()
+        {
+            try
+            {
+                return await base.GetDataSetAsync();
 
-        //    var ds = new AnbarDataSet();
-        //    var permissionTable = ds.Parties;
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to send Party");
+                throw new DatabaseException("Failed to send Party",
+                    "Error retrieving all users from database",
+                    ErrorCode.DataBaseError, e);
+            }
+        }
 
-        //    foreach (var permission in selectedModuleIds)
-        //    {
-        //        if (!existingModules.Contains(permission))
-        //        {
-        //            var row = MapPermissionToRow(permission, permissionTable);
-        //            permissionTable.AddPermissionsRow(row);
-
-        //        }
-        //    }
-
-        //    foreach (var permission in existingModules)
-        //    {
-        //        if (!selectedModuleIds.Contains(permission))
-        //        {
-        //            var deleteRow = MapPermissionToRow(permission, permissionTable);
-        //            permissionTable.AddPermissionsRow(deleteRow);
-        //            deleteRow.AcceptChanges();
-        //            deleteRow.Delete();
-        //        }
-        //    }
-
-        //    var commands = new Dictionary<string, SqlCommand>();
-
-        //    var insert =
-        //        new SqlCommand(
-        //            "INSERT INTO Permissions (UserId, ModuleId, Authority, CreatedAt) VALUES (@UserId, @ModuleId, @Authority, @CreatedAt)");
-        //    insert.Parameters.Add("@UserId", SqlDbType.Int, 0, "UserId");
-        //    insert.Parameters.Add("@ModuleId", SqlDbType.Int, 0, "ModuleId");
-        //    insert.Parameters.Add("@Authority", SqlDbType.Int, 0, "Authority");
-        //    insert.Parameters.Add("@CreatedAt", SqlDbType.DateTime, 0, "CreatedAt");
-
-        //    var delete = new SqlCommand("DELETE FROM Permissions WHERE UserId = @UserId AND ModuleId = @ModuleId");
-        //    delete.Parameters.Add("@UserId", SqlDbType.Int, 0, "UserId");
-        //    delete.Parameters.Add("@ModuleId", SqlDbType.Int, 0, "ModuleId");
-
-        //    commands.Add("Insert", insert);
-        //    commands.Add("Delete", delete);
-
-        //    await ExecuteDataAdapterUpdateAsync(ds, "Permissions", commands);
-        //}
 
 
         public override async Task<IEnumerable<Party>> GetAllAsync()
@@ -147,46 +116,59 @@ namespace AnbarPersitence
 
         public async Task<int> SaveChangesFromDataTable(DataTable partiesTable)
         {
-            var commands = new Dictionary<string, SqlCommand>();
+            try
+            {
+                var commands = new Dictionary<string, SqlCommand>();
+
+                var insertCommand = new SqlCommand(
+                    GenerateInsertQuery(partiesTable.TableName, GetColumnNames(partiesTable).Where(c => c != KeyColumn)));
 
 
-            var insertCommand = new SqlCommand(
-                GenerateInsertQuery(partiesTable.TableName, GetColumnNames(partiesTable).Where(c => c!=KeyColumn)));
-            insertCommand.Parameters.Add("@Name", SqlDbType.NVarChar,0, "Name");
-            insertCommand.Parameters.Add("@Email", SqlDbType.NVarChar,0, "Email");
-            insertCommand.Parameters.Add("@Street", SqlDbType.NVarChar,0, "Street");
-            insertCommand.Parameters.Add("@City", SqlDbType.NVarChar, 50, "City");
-            insertCommand.Parameters.Add("@PostalCode", SqlDbType.NVarChar, 0, "PostalCode");
-            insertCommand.Parameters.Add("@Country", SqlDbType.NVarChar, 0, "Country");
-            insertCommand.Parameters.Add("@PartyType", SqlDbType.Int, 0, "PartyType");
-            insertCommand.Parameters.Add("@IsActive", SqlDbType.Bit, 0, "IsActive");
-            insertCommand.Parameters.Add("@CreatedAt", SqlDbType.DateTime, 0, "CreatedAt").IsNullable = true;
+                insertCommand.Parameters.Add("@Name", SqlDbType.NVarChar, 0, "Name");
+                insertCommand.Parameters.Add("@Email", SqlDbType.NVarChar, 0, "Email");
+                insertCommand.Parameters.Add("@Street", SqlDbType.NVarChar, 0, "Street");
+                insertCommand.Parameters.Add("@City", SqlDbType.NVarChar, 50, "City");
+                insertCommand.Parameters.Add("@PostalCode", SqlDbType.NVarChar, 0, "PostalCode");
+                insertCommand.Parameters.Add("@Country", SqlDbType.NVarChar, 0, "Country");
+                insertCommand.Parameters.Add("@PartyType", SqlDbType.Int, 0, "PartyType");
+                insertCommand.Parameters.Add("@IsActive", SqlDbType.Bit, 0, "IsActive");
+                insertCommand.Parameters.Add("@CreatedAt", SqlDbType.DateTime, 0, "CreatedAt").IsNullable = true;
 
 
-            var updateCommand = new SqlCommand(
-                GenerateUpdateQuery(partiesTable.TableName, GetColumnNames(partiesTable),KeyColumn));
-            updateCommand.Parameters.Add("@Name", SqlDbType.NVarChar, 0, "Name");
-            updateCommand.Parameters.Add("@Email", SqlDbType.NVarChar, 0, "Email");
-            updateCommand.Parameters.Add("@Street", SqlDbType.NVarChar, 0, "Street");
-            updateCommand.Parameters.Add("@City", SqlDbType.NVarChar, 50, "City");
-            updateCommand.Parameters.Add("@PostalCode", SqlDbType.NVarChar, 0, "PostalCode");
-            updateCommand.Parameters.Add("@Country", SqlDbType.NVarChar, 0, "Country");
-            updateCommand.Parameters.Add("@PartyType", SqlDbType.Int, 0, "PartyType");
-            updateCommand.Parameters.Add("@IsActive", SqlDbType.Bit, 0, "IsActive");
-            updateCommand.Parameters.Add("@CreatedAt", SqlDbType.DateTime, 0, "CreatedAt").IsNullable = true;
-            updateCommand.Parameters.Add("@Id", SqlDbType.Int, 0, "Id");
+                var updateCommand = new SqlCommand(
+                    GenerateUpdateQuery(partiesTable.TableName, GetColumnNames(partiesTable), KeyColumn));
+                updateCommand.Parameters.Add("@Name", SqlDbType.NVarChar, 0, "Name");
+                updateCommand.Parameters.Add("@Email", SqlDbType.NVarChar, 0, "Email");
+                updateCommand.Parameters.Add("@Street", SqlDbType.NVarChar, 0, "Street");
+                updateCommand.Parameters.Add("@City", SqlDbType.NVarChar, 50, "City");
+                updateCommand.Parameters.Add("@PostalCode", SqlDbType.NVarChar, 0, "PostalCode");
+                updateCommand.Parameters.Add("@Country", SqlDbType.NVarChar, 0, "Country");
+                updateCommand.Parameters.Add("@PartyType", SqlDbType.Int, 0, "PartyType");
+                updateCommand.Parameters.Add("@IsActive", SqlDbType.Bit, 0, "IsActive");
+                updateCommand.Parameters.Add("@CreatedAt", SqlDbType.DateTime, 0, "CreatedAt").IsNullable = true;
+                updateCommand.Parameters.Add("@Id", SqlDbType.Int, 0, "Id");
 
 
-            var deleteCommand = new SqlCommand(GenerateDeleteQuery(partiesTable.TableName,KeyColumn));
-            deleteCommand.Parameters.Add("@Id", SqlDbType.Int, 0, "Id");
+                var deleteCommand = new SqlCommand(GenerateDeleteQuery(partiesTable.TableName, KeyColumn));
+                deleteCommand.Parameters.Add("@Id", SqlDbType.Int, 0, "Id");
 
 
-            commands.Add("Insert", insertCommand);
-            commands.Add("Update", updateCommand);
-            commands.Add("Delete", deleteCommand);
+                commands.Add("Insert", insertCommand);
+                commands.Add("Update", updateCommand);
+                commands.Add("Delete", deleteCommand);
 
 
-            return await ExecuteDataAdapterUpdateAsyncOnDataTabel(partiesTable,commands);
+                return await ExecuteDataAdapterUpdateAsyncOnDataTabel(partiesTable, commands);
+            }
+            catch (Exception ex)
+            {
+            
+                    _logger.LogError(ex, "Failed to SaveChangesFromDataTable user {UserId}", partiesTable.TableName);
+                    throw new DatabaseException("Failed to SaveChangesFromDataTable user",
+                        $"Error SaveChanges user",
+                        ErrorCode.DataBaseError, ex);
+            }
+          
         }
 
 
@@ -235,18 +217,7 @@ namespace AnbarPersitence
             };
         }
 
-        private void MapToDataRow(Party party, AnbarDataSet.PartiesRow row)
-        {
-            row.Name = party.Name;
-            row.Street = party.Address?.Street;
-            row.City = party.Address?.City;
-            row.PostalCode = party.Address?.PostalCode ;
-            row.Country = party.Address?.Country;
-            row.Email = party.Email;
-            row.PartyType = (int)party.PartyType;
-            row.IsActive = party.IsActive;
-            row.CreatedAt=DateTime.Now;
-        }
+
 
     }
 }

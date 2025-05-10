@@ -84,11 +84,6 @@ namespace Persistence
             }
         }
 
-        public Task<IEnumerable<Permission>> GetUserPermissions(int userId)
-        {
-            throw new NotImplementedException();
-        }
-
         public override async Task<int> InsertAsync(User user)
         {
             try

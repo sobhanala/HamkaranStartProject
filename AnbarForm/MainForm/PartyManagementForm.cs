@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AnbarDomain.Partys;
+using AnbarDomain.Tabels;
 using AnbarPersitence;
 using AnbarService;
 using Domain.Common;
@@ -36,26 +37,10 @@ namespace AnbarForm.MainForm
         {
             try
             {
-                var parties = await _partyService.GetAllParties();
                 AnbarDataSet1.Parties.Clear();
+                AnbarDataSet1 = await _partyService.GetPartyDataSetAsync();
 
-                foreach (var party in parties)
-                {
-                    AnbarDataSet1.Parties.Rows.Add(
-                        party.Id,
-                        party.Name,
-                        party.Email,
-                        party.Address?.Street,
-                        party.Address?.City,
-                        party.Address?.PostalCode,
-                        party.Address?.Country,
-                        party.IsActive,
-                        party.PartyType,
-                        party.CreatedAt
-                    );
-                }
 
-                // Important: Mark all rows as unchanged after loading
                 AnbarDataSet1.Parties.AcceptChanges();
 
                 dataGridView1.DataSource = AnbarDataSet1.Parties;
@@ -104,6 +89,11 @@ namespace AnbarForm.MainForm
                 MessageBox.Show(ex.UserFriendlyMessage, "Authentication Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
+
+            catch (DatabaseException ex)
+            {
+                MessageBox.Show(ex.UserFriendlyMessage); // Display this in your message box
+            }
             catch (Exception ex)
             {
                 MessageBox.Show("An unexpected error occurred during registration: " + ex.Message, "Error",
@@ -149,8 +139,16 @@ namespace AnbarForm.MainForm
                 MessageBox.Show("All changes saved successfully.", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // Reload data to ensure consistency
                 LoadData();
+            }
+            catch (ValidationException ex)
+            {
+                MessageBox.Show(ex.UserFriendlyMessage); 
+
+            }
+            catch (DatabaseException ex)
+            {
+                MessageBox.Show(ex.UserFriendlyMessage); 
             }
             catch (Exception ex)
             {
@@ -161,21 +159,18 @@ namespace AnbarForm.MainForm
 
         private void LogChanges()
         {
-            // Log modified rows
             var modifiedRows = AnbarDataSet1.Parties.Select("", "", DataViewRowState.ModifiedCurrent);
             foreach (DataRow row in modifiedRows)
             {
                 Console.WriteLine($"Modified Row: {row["Id"]} - {row["Name"]}");
             }
 
-            // Log deleted rows
             var deletedRows = AnbarDataSet1.Parties.Select("", "", DataViewRowState.Deleted);
             foreach (DataRow row in deletedRows)
             {
                 Console.WriteLine($"Deleted Row: {row["Id", DataRowVersion.Original]}");
             }
 
-            // Log added rows
             var addedRows = AnbarDataSet1.Parties.Select("", "", DataViewRowState.Added);
             foreach (DataRow row in addedRows)
             {
@@ -190,5 +185,24 @@ namespace AnbarForm.MainForm
         private void Txt_name_TextChanged(object sender, EventArgs e) { }
         private void Tb_country_TextChanged(object sender, EventArgs e) { }
         private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e) { }
+
+        private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dataGridView1.Columns[e.ColumnIndex].Name == "delete")
+            {
+                var confirm = MessageBox.Show("Do you want to mark this row for deletion?", "Confirm Delete",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    var row = dataGridView1.Rows[e.RowIndex];
+
+                    if (row.DataBoundItem is DataRowView dataRowView)
+                    {
+                        dataRowView.Row.Delete();
+                    }
+                }
+            }
+        }
     }
 }

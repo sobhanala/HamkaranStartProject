@@ -36,22 +36,24 @@ namespace Domain.Repositorys
                     }
                 }
 
-                var dataAdapter = _connectionFactory.CreateDataAdapter(command);
-                var dataset = new T();
-
-                await Task.Run(() =>
+                using (var dataAdapter = _connectionFactory.CreateDataAdapter(command))
                 {
-                    if (!string.IsNullOrEmpty(tableName))
-                    {
-                        dataAdapter.Fill(dataset, tableName);
-                    }
-                    else
-                    {
-                        dataAdapter.Fill(dataset);
-                    }
-                });
+                    var dataset = new T();
 
-                return dataset;
+                    await Task.Run(() =>
+                    {
+                        if (!string.IsNullOrEmpty(tableName))
+                        {
+                            dataAdapter.Fill(dataset, tableName);
+                        }
+                        else
+                        {
+                            dataAdapter.Fill(dataset);
+                        }
+                    });
+
+                    return dataset;
+                }
             }
         }
 

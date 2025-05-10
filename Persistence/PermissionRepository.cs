@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Attribute;
+using Domain.Exceptions;
 using Domain.Permissons;
 using Domain.Repositorys;
 using Domain.Users;
@@ -31,7 +32,18 @@ namespace Persistence
 
         protected override IEnumerable<Permission> MapResultsToEntities(AnbarProjectDataSet dataSet)
         {
-            return dataSet.Permissions.Select(MapPermissionFromRow).ToList();
+            try
+            {
+                return dataSet.Permissions.Select(MapPermissionFromRow).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to map dataset to permissions");
+                throw new DatabaseException("Failed to map dataset to permissions",
+                    "Error mapping database results to permission entities",
+                    ErrorCode.DataBaseError, ex);
+            }
         }
 
         protected override Permission MapSingleResultToEntity(AnbarProjectDataSet dataSet)
@@ -63,53 +75,65 @@ namespace Persistence
             };
         }
 
+
         public async Task SyncPermissionsViaDataTable(List<Permission> selectedModuleIds, int userId)
         {
-            var existing = (await GetAllAsync()).Where(p => p.UserId == userId).ToList();
-            var existingModules = existing.ToHashSet();
-
-            var ds = new AnbarProjectDataSet();
-            var permissionTable = ds.Permissions;
-
-            foreach (var permission in selectedModuleIds)
+            try
             {
-                if (!existingModules.Contains(permission))
+                var existing = (await GetAllAsync()).Where(p => p.UserId == userId).ToList();
+                var existingModules = existing.ToHashSet();
+
+                var ds = new AnbarProjectDataSet();
+                var permissionTable = ds.Permissions;
+
+                foreach (var permission in selectedModuleIds)
                 {
-                   var row=  MapPermissionToRow(permission, permissionTable);
-                   permissionTable.AddPermissionsRow(row);
+                    if (!existingModules.Contains(permission))
+                    {
+                        var row = MapPermissionToRow(permission, permissionTable);
+                        permissionTable.AddPermissionsRow(row);
 
+                    }
                 }
-            }
 
-            foreach (var permission in existingModules)
+                foreach (var permission in existingModules)
+                {
+                    if (!selectedModuleIds.Contains(permission))
+                    {
+                        var deleteRow = MapPermissionToRow(permission, permissionTable);
+                        permissionTable.AddPermissionsRow(deleteRow);
+                        deleteRow.AcceptChanges();
+                        deleteRow.Delete();
+                    }
+                }
+
+                var commands = new Dictionary<string, SqlCommand>();
+
+                var insert =
+                    new SqlCommand(
+                        "INSERT INTO Permissions (UserId, ModuleId, Authority, CreatedAt) VALUES (@UserId, @ModuleId, @Authority, @CreatedAt)");
+                insert.Parameters.Add("@UserId", SqlDbType.Int, 0, "UserId");
+                insert.Parameters.Add("@ModuleId", SqlDbType.Int, 0, "ModuleId");
+                insert.Parameters.Add("@Authority", SqlDbType.Int, 0, "Authority");
+                insert.Parameters.Add("@CreatedAt", SqlDbType.DateTime, 0, "CreatedAt");
+
+                var delete = new SqlCommand("DELETE FROM Permissions WHERE UserId = @UserId AND ModuleId = @ModuleId");
+                delete.Parameters.Add("@UserId", SqlDbType.Int, 0, "UserId");
+                delete.Parameters.Add("@ModuleId", SqlDbType.Int, 0, "ModuleId");
+
+                commands.Add("Insert", insert);
+                commands.Add("Delete", delete);
+
+                await ExecuteDataAdapterUpdateAsync(ds, "Permissions", commands);
+            }
+            catch (Exception ex)
             {
-                if (!selectedModuleIds.Contains(permission))
-                {
-                    var deleteRow = MapPermissionToRow(permission,permissionTable);
-                    permissionTable.AddPermissionsRow(deleteRow);
-                    deleteRow.AcceptChanges(); 
-                    deleteRow.Delete();
-                }
+                _logger.LogError(ex, "Failed to synchronize permissions for user {UserId}", userId);
+                throw new DatabaseException("Failed to synchronize permissions",
+                    $"Error synchronizing permissions for user {userId}",
+                    ErrorCode.DataBaseError, ex);
             }
-
-            var commands = new Dictionary<string, SqlCommand>();
-
-            var insert =
-                new SqlCommand(
-                    "INSERT INTO Permissions (UserId, ModuleId, Authority, CreatedAt) VALUES (@UserId, @ModuleId, @Authority, @CreatedAt)");
-            insert.Parameters.Add("@UserId", SqlDbType.Int, 0, "UserId");
-            insert.Parameters.Add("@ModuleId", SqlDbType.Int, 0, "ModuleId");
-            insert.Parameters.Add("@Authority", SqlDbType.Int, 0, "Authority");
-            insert.Parameters.Add("@CreatedAt", SqlDbType.DateTime, 0, "CreatedAt");
-
-            var delete = new SqlCommand("DELETE FROM Permissions WHERE UserId = @UserId AND ModuleId = @ModuleId");
-            delete.Parameters.Add("@UserId", SqlDbType.Int, 0, "UserId");
-            delete.Parameters.Add("@ModuleId", SqlDbType.Int, 0, "ModuleId");
-
-            commands.Add("Insert", insert);
-            commands.Add("Delete", delete);
-
-            await ExecuteDataAdapterUpdateAsync(ds, "Permissions", commands);
+            
         }
 
 

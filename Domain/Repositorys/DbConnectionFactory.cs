@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using Microsoft.Extensions.Logging;
 
 namespace Domain.Repositorys
 {
     public class DbConnectionFactory
     {
         private readonly string _connectionString;
+        private readonly ILogger<DbConnectionFactory> _logger;
 
-        public DbConnectionFactory(string connectionString)
+        public DbConnectionFactory(string connectionString, ILogger<DbConnectionFactory> logger)
         {
             _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
+            _logger = logger;
         }
 
         public SqlConnection CreateConnection()
@@ -23,7 +26,7 @@ namespace Domain.Repositorys
             }
             catch (Exception e)
             {
-                Console.WriteLine("Cant Create the Connection {1}", e.Message);
+                _logger.LogCritical("Cant Create the Connection {1}", e.Message);
                 throw;
             }
         }
@@ -38,7 +41,7 @@ namespace Domain.Repositorys
             }
             catch (Exception e)
             {
-                Console.WriteLine("Cant CreateCommand {1}", e.Message);
+                _logger.LogCritical("Cant CreateCommand {1}", e.Message);
                 throw;
             }
         }

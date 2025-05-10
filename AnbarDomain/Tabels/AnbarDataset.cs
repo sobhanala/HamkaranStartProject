@@ -1,4 +1,4 @@
-﻿namespace AnbarPersitence
+﻿namespace AnbarDomain.Tabels
 {
 
 
