@@ -14,7 +14,6 @@ using Domain.Repositorys;
 using Microsoft.Extensions.Logging;
 
 
-//TODO check the persistance 
 
 namespace AnbarPersitence
 {

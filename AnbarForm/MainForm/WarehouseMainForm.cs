@@ -14,14 +14,15 @@ namespace AnbarForm.MainForm
             
         }
 
-        private void Label1_Click(object sender, System.EventArgs e)
+        private void SplitContainer1_Panel2_Paint(object sender, PaintEventArgs e)
         {
 
         }
 
-        private void Pic_ModuleAddParty_Click(object sender, System.EventArgs e)
+        private void SplitContainer1_Panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }
     }
 }
+

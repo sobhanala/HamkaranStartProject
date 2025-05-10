@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-//TODO Fully fix the bulk updata and ... in another way than list change and .. just using data set and data adapter in form
 namespace Domain.Repositorys
 {
     public abstract class BaseRepository

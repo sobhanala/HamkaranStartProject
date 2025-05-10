@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using Application;
 using Domain.Module;
 using Domain.Repositorys;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Persistence;
 using Shell.DI;
 using Shell.forms;
 
@@ -50,12 +47,8 @@ namespace Shell
             
             services.AddSingleton(new AppSettings());
 
-            services.AddSingleton(provider =>
-                new DbConnectionFactory(
-                    provider.GetRequiredService<AppSettings>().ConnectionString,
-                    provider.GetRequiredService<ILogger<DbConnectionFactory>>()
-                )
-            );
+            services.AddSingleton(provider => new DbConnectionFactory(provider.GetRequiredService<AppSettings>().ConnectionString));
+
             ServiceRegistrar.RegisterAll(services);
 
             services.AddSingleton<ModuleLoader>();
