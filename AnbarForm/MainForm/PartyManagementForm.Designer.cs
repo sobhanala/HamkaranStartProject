@@ -40,12 +40,12 @@ namespace AnbarForm.MainForm
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.btn_submit = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.delete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tb_street = new System.Windows.Forms.TextBox();
             this.tb_country = new System.Windows.Forms.TextBox();
             this.btn_save_all = new System.Windows.Forms.Button();
             this.anbarDataSet1 = new AnbarDomain.Tabels.AnbarDataSet();
             this.partiesTableAdapter1 = new AnbarDomain.Tabels.AnbarDataSetTableAdapters.PartiesTableAdapter();
-            this.delete = new System.Windows.Forms.DataGridViewButtonColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.anbarDataSet1)).BeginInit();
             this.SuspendLayout();
@@ -127,6 +127,13 @@ namespace AnbarForm.MainForm
             this.dataGridView1.TabIndex = 8;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellContentClick);
             // 
+            // delete
+            // 
+            this.delete.HeaderText = "Delete";
+            this.delete.Name = "delete";
+            this.delete.Text = "Delete";
+            this.delete.UseColumnTextForButtonValue = true;
+            // 
             // tb_street
             // 
             this.tb_street.Location = new System.Drawing.Point(10, 176);
@@ -163,18 +170,11 @@ namespace AnbarForm.MainForm
             // 
             this.partiesTableAdapter1.ClearBeforeFill = true;
             // 
-            // delete
-            // 
-            this.delete.HeaderText = "Delete";
-            this.delete.Name = "delete";
-            this.delete.Text = "Delete";
-            this.delete.UseColumnTextForButtonValue = true;
-            // 
             // PartyManagementForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(431, 374);
+            this.ClientSize = new System.Drawing.Size(738, 586);
             this.Controls.Add(this.btn_save_all);
             this.Controls.Add(this.tb_country);
             this.Controls.Add(this.tb_street);

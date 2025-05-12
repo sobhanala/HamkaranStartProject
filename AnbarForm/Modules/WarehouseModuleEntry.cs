@@ -24,6 +24,6 @@ namespace AnbarForm.Modules
             
         }
 
-        public Form GetMainForm() => new MainForm.ProductManagementForm(_partyManagement);
+        public Form GetMainForm() => new MainForm.UserForm();
     }
 }

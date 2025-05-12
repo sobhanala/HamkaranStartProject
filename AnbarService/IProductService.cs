@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AnbarDomain.Tabels;
 using Domain.Attribute;
 
 namespace AnbarService
@@ -12,5 +13,8 @@ namespace AnbarService
     public interface IProductService
     {
         Task SaveAllChanges(DataTable changesTable);
+        Task<AnbarDataSet> GetDataSet();
+        //Task<AnbarDataSet.ProductsDataTable> SetProductValues(AnbarDataSet.ProductsDataTable changedTable);
+
     }
 }

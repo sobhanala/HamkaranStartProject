@@ -27,7 +27,7 @@ namespace AnbarPersitence
 
 
         public ProductRepository(DbConnectionFactory connectionFactory, ILogger<ProductRepository> logger)
-            : base(connectionFactory, "Product", "Id", GetColumnNames(new AnbarDataSet.ProductsDataTable()))
+            : base(connectionFactory, "Products", "Id", GetColumnNames(new AnbarDataSet.ProductsDataTable()))
         {
             _logger = logger;
         }
@@ -136,14 +136,14 @@ namespace AnbarPersitence
 
                 var updateCommand = new SqlCommand(
                     GenerateUpdateQuery(productTable.TableName, GetColumnNames(productTable), KeyColumn));
-                insertCommand.Parameters.Add("@Name", SqlDbType.NVarChar, 0, "Name");
-                insertCommand.Parameters.Add("@Description", SqlDbType.NVarChar, 0, "Description");
-                insertCommand.Parameters.Add("@UnitOfMeasure", SqlDbType.Int, 0, "UnitOfMeasure");
-                insertCommand.Parameters.Add("@CostPrice", SqlDbType.Decimal, 0, "CostPrice");
-                insertCommand.Parameters.Add("@SellingPrice", SqlDbType.Decimal, 0, "SellingPrice");
-                insertCommand.Parameters.Add("@Weight", SqlDbType.NVarChar, 0, "Weight");
-                insertCommand.Parameters.Add("@ProductCode", SqlDbType.VarChar, 50, "ProductCode");
-                insertCommand.Parameters.Add("@CreatedAt", SqlDbType.DateTime, 0, "CreatedAt").IsNullable = true;
+                updateCommand.Parameters.Add("@Name", SqlDbType.NVarChar, 0, "Name");
+                updateCommand.Parameters.Add("@Description", SqlDbType.NVarChar, 0, "Description");
+                updateCommand.Parameters.Add("@UnitOfMeasure", SqlDbType.Int, 0, "UnitOfMeasure");
+                updateCommand.Parameters.Add("@CostPrice", SqlDbType.Decimal, 0, "CostPrice");
+                updateCommand.Parameters.Add("@SellingPrice", SqlDbType.Decimal, 0, "SellingPrice");
+                updateCommand.Parameters.Add("@Weight", SqlDbType.NVarChar, 0, "Weight");
+                updateCommand.Parameters.Add("@ProductCode", SqlDbType.VarChar, 50, "ProductCode");
+                updateCommand.Parameters.Add("@CreatedAt", SqlDbType.DateTime, 0, "CreatedAt").IsNullable = true;
                 updateCommand.Parameters.Add("@Id", SqlDbType.Int, 0, "Id");
 
 

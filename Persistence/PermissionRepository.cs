@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Domain.Attribute;
 using Domain.Exceptions;
 using Domain.Permissons;
 using Domain.Repositorys;
-using Domain.Users;
 using Microsoft.Extensions.Logging;
 using Persistence.Data;
 
@@ -81,22 +79,21 @@ namespace Persistence
             try
             {
                 var existing = (await GetAllAsync()).Where(p => p.UserId == userId).ToList();
-                var existingModules = existing.ToHashSet();
 
                 var ds = new AnbarProjectDataSet();
                 var permissionTable = ds.Permissions;
-
-                foreach (var permission in selectedModuleIds)
+                var toInsert = selectedModuleIds.Where(selected => existing.All(e => e.Id != selected.Id));
+                foreach (var permission in toInsert)
                 {
-                    if (!existingModules.Contains(permission))
-                    {
+               
                         var row = MapPermissionToRow(permission, permissionTable);
                         permissionTable.AddPermissionsRow(row);
-
-                    }
                 }
 
-                foreach (var permission in existingModules)
+                var toDelete = existing
+                    .Where(e => selectedModuleIds.All(selected => selected.Id == e.Id));
+
+                foreach (var permission in toDelete)
                 {
                     if (!selectedModuleIds.Contains(permission))
                     {

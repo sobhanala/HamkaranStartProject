@@ -25,33 +25,36 @@ namespace Domain.Repositorys
             params SqlParameter[] parameters) where T : DataSet, new()
         {
             using (var connection = _connectionFactory.CreateConnection())
-            using (var command = _connectionFactory.CreateCommand(commandText, type, connection))
             {
-                if (parameters != null)
+                await connection.OpenAsync();
+                using (var command = _connectionFactory.CreateCommand(commandText, type, connection))
                 {
-                    foreach (var param in parameters)
+                    if (parameters != null)
                     {
-                        command.Parameters.Add(param);
+                        foreach (var param in parameters)
+                        {
+                            command.Parameters.Add(param);
+                        }
                     }
-                }
 
-                using (var dataAdapter = _connectionFactory.CreateDataAdapter(command))
-                {
-                    var dataset = new T();
-
-                    await Task.Run(() =>
+                    using (var dataAdapter = _connectionFactory.CreateDataAdapter(command))
                     {
-                        if (!string.IsNullOrEmpty(tableName))
-                        {
-                            dataAdapter.Fill(dataset, tableName);
-                        }
-                        else
-                        {
-                            dataAdapter.Fill(dataset);
-                        }
-                    });
+                        var dataset = new T();
 
-                    return dataset;
+                        await Task.Run(() =>
+                        {
+                            if (!string.IsNullOrEmpty(tableName))
+                            {
+                                dataAdapter.Fill(dataset, tableName);
+                            }
+                            else
+                            {
+                                dataAdapter.Fill(dataset);
+                            }
+                        });
+
+                        return dataset;
+                    }
                 }
             }
         }
@@ -107,7 +110,6 @@ namespace Domain.Repositorys
             Dictionary<string, SqlCommand> commands = null) where T : DataTable
         {
             var connection =_connectionFactory.CreateConnection();
-            connection.Close();
             await connection.OpenAsync();
 
             var adapter = new SqlDataAdapter();
@@ -152,13 +154,16 @@ namespace Domain.Repositorys
             params SqlParameter[] parameters)
         {
             using (var connection = _connectionFactory.CreateConnection())
-            using (var command = _connectionFactory.CreateCommand(commandText, type, connection))
             {
-                if (parameters != null)
-                    foreach (var param in parameters)
-                        command.Parameters.Add(param);
+                await connection.OpenAsync();
+                using (var command = _connectionFactory.CreateCommand(commandText, type, connection))
+                {
+                    if (parameters != null)
+                        foreach (var param in parameters)
+                            command.Parameters.Add(param);
 
-                return await command.ExecuteNonQueryAsync();
+                    return await command.ExecuteNonQueryAsync();
+                }
             }
         }
 
