@@ -29,10 +29,10 @@ namespace Shell.forms
             {
                 if (ModuleManager.Modules == null)
                 {
-                    ModulesAndAction.Nodes.Add("Hi");
                     return;
                 }
 
+                lbl_Username.Text = Logeduser.Username;
                 var permissions = await _userService.ShowAllUserPermission(userId: Logeduser.Id);
                 var permittedModuleIds = permissions.Select(p => p.ModuleId).ToHashSet();
 
