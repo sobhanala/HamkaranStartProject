@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AnbarDomain.Tabels;
-using Domain.Attribute;
 
 namespace AnbarService
 {
 
     public interface IProductService
     {
-        Task SaveAllChanges(DataTable changesTable);
+        Task SaveAllChanges(AnbarDataSet.ProductsDataTable changesTable);
         Task<AnbarDataSet> GetDataSet();
-        //Task<AnbarDataSet.ProductsDataTable> SetProductValues(AnbarDataSet.ProductsDataTable changedTable);
+        Task<AnbarDataSet.ProductsDataTable> SetProductValues(AnbarDataSet.ProductsDataTable changedTable);
 
     }
 }

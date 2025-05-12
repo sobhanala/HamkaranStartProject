@@ -29,54 +29,6 @@ namespace AnbarForm.MainForm
 
         }
 
-        private async void Btn_save_all_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                dataGridView1.EndEdit();
-
-                var changedTable = AnbarDataSet1.Products.GetChanges();
-
-                if (changedTable == null || changedTable.Rows.Count == 0)
-                {
-                    MessageBox.Show("No changes to save.", "Information",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    return;
-                }
-
-
-                LogChanges();
-
-
-                await _productService.SaveAllChanges(changedTable);
-
-                AnbarDataSet1.AcceptChanges();
-
-
-                MessageBox.Show(" All Changes Saved.", "Information",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                LoadData();
-            }
-            catch (ValidationException ex)
-            {
-                MessageBox.Show(ex.UserFriendlyMessage, "Validation Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            catch (DatabaseException ex)
-            {
-                MessageBox.Show(ex.UserFriendlyMessage, "Database Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error saving changes: " + ex.Message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-
-        }
-
         private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
@@ -100,7 +52,6 @@ namespace AnbarForm.MainForm
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
         private void AddDataGridColumns()
         {
@@ -191,9 +142,9 @@ namespace AnbarForm.MainForm
 
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
             {
-                DataPropertyName = "ProductID",
-                HeaderText = "Product ID",
-                Name = "ProductID",
+                DataPropertyName = "ProductCode",
+                HeaderText = "Product Code",
+                Name = "ProductCode",
                 Width = 130,
                 ReadOnly = true
             });
@@ -218,7 +169,6 @@ namespace AnbarForm.MainForm
 
             dataGridView1.DataSource = AnbarDataSet1.Products;
         }
-
 
         private void LogChanges()
         {
@@ -262,5 +212,54 @@ namespace AnbarForm.MainForm
 
             }
         }
+
+        private async void Btn_save_all_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                dataGridView1.EndEdit();
+
+                var changedTable = (AnbarDataSet.ProductsDataTable)AnbarDataSet1.Products.GetChanges();
+
+                if (changedTable == null || changedTable.Rows.Count == 0)
+                {
+                    MessageBox.Show("No changes to save.", "Information",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+
+                LogChanges();
+
+                var changeDataTable = await _productService.SetProductValues(changedTable);
+                await _productService.SaveAllChanges(changeDataTable);
+
+                AnbarDataSet1.AcceptChanges();
+
+
+                MessageBox.Show(" All Changes Saved.", "Information",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                LoadData();
+            }
+            catch (ValidationException ex)
+            {
+                MessageBox.Show(ex.UserFriendlyMessage, "Validation Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (DatabaseException ex)
+            {
+                MessageBox.Show(ex.UserFriendlyMessage, "Database Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error saving changes: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+
+        }
+
     }
 }

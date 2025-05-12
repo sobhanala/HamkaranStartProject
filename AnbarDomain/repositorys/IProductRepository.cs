@@ -8,6 +8,7 @@ namespace AnbarDomain.repositorys
     {
         Task<AnbarDataSet> GetDataSetAsync();
         Task<int> SaveChangesFromDataTable(DataTable productTable);
+        Task<int> GetMaxProductCode();
 
     }
 }

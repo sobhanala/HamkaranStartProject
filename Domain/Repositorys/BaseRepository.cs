@@ -171,14 +171,17 @@ namespace Domain.Repositorys
             params SqlParameter[] parameters)
         {
             using (var connection = _connectionFactory.CreateConnection())
-            using (var command = _connectionFactory.CreateCommand(commandText, commandType, connection))
             {
-                if (parameters != null)
-                    foreach (var parameter in parameters)
-                        command.Parameters.Add(parameter);
+                await connection.OpenAsync();
+                using (var command = _connectionFactory.CreateCommand(commandText, commandType, connection))
+                {
+                    if (parameters != null)
+                        foreach (var parameter in parameters)
+                            command.Parameters.Add(parameter);
 
-                var result = await command.ExecuteScalarAsync();
-                return (T)Convert.ChangeType(result, typeof(T));
+                    var result = await command.ExecuteScalarAsync();
+                    return (T)Convert.ChangeType(result, typeof(T));
+                }
             }
         }
 

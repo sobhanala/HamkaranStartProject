@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
+﻿using System.Data;
 using System.Threading.Tasks;
 using AnbarDomain.repositorys;
 using AnbarDomain.Tabels;
@@ -22,7 +18,7 @@ namespace AnbarService
             _productRepository = productRepository;
         }
 
-        public async Task SaveAllChanges(DataTable changesTable)
+        public async Task SaveAllChanges(AnbarDataSet.ProductsDataTable changesTable)
         {
 
             await _productRepository.SaveChangesFromDataTable(changesTable);
@@ -32,6 +28,24 @@ namespace AnbarService
            return  await _productRepository.GetDataSetAsync();
         }
 
+        public async Task<AnbarDataSet.ProductsDataTable> SetProductValues(AnbarDataSet.ProductsDataTable changedTable)
+        {
 
+            var count = 1;
+            foreach (var row in changedTable)
+            {
+                if (row.RowState==DataRowState.Added)
+                {
+                    if (row.IsProductCodeNull())
+                    {
+                        var max = await _productRepository.GetMaxProductCode();
+                        row.ProductCode = (max + count).ToString("D6");
+                        count++;
+                    }
+                }
+            }
+
+            return changedTable;
+        }
     }
 }

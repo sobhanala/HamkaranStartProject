@@ -168,6 +168,13 @@ namespace AnbarPersitence
             }
 
         }
+        public async Task<int> GetMaxProductCode()
+        {
+            string query = "SELECT MAX(CAST(ProductCode AS INT)) FROM Products WHERE ISNUMERIC(ProductCode) = 1";
+
+            var result = await ExecuteScalarAsync<int>(query, CommandType.Text);
+            return result;
+        }
 
 
         protected override IEnumerable<Product> MapResultsToEntities(AnbarDataSet dataSet)

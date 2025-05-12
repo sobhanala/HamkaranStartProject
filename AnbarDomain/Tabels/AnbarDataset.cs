@@ -22,23 +22,8 @@ namespace AnbarDomain.Tabels
             {
                 if (e.Row is ProductsRow row)
                 {
-
                     if (row.IsCreatedAtNull())
                         row.CreatedAt = DateTime.Now;
-
-
-
-                    if (row.IsProductCodeNull() || string.IsNullOrWhiteSpace(row.ProductCode))
-                    {
-                        int maxCode = this.AsEnumerable()
-                            .Where(r => !r.IsProductCodeNull() && int.TryParse(r.ProductCode, out _))
-                            .Select(r => int.Parse(r.ProductCode))
-                            .DefaultIfEmpty(0)
-                            .Max();
-
-                        row.ProductCode = (maxCode + 1).ToString("D6");
-
-                    }
                 }
 
 
