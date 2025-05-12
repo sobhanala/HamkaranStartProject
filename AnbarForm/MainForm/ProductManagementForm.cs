@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Windows.Forms;
 using AnbarDomain.Products;
 using AnbarDomain.Tabels;
@@ -26,7 +27,19 @@ namespace AnbarForm.MainForm
 
         private void Btn_save_all_Click(object sender, EventArgs e)
         {
+            dataGridView1.EndEdit();
+            DataTable changedTable = AnbarDataSet1.Products.GetChanges();
 
+            if (changedTable == null || changedTable.Rows.Count == 0)
+            {
+                MessageBox.Show("No changes to save.", "Information",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+
+            MessageBox.Show("No changes to save.", "Information",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return;
         }
 
         private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -39,12 +52,9 @@ namespace AnbarForm.MainForm
             {
                 AnbarDataSet1.Products.Clear();
 
-                //AnbarDataSet1 = await _productService.GetProductDataSetAsync();
 
-                // Ensure DataGridView knows about data changes
                 AnbarDataSet1.Products.AcceptChanges();
 
-                // Rebind data source if needed
                 dataGridView1.DataSource = AnbarDataSet1.Products;
 
             }
@@ -94,11 +104,9 @@ namespace AnbarForm.MainForm
                 FlatStyle = FlatStyle.Flat
             };
 
-            // ReSharper disable once CoVariantArrayConversion
             unitColumn.Items.AddRange(Enum.GetNames(typeof(Unit))); 
             dataGridView1.Columns.Add(unitColumn);
 
-            // Cost Price
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "CostPrice",
@@ -108,7 +116,6 @@ namespace AnbarForm.MainForm
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "N2" }
             });
 
-            // Selling Price
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "SellingPrice",
@@ -118,7 +125,6 @@ namespace AnbarForm.MainForm
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "N2" }
             });
 
-            // Weight
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "Weight",
@@ -140,6 +146,15 @@ namespace AnbarForm.MainForm
                 Width = 130,
                 ReadOnly = true,
                 DefaultCellStyle = new DataGridViewCellStyle { Format = "yyyy-MM-dd HH:mm" }
+            });
+
+            dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "ProductID",
+                HeaderText = "Product ID",
+                Name = "ProductID",
+                Width = 130,
+                ReadOnly = true
             });
 
             dataGridView1.Columns.Add(new DataGridViewButtonColumn

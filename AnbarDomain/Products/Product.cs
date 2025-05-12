@@ -6,6 +6,7 @@ namespace AnbarDomain.Products
     public class Product : BaseEntity
     {
         public string Name { get; set; }
+        public string ProductCode { get; set; }
         public string Description { get; set; }
         public Unit UnitOfMeasure { get; set; }
         public decimal CostPrice { get; set; }

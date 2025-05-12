@@ -11,6 +11,6 @@ namespace AnbarDomain.repositorys
     public interface IPartyRepository : IGenericRepository<Party, int>
     {
         Task<int> SaveChangesFromDataTable(DataTable partiesTable);
-        Task<AnbarDataSet> GetPartyDataSetAsync();
+        Task<AnbarDataSet> GetDataSetAsync();
     }
 }

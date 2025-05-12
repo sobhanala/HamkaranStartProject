@@ -18,3 +18,10 @@
 
     }
 }
+
+namespace AnbarDomain.Tabels.AnbarDataSetTableAdapters {
+    
+    
+    public partial class ProductsTableAdapter {
+    }
+}

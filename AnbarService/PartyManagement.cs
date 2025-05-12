@@ -23,7 +23,7 @@ namespace AnbarService
 
         public async Task<AnbarDataSet> GetPartyDataSetAsync()
         {
-            return await _partyRepository.GetPartyDataSetAsync();
+            return await _partyRepository.GetDataSetAsync();
         }
 
         public async Task AddParty(Party party1)

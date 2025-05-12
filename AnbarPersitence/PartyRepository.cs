@@ -31,7 +31,7 @@ namespace AnbarPersitence
             _logger = logger;
         }
 
-        public async Task<AnbarDataSet> GetPartyDataSetAsync()
+        public override async Task<AnbarDataSet> GetDataSetAsync()
         {
             try
             {
