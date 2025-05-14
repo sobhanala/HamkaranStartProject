@@ -5,12 +5,12 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain.Attribute;
+using Domain.Data;
 using Domain.Exceptions;
 using Domain.Permissons;
 using Domain.Repositorys;
 using Domain.Users;
 using Microsoft.Extensions.Logging;
-using Persistence.Data;
 
 namespace Persistence
 {
@@ -22,42 +22,14 @@ namespace Persistence
 
 
         public UserRepository(DbConnectionFactory connectionFactory, ILogger<UserRepository> logger)
-            : base(connectionFactory, "Users", "Id", GetColumnNames(new AnbarProjectDataSet.UsersDataTable()))
+            : base(connectionFactory, "Users", "Id", GetColumnNames(new AnbarProjectDataSet.UsersDataTable()),logger)
         {
             _logger = logger;
         }
 
         #region User Operations
 
-        public override async Task<IEnumerable<User>> GetAllAsync()
-        {
-            try
-            {
-                return await base.GetAllAsync();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to get all users");
-                throw new DatabaseException("Failed to get users",
-                    "Error retrieving all users from database",
-                    ErrorCode.DataBaseError, ex);
-            }
-        }
 
-        public override async Task<User> GetByIdAsync(int id)
-        {
-            try
-            {
-                return await base.GetByIdAsync(id);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to get user by ID {UserId}", id);
-                throw new DatabaseException("Failed to get user",
-                    $"Error retrieving user with ID {id}",
-                    ErrorCode.DataBaseError, ex);
-            }
-        }
 
         public async Task<User> GetByUsernameAsync(string username)
         {
@@ -84,35 +56,6 @@ namespace Persistence
             }
         }
 
-        public override async Task<int> InsertAsync(User user)
-        {
-            try
-            {
-                return await base.InsertAsync(user);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to insert user {Username}", user.Username);
-                throw new DatabaseException("Failed to insert user",
-                    $"Error inserting user {user.Username}",
-                    ErrorCode.DataBaseError, ex);
-            }
-        }
-
-        public override async Task<int> UpdateAsync(User user, string key)
-        {
-            try
-            {
-                return await base.UpdateAsync(user, key);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Failed to update user {UserId}", user.Id);
-                throw new DatabaseException("Failed to update user",
-                    $"Error updating user with ID {user.Id}",
-                    ErrorCode.DataBaseError, ex);
-            }
-        }
 
         
 

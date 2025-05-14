@@ -10,7 +10,7 @@
 
 #pragma warning disable 1591
 
-namespace Persistence.Data {
+namespace Domain.Data {
     
     
     /// <summary>
@@ -1310,7 +1310,7 @@ namespace Persistence.Data {
         }
     }
 }
-namespace Persistence.Data.AnbarProjectDataSetTableAdapters {
+namespace Domain.Data.AnbarProjectDataSetTableAdapters {
     
     
     /// <summary>
@@ -1497,7 +1497,7 @@ SELECT Id, Username, IsActive, PasswordHash, Role, CreatedAt, LastLogin FROM Use
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::Persistence.Properties.Settings.Default.AnbarProjectConnectionString;
+            this._connection.ConnectionString = global::Domain.Properties.Settings.Default.AnbarProjectConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1968,7 +1968,7 @@ SELECT Id, UserId, ModuleId, Authority, CreatedAt FROM Permissions WHERE (Id = @
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlClient.SqlConnection();
-            this._connection.ConnectionString = global::Persistence.Properties.Settings.Default.AnbarProjectConnectionString;
+            this._connection.ConnectionString = global::Domain.Properties.Settings.Default.AnbarProjectConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

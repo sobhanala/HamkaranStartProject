@@ -22,6 +22,7 @@ namespace AnbarDomain.Tabels
             {
                 if (e.Row is ProductsRow row)
                 {
+
                     if (row.IsCreatedAtNull())
                         row.CreatedAt = DateTime.Now;
                 }

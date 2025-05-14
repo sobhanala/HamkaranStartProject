@@ -5,11 +5,11 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain.Attribute;
+using Domain.Data;
 using Domain.Exceptions;
 using Domain.Permissons;
 using Domain.Repositorys;
 using Microsoft.Extensions.Logging;
-using Persistence.Data;
 
 namespace Persistence
 {
@@ -22,7 +22,7 @@ namespace Persistence
 
 
         public PermissionRepository(DbConnectionFactory connectionFactory, ILogger<PermissionRepository> logger)
-            : base(connectionFactory, "Permissions", "Id", GetColumnNames(new AnbarProjectDataSet.PermissionsDataTable()))
+            : base(connectionFactory, "Permissions", "Id", GetColumnNames(new AnbarProjectDataSet.PermissionsDataTable()),logger)
         {
             _logger = logger;
         }
@@ -78,6 +78,8 @@ namespace Persistence
         {
             try
             {
+
+                //TODO  I think the permission is not init correctly
                 var existing = (await GetAllAsync()).Where(p => p.UserId == userId).ToList();
 
                 var ds = new AnbarProjectDataSet();
@@ -121,7 +123,7 @@ namespace Persistence
                 commands.Add("Insert", insert);
                 commands.Add("Delete", delete);
 
-                await ExecuteDataAdapterUpdateAsync(ds, "Permissions", commands);
+                await ExecuteDataAdapterUpdateAsyncOnDataset(ds, "Permissions", commands);
             }
             catch (Exception ex)
             {

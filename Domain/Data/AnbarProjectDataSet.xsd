@@ -4,7 +4,7 @@
     <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
       <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
         <Connections>
-          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="AnbarProjectConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="AnbarProjectConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Persistence.Properties.Settings.GlobalReference.Default.AnbarProjectConnectionString" Provider="System.Data.SqlClient" />
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="AnbarProjectConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="AnbarProjectConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Domain.Properties.Settings.GlobalReference.Default.AnbarProjectConnectionString" Provider="System.Data.SqlClient" />
         </Connections>
         <Tables>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="UsersTableAdapter" GeneratorDataComponentClassName="UsersTableAdapter" Name="Users" UserDataComponentName="UsersTableAdapter">

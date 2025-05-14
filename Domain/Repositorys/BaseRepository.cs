@@ -59,7 +59,7 @@ namespace Domain.Repositorys
             }
         }
 
-        protected async Task<int> ExecuteDataAdapterUpdateAsync<T>(
+        protected async Task<int> ExecuteDataAdapterUpdateAsyncOnDataset<T>(
             T dataSet,
             string tableName,
             Dictionary<string, SqlCommand> commands = null) where T : DataSet
@@ -207,7 +207,7 @@ namespace Domain.Repositorys
         {
             var enumerable = columns as string[] ?? columns.ToArray();
 
-            var columnList = enumerable.First() == null ? "*" : string.Join(", ", enumerable);
+            var columnList = enumerable.FirstOrDefault() == null ? "*" : string.Join(", ", enumerable);
 
             var query = $"SELECT {columnList} FROM {tableName}";
 

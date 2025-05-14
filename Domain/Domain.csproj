@@ -92,6 +92,14 @@
     <Compile Include="Attribute\ServiceAttribute.cs" />
     <Compile Include="Common\BaseEntity.cs" />
     <Compile Include="Common\Address.cs" />
+    <Compile Include="Data\AnbarProjectDataSet.cs">
+      <DependentUpon>AnbarProjectDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Data\AnbarProjectDataSet.Designer.cs">
+      <DependentUpon>AnbarProjectDataSet.xsd</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Exceptions\AuthenticationException.cs" />
     <Compile Include="Exceptions\BaseException.cs" />
     <Compile Include="Exceptions\DatabaseException.cs" />
@@ -104,6 +112,11 @@
     <Compile Include="Module\ModuleManager.cs" />
     <Compile Include="Permissons\Authority.cs" />
     <Compile Include="Permissons\Permission.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="Repositorys\BaseRepository.cs" />
     <Compile Include="Repositorys\IPermissionRepository.cs" />
     <Compile Include="Repositorys\TypedDataSetRepository.cs" />
@@ -117,7 +130,22 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Data\AnbarProjectDataSet.xsc">
+      <DependentUpon>AnbarProjectDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Data\AnbarProjectDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>AnbarProjectDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Data\AnbarProjectDataSet.xss">
+      <DependentUpon>AnbarProjectDataSet.xsd</DependentUpon>
+    </None>
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

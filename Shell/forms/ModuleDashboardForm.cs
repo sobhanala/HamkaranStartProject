@@ -47,7 +47,7 @@ namespace Shell.forms
 
                     foreach (var module in group)
                     {
-                        if (!permittedModuleIds.Contains(module.Id))
+                        if (!permittedModuleIds.Contains(module.Id) && Logeduser.Role!= Roles.Admin )
                             continue;
 
                         var childNode = new TreeNode

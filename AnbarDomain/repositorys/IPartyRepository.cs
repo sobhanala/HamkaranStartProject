@@ -8,9 +8,7 @@ using Domain.Users;
 
 namespace AnbarDomain.repositorys
 {
-    public interface IPartyRepository : IGenericRepository<Party, int>
+    public interface IPartyRepository : IGenericRepository<Party, int,AnbarDataSet>
     {
-        Task<int> SaveChangesFromDataTable(DataTable partiesTable);
-        Task<AnbarDataSet> GetDataSetAsync();
     }
 }

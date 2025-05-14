@@ -1,4 +1,4 @@
-﻿namespace Persistence.Data
+﻿namespace Domain.Data
 {
 
 
