@@ -7,11 +7,11 @@ namespace AnbarForm.Modules
 {
     public class WarehouseModuleEntry : IModule
     {
-        private readonly IPartyManagement _partyManagement;
+        private readonly IWarehouseReceipt _warehouseReceiptService;
 
-        public WarehouseModuleEntry(IPartyManagement partyManagement)
+        public WarehouseModuleEntry(IWarehouseReceipt warehouseReceiptService)
         {
-            _partyManagement = partyManagement;
+            _warehouseReceiptService = warehouseReceiptService;
         }
 
 
@@ -24,6 +24,6 @@ namespace AnbarForm.Modules
             
         }
 
-        public Form GetMainForm() => new MainForm.UserForm();
+        public Form GetMainForm() => new MainForm.WarehouseReceiptForm(_warehouseReceiptService);
     }
 }

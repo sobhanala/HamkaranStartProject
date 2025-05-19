@@ -81,6 +81,10 @@
     <Compile Include="UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AnbarDomain\AnbarDomain.csproj">
+      <Project>{B8E234E3-3DC3-4380-BEE3-FC58BBF34156}</Project>
+      <Name>AnbarDomain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{6DCCF26D-7707-4A86-9C79-CC525178518A}</Project>
       <Name>Domain</Name>

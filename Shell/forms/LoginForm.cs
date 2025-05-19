@@ -12,11 +12,14 @@ namespace Shell.forms
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IUserService _userService;
+        private readonly ISessionService _sessionService;
 
-        public LoginForm(IUserService userService, IServiceProvider serviceProvider)
+
+        public LoginForm(IUserService userService, IServiceProvider serviceProvider, ISessionService sessionService)
         {
             _userService = userService;
             _serviceProvider = serviceProvider;
+            _sessionService = sessionService;
             InitializeComponent();
         }
 
@@ -74,8 +77,8 @@ namespace Shell.forms
 
         private void SetupSession(User u)
         {
+            _sessionService.Initialize(u);
             var moduleForm = _serviceProvider.GetService<ModuleDashboardForm>();
-            moduleForm.Logeduser = u;
             moduleForm.Show();
         }
     }

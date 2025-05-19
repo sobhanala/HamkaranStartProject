@@ -9,6 +9,7 @@ using Domain.Data;
 using Domain.Exceptions;
 using Domain.Permissons;
 using Domain.Repositorys;
+using Domain.SharedSevices;
 using Microsoft.Extensions.Logging;
 
 namespace Persistence
@@ -18,13 +19,16 @@ namespace Persistence
         IPermissionRepository
     {
         private readonly ILogger<PermissionRepository> _logger;
+        private readonly ISessionService _sessionService;
 
 
 
-        public PermissionRepository(DbConnectionFactory connectionFactory, ILogger<PermissionRepository> logger)
-            : base(connectionFactory, "Permissions", "Id", GetColumnNames(new AnbarProjectDataSet.PermissionsDataTable()),logger)
+
+        public PermissionRepository(DbConnectionFactory connectionFactory, ILogger<PermissionRepository> logger, ISessionService sessionService)
+            : base(connectionFactory, "Permissions", "Id", GetColumnNames(new AnbarProjectDataSet.PermissionsDataTable()),logger,sessionService)
         {
             _logger = logger;
+            _sessionService = sessionService;
         }
 
 

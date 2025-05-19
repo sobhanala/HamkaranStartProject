@@ -13,7 +13,7 @@ namespace Domain.Repositorys
         Task<int> DeleteAsync(TKey id,string key="");
         Task<int> SaveChangesFromDataTable(DataTable productTable);
         Task<TDataset> GetDataSetAsync();
-
+        Task<int> SaveChangesFromDataSet(TDataset dataSet);
 
 
     }

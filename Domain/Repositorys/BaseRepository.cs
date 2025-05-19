@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain.SharedSevices;
 
 
 namespace Domain.Repositorys
@@ -12,10 +13,11 @@ namespace Domain.Repositorys
     {
         private readonly DbConnectionFactory _connectionFactory;
 
-        protected BaseRepository(DbConnectionFactory connectionFactory)
+        protected BaseRepository(DbConnectionFactory connectionFactory, ISessionService sessionService)
         {
             _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
         }
+
 
 
         protected async Task<T> ExecuteTypedDataSetAsync<T>(
@@ -180,6 +182,10 @@ namespace Domain.Repositorys
                             command.Parameters.Add(parameter);
 
                     var result = await command.ExecuteScalarAsync();
+                    if (result == DBNull.Value)
+                    {
+                        return default(T);
+                    }
                     return (T)Convert.ChangeType(result, typeof(T));
                 }
             }

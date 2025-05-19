@@ -4,7 +4,9 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain.Attribute;
 using Domain.Exceptions;
+using Domain.SharedSevices;
 using Microsoft.Extensions.Logging;
 
 namespace Domain.Repositorys
@@ -18,17 +20,47 @@ namespace Domain.Repositorys
         protected readonly string TableName;
         protected readonly string KeyColumn;
         protected readonly string[] TableColumns;
-
+        private readonly  ISessionService _sessionService;
         protected TypedDataSetRepository(
             DbConnectionFactory connectionFactory,
             string tableName,
             string keyColumn,
-            string[] tableColumns, ILogger<TypedDataSetRepository<TEntity, TKey, TDataSet>> logger) : base(connectionFactory)
+            string[] tableColumns, ILogger<TypedDataSetRepository<TEntity, TKey, TDataSet>> logger, ISessionService sessionService) : base(connectionFactory,sessionService)
         {
             TableName = tableName ?? throw new ArgumentNullException(nameof(tableName));
             KeyColumn = keyColumn ?? throw new ArgumentNullException(nameof(keyColumn));
             TableColumns = tableColumns ?? throw new ArgumentNullException(nameof(tableColumns));
             _logger = logger;
+            _sessionService = sessionService;
+        }
+
+
+        public virtual async Task<int> SaveChangesFromDataSet(TDataSet dataSet)
+        {
+            try
+            {
+                int totalChanges = 0;
+
+                foreach (DataTable table in dataSet.Tables)
+                {
+                    if (table.GetChanges() == null) continue;
+
+                    totalChanges += await SaveChangesFromDataTable(table);
+                }
+
+                if (totalChanges > 0)
+                {
+                    dataSet.AcceptChanges();
+                }
+
+                return totalChanges;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "SaveChangesFromDataSet failed for dataset {DataSetType}", typeof(TDataSet).Name);
+                throw new DatabaseException("SaveChangesFromDataSet failed",
+                    $"Error while saving dataset: {typeof(TDataSet).Name}", ErrorCode.DataBaseError, ex);
+            }
         }
 
 
@@ -37,6 +69,8 @@ namespace Domain.Repositorys
             try
             {
                 var commands = new Dictionary<string, SqlCommand>();
+                AuditiseTable(table);
+
 
                 var insertCommand = new SqlCommand(
                     GenerateInsertQuery(TableName, TableColumns.Where(c => c != KeyColumn).ToList()));
@@ -62,6 +96,19 @@ namespace Domain.Repositorys
                 _logger.LogError(ex, "SaveChangesFromDataTable failed for table {TableName}", TableName);
                 throw new DatabaseException("SaveChangesFromDataTable failed",
                     $"Error while saving data for table: {TableName}", ErrorCode.DataBaseError, ex);
+            }
+        }
+
+        private void AuditiseTable(DataTable table)
+        {
+            bool isAuditable = typeof(IAuditable).IsAssignableFrom(table.GetType());
+
+            if (isAuditable)
+            {
+                foreach (DataRow row in table.Rows)
+                {
+                    SetAuditFields(row); 
+                }
             }
         }
 
@@ -198,6 +245,8 @@ namespace Domain.Repositorys
             if (type == typeof(bool)) return SqlDbType.Bit;
             if (type == typeof(byte[])) return SqlDbType.VarBinary;
             if (type == typeof(Guid)) return SqlDbType.UniqueIdentifier;
+            if (type == typeof(byte)) return SqlDbType.TinyInt;         
+
 
             throw new NotSupportedException($"Unsupported data type: {type.FullName}");
         }
@@ -212,6 +261,26 @@ namespace Domain.Repositorys
 
                 var param = command.Parameters.Add($"@{column.ColumnName}", GetSqlDbType(column.DataType), 0, column.ColumnName);
                 param.IsNullable = column.AllowDBNull;
+            }
+        }
+
+        private void SetAuditFields(DataRow row)
+        {
+            if (row.RowState == DataRowState.Added)
+            {
+                if (row.Table.Columns.Contains("CreatedAt") && row["CreatedAt"] == DBNull.Value)
+                    row["CreatedAt"] = DateTime.Now;
+
+                if (row.Table.Columns.Contains("CreatedBy") && row["CreatedBy"] == DBNull.Value)
+                    row["CreatedBy"] = _sessionService.CurrentUser.Id;
+            }
+            else if (row.RowState == DataRowState.Modified) 
+            {
+                if (row.Table.Columns.Contains("UpdatedAt"))
+                    row["UpdatedAt"] = DateTime.Now;
+
+                if (row.Table.Columns.Contains("UpdatedBy"))
+                    row["UpdatedBy"] = _sessionService.CurrentUser.Id; 
             }
         }
 

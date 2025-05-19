@@ -9,6 +9,7 @@ using Domain.Data;
 using Domain.Exceptions;
 using Domain.Permissons;
 using Domain.Repositorys;
+using Domain.SharedSevices;
 using Domain.Users;
 using Microsoft.Extensions.Logging;
 
@@ -19,12 +20,14 @@ namespace Persistence
     {
         private readonly ILogger<UserRepository> _logger;
 
+        private readonly ISessionService _sessionService;
 
 
-        public UserRepository(DbConnectionFactory connectionFactory, ILogger<UserRepository> logger)
-            : base(connectionFactory, "Users", "Id", GetColumnNames(new AnbarProjectDataSet.UsersDataTable()),logger)
+        public UserRepository(DbConnectionFactory connectionFactory, ILogger<UserRepository> logger, ISessionService sessionService)
+            : base(connectionFactory, "Users", "Id", GetColumnNames(new AnbarProjectDataSet.UsersDataTable()),logger,sessionService)
         {
             _logger = logger;
+            _sessionService = sessionService;
         }
 
         #region User Operations

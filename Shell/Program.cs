@@ -2,6 +2,7 @@
 using Application;
 using Domain.Module;
 using Domain.Repositorys;
+using Domain.SharedSevices;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Shell.DI;
@@ -46,6 +47,7 @@ namespace Shell
 
             
             services.AddSingleton(new AppSettings());
+            services.AddSingleton<ISessionService, SessionService>();
 
             services.AddSingleton(provider => new DbConnectionFactory(provider.GetRequiredService<AppSettings>().ConnectionString));
 

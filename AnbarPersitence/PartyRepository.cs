@@ -11,6 +11,7 @@ using Domain.Attribute;
 using Domain.Common;
 using Domain.Exceptions;
 using Domain.Repositorys;
+using Domain.SharedSevices;
 using Microsoft.Extensions.Logging;
 
 
@@ -22,11 +23,13 @@ namespace AnbarPersitence
     {
 
 
+        private readonly ISessionService _sessionService;
 
 
-        public PartyRepository(DbConnectionFactory connectionFactory, ILogger<PartyRepository> logger)
-            : base(connectionFactory, "Parties", "Id", GetColumnNames(new AnbarDataSet.PartiesDataTable()),logger)
+        public PartyRepository(DbConnectionFactory connectionFactory, ILogger<PartyRepository> logger, ISessionService sessionService)
+            : base(connectionFactory, "Parties", "Id", GetColumnNames(new AnbarDataSet.PartiesDataTable()),logger,sessionService)
         {
+            _sessionService = sessionService;
         }
 
  

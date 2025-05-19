@@ -45,9 +45,9 @@
   <ItemGroup>
     <Compile Include="Inventory\Inventory.cs" />
     <Compile Include="Orders\Status.cs" />
-    <Compile Include="Orders\OrderType.cs" />
-    <Compile Include="Orders\Order.cs" />
-    <Compile Include="Orders\OrderItems.cs" />
+    <Compile Include="Orders\ReciteType.cs" />
+    <Compile Include="Orders\Receipt.cs" />
+    <Compile Include="Orders\ReceiptItems.cs" />
     <Compile Include="Partys\PartyType.cs" />
     <Compile Include="Partys\Party.cs" />
     <Compile Include="Products\Product.cs" />
@@ -60,6 +60,7 @@
     </Compile>
     <Compile Include="repositorys\IPartyRepository.cs" />
     <Compile Include="repositorys\IProductRepository.cs" />
+    <Compile Include="repositorys\IWarehouseReceiptRepository.cs" />
     <Compile Include="Shipping\StockMovement.cs" />
     <Compile Include="Shipping\MovementType.cs" />
     <Compile Include="Tabels\AnbarDataset.cs">

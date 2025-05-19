@@ -88,6 +88,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attribute\AuditableDataTable.cs" />
+    <Compile Include="Attribute\AuditableDataRow.cs" />
+    <Compile Include="Attribute\IAuditable.cs" />
     <Compile Include="Attribute\RepositoryAttribute.cs" />
     <Compile Include="Attribute\ServiceAttribute.cs" />
     <Compile Include="Common\BaseEntity.cs" />
@@ -123,6 +126,7 @@
     <Compile Include="Repositorys\DbConnectionFactory.cs" />
     <Compile Include="Repositorys\IGenericRepository.cs" />
     <Compile Include="Repositorys\IUserRepository.cs" />
+    <Compile Include="SharedSevices\ISessionService.cs" />
     <Compile Include="SharedSevices\IUserService.cs" />
     <Compile Include="Users\Roles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

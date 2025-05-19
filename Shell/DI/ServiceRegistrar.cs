@@ -61,7 +61,7 @@ namespace Shell.DI
         public static void RegisterModules(IServiceCollection services)
         {
             var moduleTypes = LoadedAssemblies
-                .SelectMany(a => a.GetTypes())
+                .SelectMany(SafeGetTypes)
                 .Where(t => typeof(IModule).IsAssignableFrom(t) &&
                             !t.IsInterface &&
                             !t.IsAbstract);

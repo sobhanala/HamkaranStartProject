@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
+using Domain.Attribute;
 
 namespace AnbarDomain.Tabels
 {
@@ -8,7 +9,15 @@ namespace AnbarDomain.Tabels
 
     partial class AnbarDataSet
     {
-        partial class ProductsDataTable
+        partial class WarehouseReceiptsDataTable
+        {
+        }
+
+        partial class WarehousesDataTable
+        {
+        }
+
+        partial class ProductsDataTable : IAuditable
         {
             public override void EndInit()
             {
@@ -20,19 +29,22 @@ namespace AnbarDomain.Tabels
             //Important 
             private void ProductsDataTable_TableNewRow(object sender, DataTableNewRowEventArgs e)
             {
-                if (e.Row is ProductsRow row)
-                {
+                //if (e.Row is ProductsRow row)
+                //{
 
-                    if (row.IsCreatedAtNull())
-                        row.CreatedAt = DateTime.Now;
-                }
+                //    if (row.IsCreatedAtNull())
+                //        row.CreatedAt = DateTime.Now;
+                //}
 
 
 
             }
         }
-
-
+        partial class WarehouseReceiptsDataTable:IAuditable
+        {
+            
+        }
+        
 
     }
 }

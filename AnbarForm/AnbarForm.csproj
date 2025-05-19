@@ -39,6 +39,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Extensions.Logging.Abstractions.9.0.4\lib\net462\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VSDesigner, Version=16.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\Common7\IDE\Microsoft.VSDesigner.DLL</HintPath>
+    </Reference>
     <Reference Include="Persistence, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dlls\Persistence.dll</HintPath>
@@ -55,6 +61,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MainForm\AddReceiptForm .cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm\AddReceiptForm .Designer.cs">
+      <DependentUpon>AddReceiptForm .cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm\WarehouseReceiptForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm\WarehouseReceiptForm.Designer.cs">
+      <DependentUpon>WarehouseReceiptForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm\ProductManagementForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,12 +93,6 @@
     </Compile>
     <Compile Include="Modules\ProductModule.cs" />
     <Compile Include="Modules\PartyModule.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Modules\WarehouseModuleEntry.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -105,6 +117,9 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="MainForm\AddReceiptForm .resx">
+      <DependentUpon>AddReceiptForm .cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm\ProductManagementForm.resx">
       <DependentUpon>ProductManagementForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -115,10 +130,15 @@
     <EmbeddedResource Include="MainForm\WarehouseMainForm.resx">
       <DependentUpon>WarehouseMainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    <EmbeddedResource Include="MainForm\WarehouseReceiptForm.resx">
+      <DependentUpon>WarehouseReceiptForm.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -77,6 +77,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="WarehouseReceiptRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AnbarDomain\AnbarDomain.csproj">

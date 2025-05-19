@@ -13,11 +13,12 @@ namespace Shell.forms
     public partial class ModuleDashboardForm : Form
     {
         private readonly IUserService _userService;
-        public User Logeduser { get; set; }
+        private readonly ISessionService _sessionService;
 
-        public ModuleDashboardForm( IUserService userService)
+        public ModuleDashboardForm( IUserService userService, ISessionService sessionService)
         {
             _userService = userService;
+            _sessionService = sessionService;
             InitializeComponent();
             ModulesAndAction.NodeMouseClick += OnModuleNodeClicked;
 
@@ -32,8 +33,8 @@ namespace Shell.forms
                     return;
                 }
 
-                lbl_Username.Text = Logeduser.Username;
-                var permissions = await _userService.ShowAllUserPermission(userId: Logeduser.Id);
+                lbl_Username.Text = _sessionService.CurrentUser.Username;
+                var permissions = await _userService.ShowAllUserPermission(userId: _sessionService.CurrentUser.Id);
                 var permittedModuleIds = permissions.Select(p => p.ModuleId).ToHashSet();
 
                 var groupedModules = ModuleManager.Modules.GroupBy(m => m.Name);
@@ -47,7 +48,7 @@ namespace Shell.forms
 
                     foreach (var module in group)
                     {
-                        if (!permittedModuleIds.Contains(module.Id) && Logeduser.Role!= Roles.Admin )
+                        if (!permittedModuleIds.Contains(module.Id) && _sessionService.CurrentUser.Role!= Roles.Admin )
                             continue;
 
                         var childNode = new TreeNode
