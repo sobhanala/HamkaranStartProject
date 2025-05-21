@@ -13,11 +13,13 @@ namespace AnbarForm.MainForm
         public decimal  Disount;
         public decimal TransportCost;
         public byte Type;
+        public DateTime Date;
 
         public AddReceiptForm(AnbarDataSet.WarehousesDataTable warehouses, AnbarDataSet.PartiesDataTable parties)
         {
             InitializeComponent();
             ConfigureComboBox(warehouses,parties);
+            ConfigureDate();
 
         }
 
@@ -40,6 +42,21 @@ namespace AnbarForm.MainForm
                 return;
             }
 
+            Date = dateTime_ReciteDate.Value.Date;
+
+
+            if (Date > DateTime.Today)
+            {
+                MessageBox.Show("The selected date cannot be in the future.");
+                return;
+            }
+
+            if (ReciteType.SelectedValue is byte type)
+            {
+                Type = type;
+            }
+
+
             DialogResult = DialogResult.OK;
 
 
@@ -61,10 +78,17 @@ namespace AnbarForm.MainForm
 
             var receiptTypes = Enum.GetValues(typeof(ReciteType)).Cast<ReciteType>().Select
                (u => new { Name = u.ToString(),Value=(byte)u}).ToList();
+
             ReciteType.DisplayMember = "Name";
             ReciteType.ValueMember = "Value";
             ReciteType.DataSource = receiptTypes;
 
+
+        }
+
+        private void ConfigureDate()
+        {
+            dateTime_ReciteDate.Value = DateTime.Today;
 
         }
 

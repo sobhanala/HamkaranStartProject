@@ -60,6 +60,7 @@
     </Compile>
     <Compile Include="repositorys\IPartyRepository.cs" />
     <Compile Include="repositorys\IProductRepository.cs" />
+    <Compile Include="repositorys\IWarehouseReceiptItemRepository.cs" />
     <Compile Include="repositorys\IWarehouseReceiptRepository.cs" />
     <Compile Include="Shipping\StockMovement.cs" />
     <Compile Include="Shipping\MovementType.cs" />

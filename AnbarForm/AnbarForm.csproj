@@ -67,6 +67,12 @@
     <Compile Include="MainForm\AddReceiptForm .Designer.cs">
       <DependentUpon>AddReceiptForm .cs</DependentUpon>
     </Compile>
+    <Compile Include="MainForm\EditReciteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm\EditReciteForm.Designer.cs">
+      <DependentUpon>EditReciteForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm\WarehouseReceiptForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,6 +125,9 @@
   <ItemGroup>
     <EmbeddedResource Include="MainForm\AddReceiptForm .resx">
       <DependentUpon>AddReceiptForm .cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm\EditReciteForm.resx">
+      <DependentUpon>EditReciteForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm\ProductManagementForm.resx">
       <DependentUpon>ProductManagementForm.cs</DependentUpon>

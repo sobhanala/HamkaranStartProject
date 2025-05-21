@@ -12,6 +12,6 @@ namespace Domain.SharedSevices
         Task<List<User>> GetAllUsers();
         Task AddPermissionToUser(List<int> moduleId, int useId);
         Task<List<Permission>> ShowAllUserPermission(int userId);
-
+        Task<User> GetUserById(int userId);
     }
 }

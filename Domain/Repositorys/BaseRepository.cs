@@ -19,6 +19,27 @@ namespace Domain.Repositorys
         }
 
 
+        public  void MarkReadOnlyColumnsFromSchema(SqlConnection sqlConnection,string tableName, DataTable dataTable)
+        {
+            
+                using (var command = new SqlCommand($"SELECT * FROM {tableName} WHERE 1 = 0", sqlConnection))
+                {
+                    using (var adapter = new SqlDataAdapter(command))
+                    {
+                        var schemaTable = new DataTable();
+                        adapter.FillSchema(schemaTable, SchemaType.Source);
+
+                        foreach (DataColumn schemaColumn in schemaTable.Columns)
+                        {
+                            var originalColumn = dataTable.Columns[schemaColumn.ColumnName];
+                            if (originalColumn != null && schemaColumn.ReadOnly)
+                            {
+                                originalColumn.ReadOnly = true;
+                            }
+                        }
+                    }
+                }
+        }
 
         protected async Task<T> ExecuteTypedDataSetAsync<T>(
             string commandText,
@@ -115,6 +136,7 @@ namespace Domain.Repositorys
             await connection.OpenAsync();
 
             var adapter = new SqlDataAdapter();
+            var builder = new SqlCommandBuilder(adapter);
 
             try
             {
@@ -138,8 +160,15 @@ namespace Domain.Repositorys
                         adapter.DeleteCommand = deleteCommand;
                     }
                 }
+                MarkReadOnlyColumnsFromSchema(connection, dataTable.TableName, dataTable);
 
                 return adapter.Update(dataTable);
+            }
+            catch (Exception ex)
+            {
+
+                Console.Error.WriteLine($"Error updating DataTable: {ex.Message}");
+                throw;
             }
             finally
             {

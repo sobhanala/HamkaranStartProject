@@ -73,16 +73,16 @@ namespace Domain.Repositorys
 
 
                 var insertCommand = new SqlCommand(
-                    GenerateInsertQuery(TableName, TableColumns.Where(c => c != KeyColumn).ToList()));
+                    GenerateInsertQuery(table.TableName, GetColumnNames(table).Where(c => c != KeyColumn).ToList()));
                 AddParameters(insertCommand, table, exclude: new[] { KeyColumn });
 
                 var updateCommand = new SqlCommand(
-                    GenerateUpdateQuery(TableName, TableColumns, KeyColumn));
+                    GenerateUpdateQuery(table.TableName, TableColumns, KeyColumn));
                 AddParameters(updateCommand, table);
                 updateCommand.Parameters.Add($"@{KeyColumn}", GetSqlDbType(table.Columns[KeyColumn].DataType), 0, KeyColumn);
 
                 var deleteCommand = new SqlCommand(
-                    GenerateDeleteQuery(TableName, KeyColumn));
+                    GenerateDeleteQuery(table.TableName, KeyColumn));
                 deleteCommand.Parameters.Add($"@{KeyColumn}", GetSqlDbType(table.Columns[KeyColumn].DataType), 0, KeyColumn);
 
                 commands.Add("Insert", insertCommand);
@@ -93,9 +93,9 @@ namespace Domain.Repositorys
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "SaveChangesFromDataTable failed for table {TableName}", TableName);
+                _logger.LogError(ex, "SaveChangesFromDataTable failed for table {table.TableName}", table.TableName);
                 throw new DatabaseException("SaveChangesFromDataTable failed",
-                    $"Error while saving data for table: {TableName}", ErrorCode.DataBaseError, ex);
+                    $"Error while saving data for table: {table.TableName}", ErrorCode.DataBaseError, ex);
             }
         }
 

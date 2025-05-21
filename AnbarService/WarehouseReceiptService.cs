@@ -21,7 +21,7 @@ namespace AnbarService
             _receiptRepository = receiptRepository;
         }
 
-        public async  Task<string> GenerateNewReceiptNumber()
+        private async  Task<string> GenerateNewReceiptNumber()
         {
             var recitenum=await _receiptRepository.GetNextReceiptNumberAsync();
             return recitenum;
@@ -60,7 +60,7 @@ namespace AnbarService
             await _receiptRepository.SaveChangesFromDataSet(dataSet);
         }
 
-        public async Task<DataRow> CreateWarehouseReceiptAsync(AnbarDataSet dataset, int warehouseId, int partyId, byte type)
+        public async Task<DataRow> CreateWarehouseReceiptAsync(AnbarDataSet dataset, int warehouseId, int partyId, byte type,DateTime date)
         {
 
             var newRow = dataset.WarehouseReceipts.NewWarehouseReceiptsRow();
@@ -68,12 +68,28 @@ namespace AnbarService
             newRow.PartyId = partyId;
             newRow.ReceiptNumber = await GenerateNewReceiptNumber();
             newRow.ReceiptStatus = type;
+            newRow.ReceiptDate = date;
 
             dataset.WarehouseReceipts.AddWarehouseReceiptsRow(newRow);
 
             await SaveChangesAsync(dataset);
 
             return newRow;
+        }
+
+        public async Task SaveReceiptItemsAndUpdateEwiAsync(AnbarDataSet dataset, int receiptId)
+        {
+            var receipt = dataset.WarehouseReceipts.FindById(receiptId);
+            if (receipt == null)
+                throw new Exception("Receipt not found.");
+
+            foreach (var item in receipt.GetWarehouseReceiptItemsRows())
+            {
+                if (item.Quantity <= 0)
+                    throw new Exception("Quantity must be greater than zero.");
+            }
+
+            await SaveChangesAsync(dataset);
         }
 
     }

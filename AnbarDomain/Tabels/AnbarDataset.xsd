@@ -585,6 +585,28 @@ SELECT Id, ProductId, WarehouseId, Quantity, MovementType, FromLocation, ToLocat
             </Mappings>
             <Sources />
           </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="WarehouseReceiptItemsWithProductViewTableAdapter" GeneratorDataComponentClassName="WarehouseReceiptItemsWithProductViewTableAdapter" Name="WarehouseReceiptItemsWithProductView" UserDataComponentName="WarehouseReceiptItemsWithProductViewTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="AnbarProjectConnectionString (Settings)" DbObjectName="AnbarProject.dbo.WarehouseReceiptItemsWithProductView" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT Id, ReceiptId, ProductId, ProductName, ProductCode, Quantity, UnitPrice FROM dbo.WarehouseReceiptItemsWithProductView</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Id" DataSetColumn="Id" />
+              <Mapping SourceColumn="ReceiptId" DataSetColumn="ReceiptId" />
+              <Mapping SourceColumn="ProductId" DataSetColumn="ProductId" />
+              <Mapping SourceColumn="ProductName" DataSetColumn="ProductName" />
+              <Mapping SourceColumn="ProductCode" DataSetColumn="ProductCode" />
+              <Mapping SourceColumn="Quantity" DataSetColumn="Quantity" />
+              <Mapping SourceColumn="UnitPrice" DataSetColumn="UnitPrice" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
         </Tables>
         <Sources />
       </DataSource>
@@ -793,6 +815,31 @@ SELECT Id, ProductId, WarehouseId, Quantity, MovementType, FromLocation, ToLocat
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="WarehouseReceiptItemsWithProductView" msprop:Generator_TableClassName="WarehouseReceiptItemsWithProductViewDataTable" msprop:Generator_TableVarName="tableWarehouseReceiptItemsWithProductView" msprop:Generator_TablePropName="WarehouseReceiptItemsWithProductView" msprop:Generator_RowDeletingName="WarehouseReceiptItemsWithProductViewRowDeleting" msprop:Generator_RowChangingName="WarehouseReceiptItemsWithProductViewRowChanging" msprop:Generator_RowEvHandlerName="WarehouseReceiptItemsWithProductViewRowChangeEventHandler" msprop:Generator_RowDeletedName="WarehouseReceiptItemsWithProductViewRowDeleted" msprop:Generator_UserTableName="WarehouseReceiptItemsWithProductView" msprop:Generator_RowChangedName="WarehouseReceiptItemsWithProductViewRowChanged" msprop:Generator_RowEvArgName="WarehouseReceiptItemsWithProductViewRowChangeEvent" msprop:Generator_RowClassName="WarehouseReceiptItemsWithProductViewRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Id" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_UserColumnName="Id" type="xs:int" />
+              <xs:element name="ReceiptId" msprop:Generator_ColumnVarNameInTable="columnReceiptId" msprop:Generator_ColumnPropNameInRow="ReceiptId" msprop:Generator_ColumnPropNameInTable="ReceiptIdColumn" msprop:Generator_UserColumnName="ReceiptId" type="xs:int" minOccurs="0" />
+              <xs:element name="ProductId" msprop:Generator_ColumnVarNameInTable="columnProductId" msprop:Generator_ColumnPropNameInRow="ProductId" msprop:Generator_ColumnPropNameInTable="ProductIdColumn" msprop:Generator_UserColumnName="ProductId" type="xs:int" minOccurs="0" />
+              <xs:element name="ProductName" msprop:Generator_ColumnVarNameInTable="columnProductName" msprop:Generator_ColumnPropNameInRow="ProductName" msprop:Generator_ColumnPropNameInTable="ProductNameColumn" msprop:Generator_UserColumnName="ProductName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ProductCode" msprop:Generator_ColumnVarNameInTable="columnProductCode" msprop:Generator_ColumnPropNameInRow="ProductCode" msprop:Generator_ColumnPropNameInTable="ProductCodeColumn" msprop:Generator_UserColumnName="ProductCode" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Quantity" msprop:Generator_ColumnVarNameInTable="columnQuantity" msprop:Generator_ColumnPropNameInRow="Quantity" msprop:Generator_ColumnPropNameInTable="QuantityColumn" msprop:Generator_UserColumnName="Quantity" type="xs:int" minOccurs="0" />
+              <xs:element name="UnitPrice" msprop:Generator_ColumnVarNameInTable="columnUnitPrice" msprop:Generator_ColumnPropNameInRow="UnitPrice" msprop:Generator_ColumnPropNameInTable="UnitPriceColumn" msprop:Generator_UserColumnName="UnitPrice" type="xs:decimal" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
     <xs:unique name="Constraint1" msdata:PrimaryKey="true">
@@ -817,6 +864,10 @@ SELECT Id, ProductId, WarehouseId, Quantity, MovementType, FromLocation, ToLocat
     </xs:unique>
     <xs:unique name="StockMovements_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
       <xs:selector xpath=".//mstns:StockMovements" />
+      <xs:field xpath="mstns:Id" />
+    </xs:unique>
+    <xs:unique name="WarehouseReceiptItemsWithProductView_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:WarehouseReceiptItemsWithProductView" />
       <xs:field xpath="mstns:Id" />
     </xs:unique>
   </xs:element>

@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="WarehouseReceiptItemRepository.cs" />
     <Compile Include="ProductRepository.cs" />
     <Compile Include="PartyRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

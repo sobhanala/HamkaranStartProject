@@ -81,5 +81,17 @@ namespace AnbarService
             }
         }
 
+        public async Task<Party> GetPartyById(int id)
+        {
+            try
+            {
+               return await _partyRepository.GetByIdAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw new DatabaseException(ex.Message, "the user cant be get", ErrorCode.Internal);
+            }
+        }
+
     }
 }

@@ -34,6 +34,7 @@
             this.tb_TransportCost = new System.Windows.Forms.TextBox();
             this.tb_Discount = new System.Windows.Forms.TextBox();
             this.ReciteType = new System.Windows.Forms.ComboBox();
+            this.dateTime_ReciteDate = new System.Windows.Forms.DateTimePicker();
             this.SuspendLayout();
             // 
             // cmbParty
@@ -56,7 +57,7 @@
             // 
             // btn_ok
             // 
-            this.btn_ok.Location = new System.Drawing.Point(573, 12);
+            this.btn_ok.Location = new System.Drawing.Point(812, 11);
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new System.Drawing.Size(142, 65);
             this.btn_ok.TabIndex = 2;
@@ -94,11 +95,19 @@
             this.ReciteType.TabIndex = 5;
             this.ReciteType.Text = "ReciteType ";
             // 
+            // dateTime_ReciteDate
+            // 
+            this.dateTime_ReciteDate.Location = new System.Drawing.Point(573, 36);
+            this.dateTime_ReciteDate.Name = "dateTime_ReciteDate";
+            this.dateTime_ReciteDate.Size = new System.Drawing.Size(200, 20);
+            this.dateTime_ReciteDate.TabIndex = 6;
+            // 
             // AddReceiptForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(727, 82);
+            this.ClientSize = new System.Drawing.Size(1009, 82);
+            this.Controls.Add(this.dateTime_ReciteDate);
             this.Controls.Add(this.ReciteType);
             this.Controls.Add(this.tb_Discount);
             this.Controls.Add(this.tb_TransportCost);
@@ -121,5 +130,6 @@
         private System.Windows.Forms.TextBox tb_TransportCost;
         private System.Windows.Forms.TextBox tb_Discount;
         private System.Windows.Forms.ComboBox ReciteType;
+        private System.Windows.Forms.DateTimePicker dateTime_ReciteDate;
     }
 }

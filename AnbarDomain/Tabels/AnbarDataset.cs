@@ -9,6 +9,19 @@ namespace AnbarDomain.Tabels
 
     partial class AnbarDataSet
     {
+        partial class WarehouseReceiptItemsWithProductViewDataTable
+        {
+            public void MarkViewColumnsAsReadOnly()
+            {
+                this.ProductCodeColumn.ReadOnly = true;
+                this.ProductCodeColumn.ExtendedProperties.Add("IsViewColumn", true);
+
+
+                this.ProductNameColumn.ReadOnly = true;
+                this.ProductNameColumn.ExtendedProperties.Add("IsViewColumn", true);
+            }
+        }
+
         partial class WarehouseReceiptsDataTable
         {
         }
@@ -40,11 +53,11 @@ namespace AnbarDomain.Tabels
 
             }
         }
-        partial class WarehouseReceiptsDataTable:IAuditable
+        partial class WarehouseReceiptsDataTable : IAuditable
         {
-            
+
         }
-        
+
 
     }
 }

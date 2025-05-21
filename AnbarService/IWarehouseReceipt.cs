@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Threading.Tasks;
 using AnbarDomain.Tabels;
 
@@ -9,7 +10,7 @@ namespace AnbarService
         Task<AnbarDataSet> GetFullDatasetAsync();
         Task<AnbarDataSet> GetReceiptWithItemsAsync(int receiptId);
         Task SaveChangesAsync(AnbarDataSet dataset);
-        Task<string> GenerateNewReceiptNumber();
-        Task<DataRow> CreateWarehouseReceiptAsync(AnbarDataSet dataset, int warehouseId, int partyId, byte type);
+        Task<DataRow> CreateWarehouseReceiptAsync(AnbarDataSet dataset, int warehouseId, int partyId, byte type,DateTime recitedDateTime);
+        Task SaveReceiptItemsAndUpdateEwiAsync(AnbarDataSet dataset, int receiptId);
     }
 }

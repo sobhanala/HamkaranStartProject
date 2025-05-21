@@ -18,7 +18,7 @@ namespace AnbarService
 
         Task AddParty(Party party);
         Task SaveAllChanges(DataTable partiesTable);
-
+        Task<Party> GetPartyById(int id);
 
     }
 }

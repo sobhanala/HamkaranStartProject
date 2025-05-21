@@ -100,5 +100,10 @@ namespace Application
             return permissinons.ToList();
         }
 
+        public async Task<User> GetUserById(int userId)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            return user;
+        }
     }
 }
