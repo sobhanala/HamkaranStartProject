@@ -279,6 +279,58 @@ namespace Domain.Repositorys
             return $"DELETE FROM {tableName} WHERE {keyColumn} = @{keyColumn}";
         }
 
+        protected SqlCommand BuildUpdateCommand(string tableName, DataTable table, string keyColumn)
+        {
+            var editableColumns = table.Columns
+                .Cast<DataColumn>()
+                .Where(col =>
+                    !col.ReadOnly &&
+                    !(col.ExtendedProperties["IsViewColumn"] is bool isView && isView))
+                .Select(col => col.ColumnName)
+                .ToList();
+
+            var query = GenerateUpdateQuery(tableName, editableColumns, keyColumn);
+
+            var command = new SqlCommand(query);
+
+            foreach (var column in editableColumns)
+            {
+                command.Parameters.Add(new SqlParameter($"@{column}", table.Columns[column].DataType)
+                {
+                    SourceColumn = column,
+                    SourceVersion = DataRowVersion.Current
+                });
+            }
+
+            return command;
+        }
+        protected SqlCommand BuildInsertCommand(string tableName, DataTable table,string KeyColumn)
+        {
+            var editableColumns = table.Columns
+                .Cast<DataColumn>()
+                .Where(col =>
+                    !col.ReadOnly &&
+                    !(col.ExtendedProperties["IsViewColumn"] is bool isView && isView))
+                .Select(col => col.ColumnName)
+                .ToList();
+
+            var query = GenerateInsertQuery(tableName, editableColumns.Where(c => c!=KeyColumn));
+
+            var command = new SqlCommand(query);
+
+            foreach (var column in editableColumns)
+            {
+                command.Parameters.Add(new SqlParameter($"@{column}", table.Columns[column].DataType)
+                {
+                    SourceColumn = column,
+                    SourceVersion = DataRowVersion.Current
+                });
+            }
+
+            return command;
+        }
+
+
         #endregion
     }
 }
