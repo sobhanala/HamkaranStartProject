@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dataGridViewItems = new System.Windows.Forms.DataGridView();
+            this.warehouseReceiptItemsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.Gb_AddReciteItem = new System.Windows.Forms.GroupBox();
             this.btnAddItem = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -43,37 +44,26 @@
             this.lblReceiptDate = new System.Windows.Forms.Label();
             this.lblReceiptType = new System.Windows.Forms.Label();
             this.lblReceiptNumber = new System.Windows.Forms.Label();
-            this.warehouseReceiptItemsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.idDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.receiptIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.productIdDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.quantityDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.unitPriceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.totalAmountDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btn_Updateitem = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewItems)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.warehouseReceiptItemsBindingSource)).BeginInit();
             this.Gb_AddReciteItem.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_UnitPrice)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_Quantity)).BeginInit();
             this.HeaderRecite.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.warehouseReceiptItemsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridViewItems
             // 
-            this.dataGridViewItems.AutoGenerateColumns = false;
             this.dataGridViewItems.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewItems.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.idDataGridViewTextBoxColumn,
-            this.receiptIdDataGridViewTextBoxColumn,
-            this.productIdDataGridViewTextBoxColumn,
-            this.quantityDataGridViewTextBoxColumn,
-            this.unitPriceDataGridViewTextBoxColumn,
-            this.totalAmountDataGridViewTextBoxColumn});
-            this.dataGridViewItems.DataSource = this.warehouseReceiptItemsBindingSource;
             this.dataGridViewItems.Location = new System.Drawing.Point(260, 12);
             this.dataGridViewItems.Name = "dataGridViewItems";
             this.dataGridViewItems.Size = new System.Drawing.Size(411, 465);
             this.dataGridViewItems.TabIndex = 0;
+            // 
+            // warehouseReceiptItemsBindingSource
+            // 
+            this.warehouseReceiptItemsBindingSource.DataMember = "WarehouseReceiptItems";
             // 
             // Gb_AddReciteItem
             // 
@@ -86,7 +76,7 @@
             this.Gb_AddReciteItem.Controls.Add(this.cb_Products);
             this.Gb_AddReciteItem.Location = new System.Drawing.Point(6, 191);
             this.Gb_AddReciteItem.Name = "Gb_AddReciteItem";
-            this.Gb_AddReciteItem.Size = new System.Drawing.Size(248, 241);
+            this.Gb_AddReciteItem.Size = new System.Drawing.Size(248, 203);
             this.Gb_AddReciteItem.TabIndex = 1;
             this.Gb_AddReciteItem.TabStop = false;
             this.Gb_AddReciteItem.Text = "AddReciteItem";
@@ -94,7 +84,7 @@
             // btnAddItem
             // 
             this.btnAddItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnAddItem.Location = new System.Drawing.Point(7, 180);
+            this.btnAddItem.Location = new System.Drawing.Point(7, 145);
             this.btnAddItem.Name = "btnAddItem";
             this.btnAddItem.Size = new System.Drawing.Size(229, 38);
             this.btnAddItem.TabIndex = 6;
@@ -169,7 +159,7 @@
             // btn_Save
             // 
             this.btn_Save.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Save.Location = new System.Drawing.Point(13, 438);
+            this.btn_Save.Location = new System.Drawing.Point(13, 439);
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(229, 38);
             this.btn_Save.TabIndex = 2;
@@ -216,59 +206,23 @@
             this.lblReceiptNumber.TabIndex = 0;
             this.lblReceiptNumber.Text = "label4";
             // 
-            // anbarProjectDataSet
+            // btn_Updateitem
             // 
-            // 
-            // warehouseReceiptItemsBindingSource
-            // 
-            this.warehouseReceiptItemsBindingSource.DataMember = "WarehouseReceiptItems";
-            // 
-            // warehouseReceiptItemsTableAdapter
-            // 
-            // 
-            // idDataGridViewTextBoxColumn
-            // 
-            this.idDataGridViewTextBoxColumn.DataPropertyName = "Id";
-            this.idDataGridViewTextBoxColumn.HeaderText = "Id";
-            this.idDataGridViewTextBoxColumn.Name = "idDataGridViewTextBoxColumn";
-            this.idDataGridViewTextBoxColumn.ReadOnly = true;
-            // 
-            // receiptIdDataGridViewTextBoxColumn
-            // 
-            this.receiptIdDataGridViewTextBoxColumn.DataPropertyName = "ReceiptId";
-            this.receiptIdDataGridViewTextBoxColumn.HeaderText = "ReceiptId";
-            this.receiptIdDataGridViewTextBoxColumn.Name = "receiptIdDataGridViewTextBoxColumn";
-            // 
-            // productIdDataGridViewTextBoxColumn
-            // 
-            this.productIdDataGridViewTextBoxColumn.DataPropertyName = "ProductId";
-            this.productIdDataGridViewTextBoxColumn.HeaderText = "ProductId";
-            this.productIdDataGridViewTextBoxColumn.Name = "productIdDataGridViewTextBoxColumn";
-            // 
-            // quantityDataGridViewTextBoxColumn
-            // 
-            this.quantityDataGridViewTextBoxColumn.DataPropertyName = "Quantity";
-            this.quantityDataGridViewTextBoxColumn.HeaderText = "Quantity";
-            this.quantityDataGridViewTextBoxColumn.Name = "quantityDataGridViewTextBoxColumn";
-            // 
-            // unitPriceDataGridViewTextBoxColumn
-            // 
-            this.unitPriceDataGridViewTextBoxColumn.DataPropertyName = "UnitPrice";
-            this.unitPriceDataGridViewTextBoxColumn.HeaderText = "UnitPrice";
-            this.unitPriceDataGridViewTextBoxColumn.Name = "unitPriceDataGridViewTextBoxColumn";
-            // 
-            // totalAmountDataGridViewTextBoxColumn
-            // 
-            this.totalAmountDataGridViewTextBoxColumn.DataPropertyName = "TotalAmount";
-            this.totalAmountDataGridViewTextBoxColumn.HeaderText = "TotalAmount";
-            this.totalAmountDataGridViewTextBoxColumn.Name = "totalAmountDataGridViewTextBoxColumn";
-            this.totalAmountDataGridViewTextBoxColumn.ReadOnly = true;
+            this.btn_Updateitem.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Updateitem.Location = new System.Drawing.Point(13, 400);
+            this.btn_Updateitem.Name = "btn_Updateitem";
+            this.btn_Updateitem.Size = new System.Drawing.Size(229, 33);
+            this.btn_Updateitem.TabIndex = 7;
+            this.btn_Updateitem.Text = "UpdateItem";
+            this.btn_Updateitem.UseVisualStyleBackColor = true;
+            this.btn_Updateitem.Click += new System.EventHandler(this.Btn_Updateitem_Click);
             // 
             // EditReciteForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(683, 489);
+            this.Controls.Add(this.btn_Updateitem);
             this.Controls.Add(this.HeaderRecite);
             this.Controls.Add(this.btn_Save);
             this.Controls.Add(this.Gb_AddReciteItem);
@@ -276,13 +230,13 @@
             this.Name = "EditReciteForm";
             this.Text = "EditReciteForm";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewItems)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.warehouseReceiptItemsBindingSource)).EndInit();
             this.Gb_AddReciteItem.ResumeLayout(false);
             this.Gb_AddReciteItem.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_UnitPrice)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numeric_Quantity)).EndInit();
             this.HeaderRecite.ResumeLayout(false);
             this.HeaderRecite.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.warehouseReceiptItemsBindingSource)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -310,5 +264,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn quantityDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn unitPriceDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn totalAmountDataGridViewTextBoxColumn;
+        private System.Windows.Forms.Button btn_Updateitem;
     }
 }

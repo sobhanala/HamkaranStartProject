@@ -12,5 +12,7 @@ namespace AnbarService
         Task SaveChangesAsync(AnbarDataSet dataset);
         Task<DataRow> CreateWarehouseReceiptAsync(AnbarDataSet dataset, int warehouseId, int partyId, byte type,DateTime recitedDateTime);
         Task SaveReceiptItemsAndUpdateEwiAsync(AnbarDataSet dataset, int receiptId);
+        Task<AnbarDataSet> FillByReceiptIdWithProductInfo(int receiptId);
+        Task SaveChangesTableAsync(AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable dataTable);
     }
 }

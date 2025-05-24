@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Domain.Attribute;
 
 namespace AnbarDomain.Tabels
@@ -9,16 +11,37 @@ namespace AnbarDomain.Tabels
 
     partial class AnbarDataSet
     {
+
+
+        partial class WarehouseReceiptItemsDataTable
+        {
+        }
+
         partial class WarehouseReceiptItemsWithProductViewDataTable
         {
-            public void MarkViewColumnsAsReadOnly()
+            public override void EndInit()
             {
-                this.ProductCodeColumn.ReadOnly = true;
-                this.ProductCodeColumn.ExtendedProperties.Add("IsViewColumn", true);
+                base.EndInit();
 
+                try
+                {
+                    if (this.Columns.Contains("ProductCode"))
+                    {
+                        this.ProductCodeColumn.ReadOnly = true;
+                        this.ProductCodeColumn.ExtendedProperties["IsViewColumn"] = true;
+                    }
 
-                this.ProductNameColumn.ReadOnly = true;
-                this.ProductNameColumn.ExtendedProperties.Add("IsViewColumn", true);
+                    if (this.Columns.Contains("ProductName"))
+                    {
+                        this.ProductNameColumn.ReadOnly = true;
+                        this.ProductNameColumn.ExtendedProperties["IsViewColumn"] = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"EndInit failed: {ex.Message}");
+                    throw;
+                }
             }
         }
 
@@ -59,5 +82,11 @@ namespace AnbarDomain.Tabels
         }
 
 
+    }
+}
+namespace AnbarDomain.AnbarDataSetTableAdapters {
+    
+    
+    public partial class WarehouseReceiptsTableAdapter {
     }
 }

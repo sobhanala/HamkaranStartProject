@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain.SharedSevices;
@@ -136,7 +137,6 @@ namespace Domain.Repositorys
             await connection.OpenAsync();
 
             var adapter = new SqlDataAdapter();
-            var builder = new SqlCommandBuilder(adapter);
 
             try
             {
@@ -146,21 +146,35 @@ namespace Domain.Repositorys
                     {
                         insertCommand.Connection = connection;
                         adapter.InsertCommand = insertCommand;
+                        foreach (SqlParameter p in insertCommand.Parameters)
+                        {
+                            Debug.WriteLine($"Param Insert : {p.ParameterName}");
+                        }
                     }
 
                     if (commands.TryGetValue("Update", out var updateCommand))
                     {
                         updateCommand.Connection = connection;
                         adapter.UpdateCommand = updateCommand;
+                        foreach (SqlParameter p in updateCommand.Parameters)
+                        {
+                            Debug.WriteLine($"Param Update : {p.ParameterName}");
+                        }
                     }
 
                     if (commands.TryGetValue("Delete", out var deleteCommand))
                     {
                         deleteCommand.Connection = connection;
                         adapter.DeleteCommand = deleteCommand;
+                        foreach (SqlParameter p in deleteCommand.Parameters)
+                        {
+                            Debug.WriteLine($"Param Delete: {p.ParameterName}");
+                        }
                     }
                 }
                 MarkReadOnlyColumnsFromSchema(connection, dataTable.TableName, dataTable);
+
+  
 
                 return adapter.Update(dataTable);
             }
@@ -284,7 +298,6 @@ namespace Domain.Repositorys
             var editableColumns = table.Columns
                 .Cast<DataColumn>()
                 .Where(col =>
-                    !col.ReadOnly &&
                     !(col.ExtendedProperties["IsViewColumn"] is bool isView && isView))
                 .Select(col => col.ColumnName)
                 .ToList();

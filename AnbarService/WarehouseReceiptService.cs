@@ -15,10 +15,12 @@ namespace AnbarService
     class WarehouseReceiptService:IWarehouseReceipt
     {
         private readonly IWarehouseReceiptRepository _receiptRepository;
+        private readonly IWarehouseReceiptItemRepository _receiptItemRepository;
 
-        public WarehouseReceiptService(IWarehouseReceiptRepository receiptRepository)
+        public WarehouseReceiptService(IWarehouseReceiptRepository receiptRepository, IWarehouseReceiptItemRepository receiptItemRepository)
         {
             _receiptRepository = receiptRepository;
+            _receiptItemRepository = receiptItemRepository;
         }
 
         private async  Task<string> GenerateNewReceiptNumber()
@@ -26,6 +28,12 @@ namespace AnbarService
             var recitenum=await _receiptRepository.GetNextReceiptNumberAsync();
             return recitenum;
         }
+
+        public  async Task<AnbarDataSet> FillByReceiptIdWithProductInfo(int receiptId)
+        {
+            return await _receiptItemRepository.FillByReceiptIdWithProductInfo(receiptId);
+        }
+
 
         public async Task<AnbarDataSet> GetFullDatasetAsync()
         {
@@ -55,10 +63,20 @@ namespace AnbarService
             return result;
         }
 
+
+
+
         public async Task SaveChangesAsync(AnbarDataSet  dataSet)
         {
             await _receiptRepository.SaveChangesFromDataSet(dataSet);
         }
+
+    public async Task SaveChangesTableAsync(AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable  dataTable)
+        {
+            await _receiptRepository.SaveChangesFromDataTable(dataTable);
+        }
+
+
 
         public async Task<DataRow> CreateWarehouseReceiptAsync(AnbarDataSet dataset, int warehouseId, int partyId, byte type,DateTime date)
         {

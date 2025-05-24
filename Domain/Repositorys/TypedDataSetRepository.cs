@@ -74,11 +74,7 @@ namespace Domain.Repositorys
 
                 var insertCommand = BuildInsertCommand(table.TableName, table, KeyColumn);
 
-                AddParameters(insertCommand, table, exclude: new[] { KeyColumn });
-
                 var updateCommand = BuildUpdateCommand(table.TableName, table, KeyColumn);
-                AddParameters(updateCommand, table);
-                updateCommand.Parameters.Add($"@{KeyColumn}", GetSqlDbType(table.Columns[KeyColumn].DataType), 0, KeyColumn);
 
                 var deleteCommand = new SqlCommand(
                     GenerateDeleteQuery(table.TableName, KeyColumn));

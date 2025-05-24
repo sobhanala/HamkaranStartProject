@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using AnbarDomain.Orders;
@@ -33,38 +34,42 @@ namespace AnbarPersitence
 
         public async Task<AnbarDataSet> FillByReceiptIdWithProductInfo(int receiptId)
         {
+            try
+            {
+                const string query = @"
+            SELECT 
+                wri.Id, 
+                wri.ReceiptId, 
+                wri.ProductId, 
+                p.Name AS ProductName, 
+                p.ProductCode AS ProductCode, 
+                wri.Quantity, 
+                wri.UnitPrice,
+                wri.TotalAmount
+            FROM 
+                WarehouseReceiptItems wri
+            INNER JOIN 
+                Products p ON wri.ProductId = p.Id
+            WHERE 
+                wri.ReceiptId = @ReceiptId";
 
-            const string query = @"
-        SELECT 
-            wri.Id, 
-            wri.ReceiptId, 
-            wri.ProductId, 
-            p.Name AS ProductName, 
-            p.Code AS ProductCode, 
-            wri.Quantity, 
-            wri.UnitPrice
-        FROM 
-            WarehouseReceiptItems wri
-        INNER JOIN 
-            Products p ON wri.ProductId = p.Id
-        WHERE 
-            wri.ReceiptId = @ReceiptId";
+                var parameter = new SqlParameter("@ReceiptId", SqlDbType.Int) { Value = receiptId };
 
-            var parameter = new SqlParameter("@ReceiptId", SqlDbType.Int) { Value = receiptId };
+                var dataSet = await ExecuteTypedDataSetAsync<AnbarDataSet>(
+                    commandText: query,
+                    type: CommandType.Text,
+                    tableName: "WarehouseReceiptItemsWithProductView",
+                    parameters: parameter
+                );
 
-            var dataSet = await ExecuteTypedDataSetAsync<AnbarDataSet>(
-                commandText: query,
-                type: CommandType.Text,
-                tableName: "WarehouseReceiptItemsWithProductView",
-                parameters: parameter
-            );
-
-             dataSet.WarehouseReceiptItemsWithProductView.MarkViewColumnsAsReadOnly();
-
-            return dataSet;
-
+                return dataSet;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error loading receipt items: {ex.ToString()}");
+                throw; // Re-throw to preserve stack trace
+            }
         }
-
 
 
         protected override IEnumerable<ReceiptItems> MapResultsToEntities(AnbarDataSet dataSet)
