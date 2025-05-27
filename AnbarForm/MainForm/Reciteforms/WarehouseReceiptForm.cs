@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using AnbarDomain.Orders;
 using AnbarDomain.Tabels;
 using AnbarDomain.Tabels.AnbarDataSetTableAdapters;
+using AnbarPersitence.Newway;
 using AnbarService;
 using Domain.SharedSevices;
 
@@ -14,7 +15,7 @@ using Domain.SharedSevices;
 //TODO and show the abstract  version on detail 
 //TODO on double click show detailed version of the recite 
 
-namespace AnbarForm.MainForm
+namespace AnbarForm.MainForm.Reciteforms
 {
     public partial class WarehouseReceiptForm : Form
     {
@@ -26,6 +27,8 @@ namespace AnbarForm.MainForm
             get => _anbarBackingField;
             set => _anbarBackingField = value;
         }
+
+        private EnhancedWarehouseReceiptsTableAdapter _warehouseaAdapter;
 
         private PartiesTableAdapter _partyAdapter = new PartiesTableAdapter();
 
@@ -99,7 +102,7 @@ namespace AnbarForm.MainForm
             _partyAdapter.Fill(_Anbar.Parties);
             _warehouseAdapter.Fill(_Anbar.Warehouses);
 
-            using (var editForm = new EditReciteForm(_Anbar, selectedRow, _warehouseReceiptService))
+            using (var editForm = new EditReciteForm(selectedRow, _warehouseReceiptService))
             {
                 if (editForm.ShowDialog() == DialogResult.OK)
                 {
@@ -131,9 +134,7 @@ namespace AnbarForm.MainForm
                 _masterBindingSource.EndEdit();
                 _detailBindingSource.EndEdit();
 
-
-                _warehouseReceiptService.SaveChangesAsync(_Anbar);
-
+                _warehouseReceiptService.SaveChangesTableAsync(_Anbar.WarehouseReceipts);
 
             }
         }

@@ -38,11 +38,11 @@ namespace AnbarDomain.Tabels {
         
         private WarehouseReceiptItemsWithProductViewDataTable tableWarehouseReceiptItemsWithProductView;
         
+        private vw_WarehouseReceiptDetailsDataTable tablevw_WarehouseReceiptDetails;
+        
         private global::System.Data.DataRelation relationFK_WarehouseReceipts_Party;
         
         private global::System.Data.DataRelation relationFK_WarehouseReceipts_Warehouse;
-        
-        private global::System.Data.DataRelation relationFK_WarehouseReceiptItems_Prouduct;
         
         private global::System.Data.DataRelation relationFK_StockMovements_Products;
         
@@ -98,6 +98,9 @@ namespace AnbarDomain.Tabels {
                 }
                 if ((ds.Tables["WarehouseReceiptItemsWithProductView"] != null)) {
                     base.Tables.Add(new WarehouseReceiptItemsWithProductViewDataTable(ds.Tables["WarehouseReceiptItemsWithProductView"]));
+                }
+                if ((ds.Tables["vw_WarehouseReceiptDetails"] != null)) {
+                    base.Tables.Add(new vw_WarehouseReceiptDetailsDataTable(ds.Tables["vw_WarehouseReceiptDetails"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -189,6 +192,16 @@ namespace AnbarDomain.Tabels {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public vw_WarehouseReceiptDetailsDataTable vw_WarehouseReceiptDetails {
+            get {
+                return this.tablevw_WarehouseReceiptDetails;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.BrowsableAttribute(true)]
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public override global::System.Data.SchemaSerializationMode SchemaSerializationMode {
@@ -275,6 +288,9 @@ namespace AnbarDomain.Tabels {
                 if ((ds.Tables["WarehouseReceiptItemsWithProductView"] != null)) {
                     base.Tables.Add(new WarehouseReceiptItemsWithProductViewDataTable(ds.Tables["WarehouseReceiptItemsWithProductView"]));
                 }
+                if ((ds.Tables["vw_WarehouseReceiptDetails"] != null)) {
+                    base.Tables.Add(new vw_WarehouseReceiptDetailsDataTable(ds.Tables["vw_WarehouseReceiptDetails"]));
+                }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
                 this.Namespace = ds.Namespace;
@@ -350,9 +366,14 @@ namespace AnbarDomain.Tabels {
                     this.tableWarehouseReceiptItemsWithProductView.InitVars();
                 }
             }
+            this.tablevw_WarehouseReceiptDetails = ((vw_WarehouseReceiptDetailsDataTable)(base.Tables["vw_WarehouseReceiptDetails"]));
+            if ((initTable == true)) {
+                if ((this.tablevw_WarehouseReceiptDetails != null)) {
+                    this.tablevw_WarehouseReceiptDetails.InitVars();
+                }
+            }
             this.relationFK_WarehouseReceipts_Party = this.Relations["FK_WarehouseReceipts_Party"];
             this.relationFK_WarehouseReceipts_Warehouse = this.Relations["FK_WarehouseReceipts_Warehouse"];
-            this.relationFK_WarehouseReceiptItems_Prouduct = this.Relations["FK_WarehouseReceiptItems_Prouduct"];
             this.relationFK_StockMovements_Products = this.Relations["FK_StockMovements_Products"];
             this.relationFK_StockMovements_Warehouses = this.Relations["FK_StockMovements_Warehouses"];
             this.relationFK__Warehouse__Recei__2EDAF651 = this.Relations["FK__Warehouse__Recei__2EDAF651"];
@@ -380,6 +401,8 @@ namespace AnbarDomain.Tabels {
             base.Tables.Add(this.tableStockMovements);
             this.tableWarehouseReceiptItemsWithProductView = new WarehouseReceiptItemsWithProductViewDataTable();
             base.Tables.Add(this.tableWarehouseReceiptItemsWithProductView);
+            this.tablevw_WarehouseReceiptDetails = new vw_WarehouseReceiptDetailsDataTable();
+            base.Tables.Add(this.tablevw_WarehouseReceiptDetails);
             this.relationFK_WarehouseReceipts_Party = new global::System.Data.DataRelation("FK_WarehouseReceipts_Party", new global::System.Data.DataColumn[] {
                         this.tableParties.IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableWarehouseReceipts.PartyIdColumn}, false);
@@ -388,10 +411,6 @@ namespace AnbarDomain.Tabels {
                         this.tableWarehouses.IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableWarehouseReceipts.WarehouseIdColumn}, false);
             this.Relations.Add(this.relationFK_WarehouseReceipts_Warehouse);
-            this.relationFK_WarehouseReceiptItems_Prouduct = new global::System.Data.DataRelation("FK_WarehouseReceiptItems_Prouduct", new global::System.Data.DataColumn[] {
-                        this.tableProducts.IdColumn}, new global::System.Data.DataColumn[] {
-                        this.tableWarehouseReceiptItems.ProductIdColumn}, false);
-            this.Relations.Add(this.relationFK_WarehouseReceiptItems_Prouduct);
             this.relationFK_StockMovements_Products = new global::System.Data.DataRelation("FK_StockMovements_Products", new global::System.Data.DataColumn[] {
                         this.tableProducts.IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableStockMovements.ProductIdColumn}, false);
@@ -445,6 +464,12 @@ namespace AnbarDomain.Tabels {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private bool ShouldSerializeWarehouseReceiptItemsWithProductView() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        private bool ShouldSerializevw_WarehouseReceiptDetails() {
             return false;
         }
         
@@ -523,6 +548,9 @@ namespace AnbarDomain.Tabels {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         public delegate void WarehouseReceiptItemsWithProductViewRowChangeEventHandler(object sender, WarehouseReceiptItemsWithProductViewRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        public delegate void vw_WarehouseReceiptDetailsRowChangeEventHandler(object sender, vw_WarehouseReceiptDetailsRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -1508,20 +1536,17 @@ namespace AnbarDomain.Tabels {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public WarehouseReceiptItemsRow AddWarehouseReceiptItemsRow(WarehouseReceiptsRow parentWarehouseReceiptsRowByFK__Warehouse__Recei__2EDAF651, ProductsRow parentProductsRowByFK_WarehouseReceiptItems_Prouduct, int Quantity, decimal UnitPrice, decimal TotalAmount) {
+            public WarehouseReceiptItemsRow AddWarehouseReceiptItemsRow(WarehouseReceiptsRow parentWarehouseReceiptsRowByFK__Warehouse__Recei__2EDAF651, int ProductId, int Quantity, decimal UnitPrice, decimal TotalAmount) {
                 WarehouseReceiptItemsRow rowWarehouseReceiptItemsRow = ((WarehouseReceiptItemsRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         null,
-                        null,
+                        ProductId,
                         Quantity,
                         UnitPrice,
                         TotalAmount};
                 if ((parentWarehouseReceiptsRowByFK__Warehouse__Recei__2EDAF651 != null)) {
                     columnValuesArray[1] = parentWarehouseReceiptsRowByFK__Warehouse__Recei__2EDAF651[0];
-                }
-                if ((parentProductsRowByFK_WarehouseReceiptItems_Prouduct != null)) {
-                    columnValuesArray[2] = parentProductsRowByFK_WarehouseReceiptItems_Prouduct[0];
                 }
                 rowWarehouseReceiptItemsRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowWarehouseReceiptItemsRow);
@@ -2989,10 +3014,10 @@ namespace AnbarDomain.Tabels {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public WarehouseReceiptItemsWithProductViewRow AddWarehouseReceiptItemsWithProductViewRow(int Id, int ReceiptId, int ProductId, string ProductName, string ProductCode, int Quantity, decimal UnitPrice) {
+            public WarehouseReceiptItemsWithProductViewRow AddWarehouseReceiptItemsWithProductViewRow(int ReceiptId, int ProductId, string ProductName, string ProductCode, int Quantity, decimal UnitPrice) {
                 WarehouseReceiptItemsWithProductViewRow rowWarehouseReceiptItemsWithProductViewRow = ((WarehouseReceiptItemsWithProductViewRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
-                        Id,
+                        null,
                         ReceiptId,
                         ProductId,
                         ProductName,
@@ -3056,6 +3081,9 @@ namespace AnbarDomain.Tabels {
                 base.Columns.Add(this.columnUnitPrice);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnId}, true));
+                this.columnId.AutoIncrement = true;
+                this.columnId.AutoIncrementSeed = -1;
+                this.columnId.AutoIncrementStep = -1;
                 this.columnId.AllowDBNull = false;
                 this.columnId.Unique = true;
                 this.columnProductName.MaxLength = 255;
@@ -3146,6 +3174,412 @@ namespace AnbarDomain.Tabels {
                 global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
                 attribute2.Name = "tableTypeName";
                 attribute2.FixedValue = "WarehouseReceiptItemsWithProductViewDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class vw_WarehouseReceiptDetailsDataTable : global::System.Data.TypedTableBase<vw_WarehouseReceiptDetailsRow> {
+            
+            private global::System.Data.DataColumn columnId;
+            
+            private global::System.Data.DataColumn columnReceiptId;
+            
+            private global::System.Data.DataColumn columnProductId;
+            
+            private global::System.Data.DataColumn columnQuantity;
+            
+            private global::System.Data.DataColumn columnUnitPrice;
+            
+            private global::System.Data.DataColumn columnTotalAmount;
+            
+            private global::System.Data.DataColumn columnReceiptNumber;
+            
+            private global::System.Data.DataColumn columnWarehouseName;
+            
+            private global::System.Data.DataColumn columnPartyName;
+            
+            private global::System.Data.DataColumn columnProductName;
+            
+            private global::System.Data.DataColumn columnProductCode;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public vw_WarehouseReceiptDetailsDataTable() {
+                this.TableName = "vw_WarehouseReceiptDetails";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            internal vw_WarehouseReceiptDetailsDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected vw_WarehouseReceiptDetailsDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn IdColumn {
+                get {
+                    return this.columnId;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ReceiptIdColumn {
+                get {
+                    return this.columnReceiptId;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ProductIdColumn {
+                get {
+                    return this.columnProductId;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn QuantityColumn {
+                get {
+                    return this.columnQuantity;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn UnitPriceColumn {
+                get {
+                    return this.columnUnitPrice;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn TotalAmountColumn {
+                get {
+                    return this.columnTotalAmount;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ReceiptNumberColumn {
+                get {
+                    return this.columnReceiptNumber;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn WarehouseNameColumn {
+                get {
+                    return this.columnWarehouseName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn PartyNameColumn {
+                get {
+                    return this.columnPartyName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ProductNameColumn {
+                get {
+                    return this.columnProductName;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ProductCodeColumn {
+                get {
+                    return this.columnProductCode;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public vw_WarehouseReceiptDetailsRow this[int index] {
+                get {
+                    return ((vw_WarehouseReceiptDetailsRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event vw_WarehouseReceiptDetailsRowChangeEventHandler vw_WarehouseReceiptDetailsRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event vw_WarehouseReceiptDetailsRowChangeEventHandler vw_WarehouseReceiptDetailsRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event vw_WarehouseReceiptDetailsRowChangeEventHandler vw_WarehouseReceiptDetailsRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event vw_WarehouseReceiptDetailsRowChangeEventHandler vw_WarehouseReceiptDetailsRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void Addvw_WarehouseReceiptDetailsRow(vw_WarehouseReceiptDetailsRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public vw_WarehouseReceiptDetailsRow Addvw_WarehouseReceiptDetailsRow(int Id, int ReceiptId, int ProductId, int Quantity, decimal UnitPrice, decimal TotalAmount, string ReceiptNumber, string WarehouseName, string PartyName, string ProductName, string ProductCode) {
+                vw_WarehouseReceiptDetailsRow rowvw_WarehouseReceiptDetailsRow = ((vw_WarehouseReceiptDetailsRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        Id,
+                        ReceiptId,
+                        ProductId,
+                        Quantity,
+                        UnitPrice,
+                        TotalAmount,
+                        ReceiptNumber,
+                        WarehouseName,
+                        PartyName,
+                        ProductName,
+                        ProductCode};
+                rowvw_WarehouseReceiptDetailsRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowvw_WarehouseReceiptDetailsRow);
+                return rowvw_WarehouseReceiptDetailsRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public vw_WarehouseReceiptDetailsRow FindById(int Id) {
+                return ((vw_WarehouseReceiptDetailsRow)(this.Rows.Find(new object[] {
+                            Id})));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                vw_WarehouseReceiptDetailsDataTable cln = ((vw_WarehouseReceiptDetailsDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new vw_WarehouseReceiptDetailsDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            internal void InitVars() {
+                this.columnId = base.Columns["Id"];
+                this.columnReceiptId = base.Columns["ReceiptId"];
+                this.columnProductId = base.Columns["ProductId"];
+                this.columnQuantity = base.Columns["Quantity"];
+                this.columnUnitPrice = base.Columns["UnitPrice"];
+                this.columnTotalAmount = base.Columns["TotalAmount"];
+                this.columnReceiptNumber = base.Columns["ReceiptNumber"];
+                this.columnWarehouseName = base.Columns["WarehouseName"];
+                this.columnPartyName = base.Columns["PartyName"];
+                this.columnProductName = base.Columns["ProductName"];
+                this.columnProductCode = base.Columns["ProductCode"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            private void InitClass() {
+                this.columnId = new global::System.Data.DataColumn("Id", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnId);
+                this.columnReceiptId = new global::System.Data.DataColumn("ReceiptId", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnReceiptId);
+                this.columnProductId = new global::System.Data.DataColumn("ProductId", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnProductId);
+                this.columnQuantity = new global::System.Data.DataColumn("Quantity", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnQuantity);
+                this.columnUnitPrice = new global::System.Data.DataColumn("UnitPrice", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnUnitPrice);
+                this.columnTotalAmount = new global::System.Data.DataColumn("TotalAmount", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTotalAmount);
+                this.columnReceiptNumber = new global::System.Data.DataColumn("ReceiptNumber", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnReceiptNumber);
+                this.columnWarehouseName = new global::System.Data.DataColumn("WarehouseName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnWarehouseName);
+                this.columnPartyName = new global::System.Data.DataColumn("PartyName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPartyName);
+                this.columnProductName = new global::System.Data.DataColumn("ProductName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnProductName);
+                this.columnProductCode = new global::System.Data.DataColumn("ProductCode", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnProductCode);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnId}, true));
+                this.columnId.AllowDBNull = false;
+                this.columnId.Unique = true;
+                this.columnTotalAmount.ReadOnly = true;
+                this.columnReceiptNumber.MaxLength = 50;
+                this.columnWarehouseName.AllowDBNull = false;
+                this.columnWarehouseName.MaxLength = 255;
+                this.columnPartyName.AllowDBNull = false;
+                this.columnPartyName.MaxLength = 100;
+                this.columnProductName.MaxLength = 255;
+                this.columnProductCode.MaxLength = 50;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public vw_WarehouseReceiptDetailsRow Newvw_WarehouseReceiptDetailsRow() {
+                return ((vw_WarehouseReceiptDetailsRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new vw_WarehouseReceiptDetailsRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(vw_WarehouseReceiptDetailsRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.vw_WarehouseReceiptDetailsRowChanged != null)) {
+                    this.vw_WarehouseReceiptDetailsRowChanged(this, new vw_WarehouseReceiptDetailsRowChangeEvent(((vw_WarehouseReceiptDetailsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.vw_WarehouseReceiptDetailsRowChanging != null)) {
+                    this.vw_WarehouseReceiptDetailsRowChanging(this, new vw_WarehouseReceiptDetailsRowChangeEvent(((vw_WarehouseReceiptDetailsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.vw_WarehouseReceiptDetailsRowDeleted != null)) {
+                    this.vw_WarehouseReceiptDetailsRowDeleted(this, new vw_WarehouseReceiptDetailsRowChangeEvent(((vw_WarehouseReceiptDetailsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.vw_WarehouseReceiptDetailsRowDeleting != null)) {
+                    this.vw_WarehouseReceiptDetailsRowDeleting(this, new vw_WarehouseReceiptDetailsRowChangeEvent(((vw_WarehouseReceiptDetailsRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void Removevw_WarehouseReceiptDetailsRow(vw_WarehouseReceiptDetailsRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                AnbarDataSet ds = new AnbarDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "vw_WarehouseReceiptDetailsDataTable";
                 type.Attributes.Add(attribute2);
                 type.Particle = sequence;
                 global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
@@ -3982,17 +4416,6 @@ namespace AnbarDomain.Tabels {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public ProductsRow ProductsRow {
-                get {
-                    return ((ProductsRow)(this.GetParentRow(this.Table.ParentRelations["FK_WarehouseReceiptItems_Prouduct"])));
-                }
-                set {
-                    this.SetParentRow(value, this.Table.ParentRelations["FK_WarehouseReceiptItems_Prouduct"]);
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public WarehouseReceiptsRow WarehouseReceiptsRow {
                 get {
                     return ((WarehouseReceiptsRow)(this.GetParentRow(this.Table.ParentRelations["FK__Warehouse__Recei__2EDAF651"])));
@@ -4293,17 +4716,6 @@ namespace AnbarDomain.Tabels {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetProductCodeNull() {
                 this[this.tableProducts.ProductCodeColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public WarehouseReceiptItemsRow[] GetWarehouseReceiptItemsRows() {
-                if ((this.Table.ChildRelations["FK_WarehouseReceiptItems_Prouduct"] == null)) {
-                    return new WarehouseReceiptItemsRow[0];
-                }
-                else {
-                    return ((WarehouseReceiptItemsRow[])(base.GetChildRows(this.Table.ChildRelations["FK_WarehouseReceiptItems_Prouduct"])));
-                }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4922,6 +5334,285 @@ namespace AnbarDomain.Tabels {
         }
         
         /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class vw_WarehouseReceiptDetailsRow : global::System.Data.DataRow {
+            
+            private vw_WarehouseReceiptDetailsDataTable tablevw_WarehouseReceiptDetails;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            internal vw_WarehouseReceiptDetailsRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tablevw_WarehouseReceiptDetails = ((vw_WarehouseReceiptDetailsDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int Id {
+                get {
+                    return ((int)(this[this.tablevw_WarehouseReceiptDetails.IdColumn]));
+                }
+                set {
+                    this[this.tablevw_WarehouseReceiptDetails.IdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int ReceiptId {
+                get {
+                    try {
+                        return ((int)(this[this.tablevw_WarehouseReceiptDetails.ReceiptIdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ReceiptId\' in table \'vw_WarehouseReceiptDetails\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tablevw_WarehouseReceiptDetails.ReceiptIdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int ProductId {
+                get {
+                    try {
+                        return ((int)(this[this.tablevw_WarehouseReceiptDetails.ProductIdColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ProductId\' in table \'vw_WarehouseReceiptDetails\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tablevw_WarehouseReceiptDetails.ProductIdColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int Quantity {
+                get {
+                    try {
+                        return ((int)(this[this.tablevw_WarehouseReceiptDetails.QuantityColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'Quantity\' in table \'vw_WarehouseReceiptDetails\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tablevw_WarehouseReceiptDetails.QuantityColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal UnitPrice {
+                get {
+                    try {
+                        return ((decimal)(this[this.tablevw_WarehouseReceiptDetails.UnitPriceColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'UnitPrice\' in table \'vw_WarehouseReceiptDetails\' is DBNull." +
+                                "", e);
+                    }
+                }
+                set {
+                    this[this.tablevw_WarehouseReceiptDetails.UnitPriceColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal TotalAmount {
+                get {
+                    try {
+                        return ((decimal)(this[this.tablevw_WarehouseReceiptDetails.TotalAmountColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'TotalAmount\' in table \'vw_WarehouseReceiptDetails\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tablevw_WarehouseReceiptDetails.TotalAmountColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string ReceiptNumber {
+                get {
+                    try {
+                        return ((string)(this[this.tablevw_WarehouseReceiptDetails.ReceiptNumberColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ReceiptNumber\' in table \'vw_WarehouseReceiptDetails\' is DBN" +
+                                "ull.", e);
+                    }
+                }
+                set {
+                    this[this.tablevw_WarehouseReceiptDetails.ReceiptNumberColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string WarehouseName {
+                get {
+                    return ((string)(this[this.tablevw_WarehouseReceiptDetails.WarehouseNameColumn]));
+                }
+                set {
+                    this[this.tablevw_WarehouseReceiptDetails.WarehouseNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string PartyName {
+                get {
+                    return ((string)(this[this.tablevw_WarehouseReceiptDetails.PartyNameColumn]));
+                }
+                set {
+                    this[this.tablevw_WarehouseReceiptDetails.PartyNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string ProductName {
+                get {
+                    try {
+                        return ((string)(this[this.tablevw_WarehouseReceiptDetails.ProductNameColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ProductName\' in table \'vw_WarehouseReceiptDetails\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tablevw_WarehouseReceiptDetails.ProductNameColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string ProductCode {
+                get {
+                    try {
+                        return ((string)(this[this.tablevw_WarehouseReceiptDetails.ProductCodeColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'ProductCode\' in table \'vw_WarehouseReceiptDetails\' is DBNul" +
+                                "l.", e);
+                    }
+                }
+                set {
+                    this[this.tablevw_WarehouseReceiptDetails.ProductCodeColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsReceiptIdNull() {
+                return this.IsNull(this.tablevw_WarehouseReceiptDetails.ReceiptIdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetReceiptIdNull() {
+                this[this.tablevw_WarehouseReceiptDetails.ReceiptIdColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsProductIdNull() {
+                return this.IsNull(this.tablevw_WarehouseReceiptDetails.ProductIdColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetProductIdNull() {
+                this[this.tablevw_WarehouseReceiptDetails.ProductIdColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsQuantityNull() {
+                return this.IsNull(this.tablevw_WarehouseReceiptDetails.QuantityColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetQuantityNull() {
+                this[this.tablevw_WarehouseReceiptDetails.QuantityColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsUnitPriceNull() {
+                return this.IsNull(this.tablevw_WarehouseReceiptDetails.UnitPriceColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetUnitPriceNull() {
+                this[this.tablevw_WarehouseReceiptDetails.UnitPriceColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsTotalAmountNull() {
+                return this.IsNull(this.tablevw_WarehouseReceiptDetails.TotalAmountColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetTotalAmountNull() {
+                this[this.tablevw_WarehouseReceiptDetails.TotalAmountColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsReceiptNumberNull() {
+                return this.IsNull(this.tablevw_WarehouseReceiptDetails.ReceiptNumberColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetReceiptNumberNull() {
+                this[this.tablevw_WarehouseReceiptDetails.ReceiptNumberColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsProductNameNull() {
+                return this.IsNull(this.tablevw_WarehouseReceiptDetails.ProductNameColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetProductNameNull() {
+                this[this.tablevw_WarehouseReceiptDetails.ProductNameColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsProductCodeNull() {
+                return this.IsNull(this.tablevw_WarehouseReceiptDetails.ProductCodeColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetProductCodeNull() {
+                this[this.tablevw_WarehouseReceiptDetails.ProductCodeColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
@@ -5145,6 +5836,40 @@ namespace AnbarDomain.Tabels {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public WarehouseReceiptItemsWithProductViewRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        public class vw_WarehouseReceiptDetailsRowChangeEvent : global::System.EventArgs {
+            
+            private vw_WarehouseReceiptDetailsRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public vw_WarehouseReceiptDetailsRowChangeEvent(vw_WarehouseReceiptDetailsRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public vw_WarehouseReceiptDetailsRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -6092,13 +6817,20 @@ SELECT Id, ReceiptNumber, PartyId, WarehouseId, ReceiptDate, TransportCost, Disc
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[2];
             this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT Id, ReceiptNumber, PartyId, WarehouseId, ReceiptDate, TransportCost, Disco" +
                 "unt, TotalAmount, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy, ReceiptStatus FROM" +
                 " dbo.WarehouseReceipts";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[1].Connection = this.Connection;
+            this._commandCollection[1].CommandText = "SELECT Id, ReceiptNumber, PartyId, WarehouseId, ReceiptDate, TransportCost, Disco" +
+                "unt, TotalAmount, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy, ReceiptStatus\r\nFRO" +
+                "M     WarehouseReceipts\r\nWHERE  (Id = @Id)";
+            this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1].Parameters.Add(new global::System.Data.SqlClient.SqlParameter("@Id", global::System.Data.SqlDbType.Int, 4, global::System.Data.ParameterDirection.Input, 0, 0, "Id", global::System.Data.DataRowVersion.Current, false, null, "", "", ""));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -6120,6 +6852,32 @@ SELECT Id, ReceiptNumber, PartyId, WarehouseId, ReceiptDate, TransportCost, Disc
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
         public virtual AnbarDataSet.WarehouseReceiptsDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
+            AnbarDataSet.WarehouseReceiptsDataTable dataTable = new AnbarDataSet.WarehouseReceiptsDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillById(AnbarDataSet.WarehouseReceiptsDataTable dataTable, int Id) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(Id));
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual AnbarDataSet.WarehouseReceiptsDataTable GetDataById(int Id) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(Id));
             AnbarDataSet.WarehouseReceiptsDataTable dataTable = new AnbarDataSet.WarehouseReceiptsDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
@@ -8769,6 +9527,185 @@ SELECT Id, ProductId, WarehouseId, Quantity, MovementType, FromLocation, ToLocat
         public virtual AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable dataTable = new AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+    }
+    
+    /// <summary>
+    ///Represents the connection and commands used to retrieve and save data.
+    ///</summary>
+    [global::System.ComponentModel.DesignerCategoryAttribute("code")]
+    [global::System.ComponentModel.ToolboxItem(true)]
+    [global::System.ComponentModel.DataObjectAttribute(true)]
+    [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
+        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+    [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+    public partial class vw_WarehouseReceiptDetailsTableAdapter : global::System.ComponentModel.Component {
+        
+        private global::System.Data.SqlClient.SqlDataAdapter _adapter;
+        
+        private global::System.Data.SqlClient.SqlConnection _connection;
+        
+        private global::System.Data.SqlClient.SqlTransaction _transaction;
+        
+        private global::System.Data.SqlClient.SqlCommand[] _commandCollection;
+        
+        private bool _clearBeforeFill;
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        public vw_WarehouseReceiptDetailsTableAdapter() {
+            this.ClearBeforeFill = true;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        protected internal global::System.Data.SqlClient.SqlDataAdapter Adapter {
+            get {
+                if ((this._adapter == null)) {
+                    this.InitAdapter();
+                }
+                return this._adapter;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        internal global::System.Data.SqlClient.SqlConnection Connection {
+            get {
+                if ((this._connection == null)) {
+                    this.InitConnection();
+                }
+                return this._connection;
+            }
+            set {
+                this._connection = value;
+                if ((this.Adapter.InsertCommand != null)) {
+                    this.Adapter.InsertCommand.Connection = value;
+                }
+                if ((this.Adapter.DeleteCommand != null)) {
+                    this.Adapter.DeleteCommand.Connection = value;
+                }
+                if ((this.Adapter.UpdateCommand != null)) {
+                    this.Adapter.UpdateCommand.Connection = value;
+                }
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    if ((this.CommandCollection[i] != null)) {
+                        ((global::System.Data.SqlClient.SqlCommand)(this.CommandCollection[i])).Connection = value;
+                    }
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        internal global::System.Data.SqlClient.SqlTransaction Transaction {
+            get {
+                return this._transaction;
+            }
+            set {
+                this._transaction = value;
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    this.CommandCollection[i].Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.DeleteCommand != null))) {
+                    this.Adapter.DeleteCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.InsertCommand != null))) {
+                    this.Adapter.InsertCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.UpdateCommand != null))) {
+                    this.Adapter.UpdateCommand.Transaction = this._transaction;
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        protected global::System.Data.SqlClient.SqlCommand[] CommandCollection {
+            get {
+                if ((this._commandCollection == null)) {
+                    this.InitCommandCollection();
+                }
+                return this._commandCollection;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        public bool ClearBeforeFill {
+            get {
+                return this._clearBeforeFill;
+            }
+            set {
+                this._clearBeforeFill = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        private void InitAdapter() {
+            this._adapter = new global::System.Data.SqlClient.SqlDataAdapter();
+            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
+            tableMapping.SourceTable = "Table";
+            tableMapping.DataSetTable = "vw_WarehouseReceiptDetails";
+            tableMapping.ColumnMappings.Add("Id", "Id");
+            tableMapping.ColumnMappings.Add("ReceiptId", "ReceiptId");
+            tableMapping.ColumnMappings.Add("ProductId", "ProductId");
+            tableMapping.ColumnMappings.Add("Quantity", "Quantity");
+            tableMapping.ColumnMappings.Add("UnitPrice", "UnitPrice");
+            tableMapping.ColumnMappings.Add("TotalAmount", "TotalAmount");
+            tableMapping.ColumnMappings.Add("ReceiptNumber", "ReceiptNumber");
+            tableMapping.ColumnMappings.Add("WarehouseName", "WarehouseName");
+            tableMapping.ColumnMappings.Add("PartyName", "PartyName");
+            tableMapping.ColumnMappings.Add("ProductName", "ProductName");
+            tableMapping.ColumnMappings.Add("ProductCode", "ProductCode");
+            this._adapter.TableMappings.Add(tableMapping);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        private void InitConnection() {
+            this._connection = new global::System.Data.SqlClient.SqlConnection();
+            this._connection.ConnectionString = global::AnbarDomain.Properties.Settings.Default.AnbarProjectConnectionString;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        private void InitCommandCollection() {
+            this._commandCollection = new global::System.Data.SqlClient.SqlCommand[1];
+            this._commandCollection[0] = new global::System.Data.SqlClient.SqlCommand();
+            this._commandCollection[0].Connection = this.Connection;
+            this._commandCollection[0].CommandText = "SELECT Id, ReceiptId, ProductId, Quantity, UnitPrice, TotalAmount, ReceiptNumber," +
+                " WarehouseName, PartyName, ProductName, ProductCode FROM dbo.vw_WarehouseReceipt" +
+                "Details";
+            this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
+        public virtual int Fill(AnbarDataSet.vw_WarehouseReceiptDetailsDataTable dataTable) {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
+        public virtual AnbarDataSet.vw_WarehouseReceiptDetailsDataTable GetData() {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            AnbarDataSet.vw_WarehouseReceiptDetailsDataTable dataTable = new AnbarDataSet.vw_WarehouseReceiptDetailsDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }

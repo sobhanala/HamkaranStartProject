@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using AnbarForm.MainForm.Reciteforms;
 using AnbarService;
 using Domain.Module;
 using Domain.SharedSevices;
@@ -29,6 +30,6 @@ namespace AnbarForm.Modules
             
         }
 
-        public Form GetMainForm() => new MainForm.WarehouseReceiptForm(_warehouseReceiptService,_partyManagement,_userService);
+        public Form GetMainForm() => new WarehouseReceiptForm(_warehouseReceiptService,_partyManagement,_userService);
     }
 }

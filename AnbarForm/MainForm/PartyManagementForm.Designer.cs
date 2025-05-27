@@ -174,7 +174,7 @@ namespace AnbarForm.MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(738, 586);
+            this.ClientSize = new System.Drawing.Size(482, 407);
             this.Controls.Add(this.btn_save_all);
             this.Controls.Add(this.tb_country);
             this.Controls.Add(this.tb_street);

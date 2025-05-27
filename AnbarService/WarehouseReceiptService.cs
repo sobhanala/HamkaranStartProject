@@ -9,13 +9,22 @@ using AnbarDomain.Tabels;
 using Domain.Attribute;
 using Domain.Repositorys;
 
+
+/// <summary>
+///  برای دفعه بعد ما میخوایم اینجوری کنیم ک ه چی صفحه اول بیاد ایتم های سند اولیه یعنی مستر رو نشون بده به چه فرمی همشونو نشون بده با دکمه ی ادد و ادیت وارد این صفحه که جدید زدی بشی 
+///
+/// اینمه که خود سند انبار کلی باید از ویو پر شه عین ایتم هاش و همچنین یه کار دیکه که بزنس لاجیک اصافه شدن هر کاله اونو به یه اینونتوری ببره یعنی چی یعنی ما هینونتوری دارینم یا همون انبار اوکیه و اینکه اضافه شدن هر کالا اونو تو انبار داشته باشیم یعنی موقع ااضفه شدن انبار مت لیست اینوتوری داریم
+///  یعنی هر انبار یه رابطه با پروداکت داره
+///
+/// </summary>
 namespace AnbarService
 {
     [Service]
-    class WarehouseReceiptService:IWarehouseReceipt
+    class WarehouseReceiptService: IWarehouseReceipt
     {
         private readonly IWarehouseReceiptRepository _receiptRepository;
         private readonly IWarehouseReceiptItemRepository _receiptItemRepository;
+        
 
         public WarehouseReceiptService(IWarehouseReceiptRepository receiptRepository, IWarehouseReceiptItemRepository receiptItemRepository)
         {
@@ -29,15 +38,19 @@ namespace AnbarService
             return recitenum;
         }
 
-        public  async Task<AnbarDataSet> FillByReceiptIdWithProductInfo(int receiptId)
+        public  async Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FillByReceiptIdWithProductInfo(
+            AnbarDataSet dataset, int receiptId)
         {
-            return await _receiptItemRepository.FillByReceiptIdWithProductInfo(receiptId);
+            return await _receiptItemRepository.FillByReceiptIdWithProductInfo(dataset.WarehouseReceiptItemsWithProductView,receiptId);
         }
 
 
         public async Task<AnbarDataSet> GetFullDatasetAsync()
         {
-            var dataSet = await _receiptRepository.GetDataSetAsync();
+            var dataSet = new AnbarDataSet();
+
+            await _receiptRepository.FillAsync(dataSet.WarehouseReceipts);
+            await _receiptItemRepository.FillAsync(dataSet.WarehouseReceiptItemsWithProductView);
 
             return dataSet;
         }
@@ -64,18 +77,19 @@ namespace AnbarService
         }
 
 
-
-
-        public async Task SaveChangesAsync(AnbarDataSet  dataSet)
+        public async Task SaveChangesTableAsync(AnbarDataSet.WarehouseReceiptsDataTable  dataTable)
         {
-            await _receiptRepository.SaveChangesFromDataSet(dataSet);
+            await _receiptRepository.UpdateAsync(dataTable);
+        }
+        public async Task SaveChanges2TableAsync(AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable  dataTable)
+        {
+            await _receiptItemRepository.UpdateAsync(dataTable);
         }
 
-    public async Task SaveChangesTableAsync(AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable  dataTable)
+        public Task UpdateSingleItemAsync(int itemId, decimal newQty, decimal newPrice)
         {
-            await _receiptRepository.SaveChangesFromDataTable(dataTable);
+            throw new NotImplementedException();
         }
-
 
 
         public async Task<DataRow> CreateWarehouseReceiptAsync(AnbarDataSet dataset, int warehouseId, int partyId, byte type,DateTime date)
@@ -90,7 +104,7 @@ namespace AnbarService
 
             dataset.WarehouseReceipts.AddWarehouseReceiptsRow(newRow);
 
-            await SaveChangesAsync(dataset);
+            await SaveChangesTableAsync(dataset.WarehouseReceipts);
 
             return newRow;
         }
@@ -99,15 +113,26 @@ namespace AnbarService
         {
             var receipt = dataset.WarehouseReceipts.FindById(receiptId);
             if (receipt == null)
-                throw new Exception("Receipt not found.");
+                throw new InvalidOperationException($"Receipt with ID {receiptId} not found.");
 
-            foreach (var item in receipt.GetWarehouseReceiptItemsRows())
+            var items = receipt.GetWarehouseReceiptItemsRows();
+
+            if (items == null || items.Length == 0)
+                throw new InvalidOperationException("No items found for the specified receipt.");
+
+            foreach (var item in items)
             {
-                if (item.Quantity <= 0)
-                    throw new Exception("Quantity must be greater than zero.");
+                if (item.IsQuantityNull() || item.Quantity <= 0)
+                    throw new InvalidOperationException("Each item must have a quantity greater than zero.");
             }
 
-            await SaveChangesAsync(dataset);
+            await SaveChanges2TableAsync(dataset.WarehouseReceiptItemsWithProductView);
+        }
+
+        public async Task UpdateSingleItemAsync(AnbarDataSet.WarehouseReceiptItemsWithProductViewRow dViewRow)
+        {
+
+            
         }
 
     }

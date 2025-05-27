@@ -61,22 +61,46 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainForm\AddReceiptForm .cs">
+    <Compile Include="MainForm\Reciteforms\AddReceiptForm .cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm\AddReceiptForm .Designer.cs">
+    <Compile Include="MainForm\Reciteforms\AddReceiptForm .Designer.cs">
       <DependentUpon>AddReceiptForm .cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm\EditReciteForm.cs">
+    <Compile Include="MainForm\Reciteforms\EditReciteForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm\EditReciteForm.Designer.cs">
+    <Compile Include="MainForm\Reciteforms\EditReciteForm.Designer.cs">
       <DependentUpon>EditReciteForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm\WarehouseReceiptForm.cs">
+    <Compile Include="MainForm\Reciteforms\ProductSelector .cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm\WarehouseReceiptForm.Designer.cs">
+    <Compile Include="MainForm\Reciteforms\ProductSelector .Designer.cs">
+      <DependentUpon>ProductSelector .cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm\Reciteforms\PartySelector.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm\Reciteforms\PartySelector.Designer.cs">
+      <DependentUpon>PartySelector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm\Reciteforms\WarehouseSelectorForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm\Reciteforms\WarehouseSelectorForm.Designer.cs">
+      <DependentUpon>WarehouseSelectorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm\Reciteforms\ReciteAnbarForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm\Reciteforms\ReciteAnbarForm.Designer.cs">
+      <DependentUpon>ReciteAnbarForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm\Reciteforms\WarehouseReceiptForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm\Reciteforms\WarehouseReceiptForm.Designer.cs">
       <DependentUpon>WarehouseReceiptForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm\ProductManagementForm.cs">
@@ -123,11 +147,20 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MainForm\AddReceiptForm .resx">
+    <EmbeddedResource Include="MainForm\Reciteforms\AddReceiptForm .resx">
       <DependentUpon>AddReceiptForm .cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm\EditReciteForm.resx">
+    <EmbeddedResource Include="MainForm\Reciteforms\EditReciteForm.resx">
       <DependentUpon>EditReciteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm\Reciteforms\ProductSelector .resx">
+      <DependentUpon>ProductSelector .cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm\Reciteforms\PartySelector.resx">
+      <DependentUpon>PartySelector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm\Reciteforms\ReciteAnbarForm.resx">
+      <DependentUpon>ReciteAnbarForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm\ProductManagementForm.resx">
       <DependentUpon>ProductManagementForm.cs</DependentUpon>
@@ -136,10 +169,13 @@
       <DependentUpon>PartyManagementForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="MainForm\Reciteforms\WarehouseSelectorForm.resx">
+      <DependentUpon>WarehouseSelectorForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm\WarehouseMainForm.resx">
       <DependentUpon>WarehouseMainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm\WarehouseReceiptForm.resx">
+    <EmbeddedResource Include="MainForm\Reciteforms\WarehouseReceiptForm.resx">
       <DependentUpon>WarehouseReceiptForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>

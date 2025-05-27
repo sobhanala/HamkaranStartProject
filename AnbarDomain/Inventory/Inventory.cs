@@ -4,6 +4,8 @@ using Domain.Common;
 
 namespace AnbarDomain.Inventory
 {
+
+    //TODO fix it  and have inventory and stock movement data table
     public class Inventory : BaseEntity
     {
         public int ProductId { get; set; }
@@ -12,7 +14,6 @@ namespace AnbarDomain.Inventory
         public string BatchNumber { get; set; }
 
         public DateTime CreatedAt { get; set; }
-        public int CreatedBy { get; set; }
         public DateTime? LastUpdated { get; set; }
     }
 }

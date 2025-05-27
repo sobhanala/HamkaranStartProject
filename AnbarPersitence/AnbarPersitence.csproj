@@ -69,7 +69,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WarehouseReceiptItemRepository.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="Newway\EnhancedWarehouseReceiptItemsViewAdapter.cs" />
+    <Compile Include="Newway\EnhancedWarehouseReceiptsTableAdapter.cs" />
     <Compile Include="ProductRepository.cs" />
     <Compile Include="PartyRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -78,7 +80,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="WarehouseReceiptRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AnbarDomain\AnbarDomain.csproj">
@@ -98,5 +99,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

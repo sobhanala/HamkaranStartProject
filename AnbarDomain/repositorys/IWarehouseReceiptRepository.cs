@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AnbarDomain.repositorys
 {
-    public interface IWarehouseReceiptRepository : IGenericRepository<Receipt, int, AnbarDataSet>
+    public interface IWarehouseReceiptRepository : IEnhancedTableAdapter
     {
         Task<string> GetNextReceiptNumberAsync();
     }

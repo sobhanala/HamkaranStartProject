@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Data;
+using System.Data.Common;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Domain.Attribute;
+using Domain.Repositorys;
 
 namespace AnbarDomain.Tabels
 {
@@ -17,7 +20,7 @@ namespace AnbarDomain.Tabels
         {
         }
 
-        partial class WarehouseReceiptItemsWithProductViewDataTable
+        partial class WarehouseReceiptItemsWithProductViewDataTable : IEnhancedDataTableMetadata
         {
             public override void EndInit()
             {
@@ -43,10 +46,15 @@ namespace AnbarDomain.Tabels
                     throw;
                 }
             }
+
+            public string tableName => "WarehouseReceiptItems";
+            public string viewName => "WarehouseReceiptItemsWithProductView";
         }
 
-        partial class WarehouseReceiptsDataTable
+        partial class WarehouseReceiptsDataTable : IEnhancedDataTableMetadata
         {
+            public string tableName => this.TableName;
+            public string viewName => this.TableName;
         }
 
         partial class WarehousesDataTable
@@ -84,9 +92,37 @@ namespace AnbarDomain.Tabels
 
     }
 }
-namespace AnbarDomain.AnbarDataSetTableAdapters {
-    
-    
-    public partial class WarehouseReceiptsTableAdapter {
+namespace AnbarDomain.Tabels.AnbarDataSetTableAdapters
+{
+    partial class WarehousesTableAdapter
+    {
+    }
+
+    partial class WarehouseReceiptItemsWithProductViewTableAdapter
+    {
+        public SqlConnection GetConnection() => this.Connection;
+        public DbDataAdapter GetAdapter() => this.Adapter;
+
+
+    }
+
+    partial class ProductsTableAdapter
+    {
+    }
+
+    public partial class WarehouseReceiptsTableAdapter
+    {
+
+            public SqlConnection GetConnection() => this.Connection;
+            public DbDataAdapter GetAdapter() => this.Adapter;
+    }
+}
+
+namespace AnbarDomain.Tabels.AnbarDataSetTableAdapters
+{
+
+
+    public partial class WarehousesTableAdapter
+    {
     }
 }

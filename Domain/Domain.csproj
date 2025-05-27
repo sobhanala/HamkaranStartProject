@@ -121,6 +121,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Repositorys\BaseRepository.cs" />
+    <Compile Include="Repositorys\EnhancedTableAdapterBase.cs" />
+    <Compile Include="Repositorys\IEnhancedDataTableMetadata.cs" />
+    <Compile Include="Repositorys\IEnhancedTableAdapter.cs" />
     <Compile Include="Repositorys\IPermissionRepository.cs" />
     <Compile Include="Repositorys\TypedDataSetRepository.cs" />
     <Compile Include="Repositorys\DbConnectionFactory.cs" />
