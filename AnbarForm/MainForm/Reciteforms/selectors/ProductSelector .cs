@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 using System.Windows.Forms;
 using AnbarDomain.Tabels;
 using AnbarDomain.Tabels.AnbarDataSetTableAdapters;
 
-namespace AnbarForm.MainForm.Reciteforms
+namespace AnbarForm.MainForm.Reciteforms.selectors
 {
     public partial class ProductSelector : Form
     {

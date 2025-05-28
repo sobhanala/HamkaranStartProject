@@ -55,6 +55,7 @@ namespace AnbarService
             return dataSet;
         }
 
+
         public async Task<AnbarDataSet> GetReceiptWithItemsAsync(int receiptId)
         {
             var dataSet = await GetFullDatasetAsync();
@@ -92,7 +93,7 @@ namespace AnbarService
         }
 
 
-        public async Task<DataRow> CreateWarehouseReceiptAsync(AnbarDataSet dataset, int warehouseId, int partyId, byte type,DateTime date)
+        public async Task<DataRow> CreateWarehouseReceiptAsync(AnbarDataSet dataset, int warehouseId, int partyId, byte type, DateTime date)
         {
 
             var newRow = dataset.WarehouseReceipts.NewWarehouseReceiptsRow();

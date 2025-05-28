@@ -1,17 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using AnbarDomain.Tabels;
 using AnbarDomain.Tabels.AnbarDataSetTableAdapters;
-using AnbarDomain.Warehouse;
 
-namespace AnbarForm.MainForm.Reciteforms
+namespace AnbarForm.MainForm.Reciteforms.selectors
 {
     public partial class WarehouseSelectorForm : Form
     {
@@ -20,7 +13,7 @@ namespace AnbarForm.MainForm.Reciteforms
         private WarehousesTableAdapter _warehouseAdapter = new WarehousesTableAdapter();
         public AnbarDataSet.WarehousesRow SelectedWarehouse { get; private set; }
 
-        private BindingSource _bindingSource;
+        private BindingSource _bindingSource = new BindingSource();
         public WarehouseSelectorForm()
         {
             InitializeComponent();

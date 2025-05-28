@@ -73,22 +73,28 @@
     <Compile Include="MainForm\Reciteforms\EditReciteForm.Designer.cs">
       <DependentUpon>EditReciteForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm\Reciteforms\ProductSelector .cs">
+    <Compile Include="MainForm\Reciteforms\selectors\SelectorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm\Reciteforms\ProductSelector .Designer.cs">
+    <Compile Include="MainForm\Reciteforms\selectors\SelectorForm.Designer.cs">
+      <DependentUpon>SelectorForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainForm\Reciteforms\selectors\ProductSelector .cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm\Reciteforms\selectors\ProductSelector .Designer.cs">
       <DependentUpon>ProductSelector .cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm\Reciteforms\PartySelector.cs">
+    <Compile Include="MainForm\Reciteforms\selectors\BaseSelector.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm\Reciteforms\PartySelector.Designer.cs">
-      <DependentUpon>PartySelector.cs</DependentUpon>
+    <Compile Include="MainForm\Reciteforms\selectors\BaseSelector.Designer.cs">
+      <DependentUpon>BaseSelector.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm\Reciteforms\WarehouseSelectorForm.cs">
+    <Compile Include="MainForm\Reciteforms\selectors\WarehouseSelectorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm\Reciteforms\WarehouseSelectorForm.Designer.cs">
+    <Compile Include="MainForm\Reciteforms\selectors\WarehouseSelectorForm.Designer.cs">
       <DependentUpon>WarehouseSelectorForm.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm\Reciteforms\ReciteAnbarForm.cs">
@@ -124,6 +130,11 @@
     <Compile Include="Modules\ProductModule.cs" />
     <Compile Include="Modules\PartyModule.cs" />
     <Compile Include="Modules\WarehouseModuleEntry.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AnbarDomain\AnbarDomain.csproj">
@@ -153,11 +164,14 @@
     <EmbeddedResource Include="MainForm\Reciteforms\EditReciteForm.resx">
       <DependentUpon>EditReciteForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm\Reciteforms\ProductSelector .resx">
+    <EmbeddedResource Include="MainForm\Reciteforms\selectors\SelectorForm.resx">
+      <DependentUpon>SelectorForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm\Reciteforms\selectors\ProductSelector .resx">
       <DependentUpon>ProductSelector .cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm\Reciteforms\PartySelector.resx">
-      <DependentUpon>PartySelector.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm\Reciteforms\selectors\BaseSelector.resx">
+      <DependentUpon>BaseSelector.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm\Reciteforms\ReciteAnbarForm.resx">
       <DependentUpon>ReciteAnbarForm.cs</DependentUpon>
@@ -169,7 +183,7 @@
       <DependentUpon>PartyManagementForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm\Reciteforms\WarehouseSelectorForm.resx">
+    <EmbeddedResource Include="MainForm\Reciteforms\selectors\WarehouseSelectorForm.resx">
       <DependentUpon>WarehouseSelectorForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm\WarehouseMainForm.resx">
@@ -178,12 +192,14 @@
     <EmbeddedResource Include="MainForm\Reciteforms\WarehouseReceiptForm.resx">
       <DependentUpon>WarehouseReceiptForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

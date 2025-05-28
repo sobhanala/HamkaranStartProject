@@ -41,13 +41,15 @@ namespace AnbarForm.MainForm.Reciteforms
         private readonly IWarehouseReceipt _warehouseReceiptService;
         private readonly IPartyManagement _partyManagement;
         private readonly IUserService _userService;
+        private readonly IProductService _productService;
         
 
-        public WarehouseReceiptForm(IWarehouseReceipt warehouseReceipt, IPartyManagement partyManagement, IUserService userService)
+        public WarehouseReceiptForm(IWarehouseReceipt warehouseReceipt, IPartyManagement partyManagement, IUserService userService, IProductService productService)
         {
             _warehouseReceiptService = warehouseReceipt;
             _partyManagement = partyManagement;
             _userService = userService;
+            _productService = productService;
             InitializeComponent();
             SetupContextMenu();
             SetupDataGridView();
@@ -102,7 +104,7 @@ namespace AnbarForm.MainForm.Reciteforms
             _partyAdapter.Fill(_Anbar.Parties);
             _warehouseAdapter.Fill(_Anbar.Warehouses);
 
-            using (var editForm = new EditReciteForm(selectedRow, _warehouseReceiptService))
+            using (var editForm = new ReciteAnbarFormincome(_userService, _warehouseReceiptService, _partyManagement))
             {
                 if (editForm.ShowDialog() == DialogResult.OK)
                 {
@@ -205,19 +207,18 @@ namespace AnbarForm.MainForm.Reciteforms
         {
             _warehouseAdapter.Fill(_Anbar.Warehouses);
             _partyAdapter.Fill(_Anbar.Parties);
-            using (var addForm = new AddReceiptForm(_Anbar.Warehouses.Copy() as AnbarDataSet.WarehousesDataTable,
-                       _Anbar.Parties.Copy() as AnbarDataSet.PartiesDataTable))
+            using (var addForm = new ReciteAnbarFormincome(_userService,_warehouseReceiptService,_partyManagement))
             {
                 if (addForm.ShowDialog() == DialogResult.OK)
                 {
                     try
                     {
-                        await _warehouseReceiptService.CreateWarehouseReceiptAsync(
-                            _Anbar,
-                            addForm.SelectedWarehouseId,
-                            addForm.SelectedPartyId,
-                            addForm.Type
-                            ,addForm.Date);
+                        //await _warehouseReceiptService.CreateWarehouseReceiptAsync(
+                        //    _Anbar,
+                        //    addForm.SelectedWarehouseId,
+                        //    addForm.SelectedPartyId,
+                        //    addForm.Type
+                        //    ,addForm.Date);
 
                         _masterBindingSource.ResetBindings(false);
                         MessageBox.Show("Receipt created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);

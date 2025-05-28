@@ -1,4 +1,4 @@
-﻿namespace AnbarForm.MainForm.Reciteforms
+﻿namespace AnbarForm.MainForm.Reciteforms.selectors
 {
     partial class ProductSelector
     {

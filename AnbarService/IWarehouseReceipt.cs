@@ -9,7 +9,7 @@ namespace AnbarService
     {
         Task<AnbarDataSet> GetFullDatasetAsync();
         Task<AnbarDataSet> GetReceiptWithItemsAsync(int receiptId);
-        Task<DataRow> CreateWarehouseReceiptAsync(AnbarDataSet dataset, int warehouseId, int partyId, byte type,DateTime recitedDateTime);
+        Task<DataRow> CreateWarehouseReceiptAsync(AnbarDataSet dataset, int warehouseId, int partyId, byte type, DateTime recitedDateTime);
         Task SaveReceiptItemsAndUpdateEwiAsync(AnbarDataSet dataset, int receiptId);
         Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FillByReceiptIdWithProductInfo(AnbarDataSet dataset, int receiptId);
         Task SaveChangesTableAsync(AnbarDataSet.WarehouseReceiptsDataTable dataTable);

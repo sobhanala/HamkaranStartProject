@@ -12,12 +12,14 @@ namespace AnbarForm.Modules
         private readonly IWarehouseReceipt _warehouseReceiptService;
         private readonly IPartyManagement _partyManagement;
         private readonly IUserService _userService;
+        private readonly IProductService _productService;
 
-        public WarehouseModuleEntry(IWarehouseReceipt warehouseReceiptService, IPartyManagement partyManagement, IUserService userService)
+        public WarehouseModuleEntry(IWarehouseReceipt warehouseReceiptService, IPartyManagement partyManagement, IUserService userService, IProductService productService)
         {
             _warehouseReceiptService = warehouseReceiptService;
             _partyManagement = partyManagement;
             _userService = userService;
+            _productService = productService;
         }
 
 
@@ -30,6 +32,6 @@ namespace AnbarForm.Modules
             
         }
 
-        public Form GetMainForm() => new WarehouseReceiptForm(_warehouseReceiptService,_partyManagement,_userService);
+        public Form GetMainForm() => new WarehouseReceiptForm(_warehouseReceiptService,_partyManagement,_userService,_productService);
     }
 }
