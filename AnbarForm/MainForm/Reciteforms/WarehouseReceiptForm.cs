@@ -104,7 +104,7 @@ namespace AnbarForm.MainForm.Reciteforms
             _partyAdapter.Fill(_Anbar.Parties);
             _warehouseAdapter.Fill(_Anbar.Warehouses);
 
-            using (var editForm = new ReciteAnbarFormincome(_userService, _warehouseReceiptService, _partyManagement))
+            using (var editForm = new ReciteAnbarFormincome(_userService, _warehouseReceiptService, _partyManagement,_productService))
             {
                 if (editForm.ShowDialog() == DialogResult.OK)
                 {
@@ -207,7 +207,7 @@ namespace AnbarForm.MainForm.Reciteforms
         {
             _warehouseAdapter.Fill(_Anbar.Warehouses);
             _partyAdapter.Fill(_Anbar.Parties);
-            using (var addForm = new ReciteAnbarFormincome(_userService,_warehouseReceiptService,_partyManagement))
+            using (var addForm = new ReciteAnbarFormincome(_userService,_warehouseReceiptService,_partyManagement,_productService))
             {
                 if (addForm.ShowDialog() == DialogResult.OK)
                 {

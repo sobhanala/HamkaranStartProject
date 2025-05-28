@@ -42,7 +42,7 @@
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.dataGridView1.Location = new System.Drawing.Point(0, 23);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dataGridView1.Margin = new System.Windows.Forms.Padding(2);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
@@ -78,7 +78,7 @@
             // serachbox
             // 
             this.serachbox.Location = new System.Drawing.Point(430, 2);
-            this.serachbox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.serachbox.Margin = new System.Windows.Forms.Padding(2);
             this.serachbox.Name = "serachbox";
             this.serachbox.Size = new System.Drawing.Size(180, 20);
             this.serachbox.TabIndex = 3;
@@ -93,7 +93,7 @@
             this.Controls.Add(this.lbl_search);
             this.Controls.Add(this.lbl_select);
             this.Controls.Add(this.dataGridView1);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "WarehouseSelectorForm";
             this.Text = "WarehouseSelectorForm";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

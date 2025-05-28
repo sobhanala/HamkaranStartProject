@@ -12,17 +12,12 @@ namespace AnbarForm.MainForm
     public partial class ReciteAnbarFormincome : Form
 
     {
-        private AnbarDataSet _anbarBackingField;
+        private AnbarDataSet _currentDataSet;
 
-        public AnbarDataSet _anbar
-        {
-            get => _anbarBackingField;
-            set => _anbarBackingField = value;
-        }
 
         private AnbarDataSet.WarehousesRow ReciteHeaderWarehousesRow { get; set; }
         private AnbarDataSet.PartiesRow ReciteHeaderPartiesRow { get; set; }
-        private AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable viewDataTable;
+        private AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable viewDataTable { get; set; }
 
 
         private readonly BindingSource _masterBindingSource = new BindingSource();
@@ -31,14 +26,15 @@ namespace AnbarForm.MainForm
 
         private readonly IWarehouseReceipt _warehouseReceiptService;
         private readonly IPartyManagement _partyManagement;
-        private readonly IUserService _userService;
+        private readonly IProductService _productService;
+
 
         public ReciteAnbarFormincome(IUserService userService, IWarehouseReceipt warehouseReceiptService,
-            IPartyManagement partyManagement)
+            IPartyManagement partyManagement, IProductService productService)
         {
-            _userService = userService;
             _warehouseReceiptService = warehouseReceiptService;
             _partyManagement = partyManagement;
+            _productService = productService;
             InitializeComponent();
 
         }
@@ -52,30 +48,45 @@ namespace AnbarForm.MainForm
 
         }
 
-        private void Btn_Save_Click(object sender, EventArgs e)
+        private async void Btn_Save_Click(object sender, EventArgs e)
         {
+            PrepareDataSetBeforeSave();
 
+            await _warehouseReceiptService.SaveReceiptWithItemsAsync(_currentDataSet);
+
+
+        }
+
+        private async  void PrepareDataSetBeforeSave()
+        {
+            if (_currentDataSet == null) return;
+            _currentDataSet.WarehouseReceipts.Clear();
+
+            var receiptRow = _currentDataSet.WarehouseReceipts.NewWarehouseReceiptsRow();
+            receiptRow.ReceiptDate = DateTime.Now;
+
+            if (ReciteHeaderPartiesRow != null)
+                receiptRow.PartyId = ReciteHeaderPartiesRow.Id;
+
+            if (ReciteHeaderWarehousesRow != null)
+                receiptRow.WarehouseId = ReciteHeaderWarehousesRow.Id;
+
+            receiptRow.ReceiptNumber = await _warehouseReceiptService.GenerateNewReceiptNumber();
+            _currentDataSet.WarehouseReceipts.AddWarehouseReceiptsRow(receiptRow);
         }
 
         private void ReciteAnbarForm_Load(object sender, EventArgs e)
         {
             dgReciteItem.AutoGenerateColumns = true;
             dgReciteItem.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            _currentDataSet = new AnbarDataSet();
 
 
-            viewDataTable = new AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable();
+            viewDataTable = _currentDataSet.WarehouseReceiptItemsWithProductView;
 
             _detailBindingSource.DataSource = viewDataTable;
             dgReciteItem.DataSource = _detailBindingSource;
 
-            viewDataTable.AddWarehouseReceiptItemsWithProductViewRow(
-                ReceiptId:0,
-                ProductId:0,
-                ProductName:"",
-                ProductCode:"",
-                Quantity:0,
-                UnitPrice:0
-            );
 
             ReplaceProductIdWithButtonColumn();
 
@@ -167,9 +178,9 @@ namespace AnbarForm.MainForm
 
             if (e.RowIndex >= 0 && dgReciteItem.Columns[e.ColumnIndex].Name == "ProductId")
             {
-                var anbar = await _partyManagement.GetPartyDataSetAsync();
+                var anbar = await _productService.GetDataSet();
 
-                var selector = new SelectorForm<AnbarDataSet.PartiesDataTable>(anbar.Parties, "name", "Select Product");
+                var selector = new SelectorForm<AnbarDataSet.ProductsDataTable>(anbar.Products, "name", "Select Product");
                 selector.StartPosition = FormStartPosition.Manual;
 
                 var gridLocation = dgReciteItem.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
@@ -178,11 +189,17 @@ namespace AnbarForm.MainForm
 
                 if (selector.ShowDialog() == DialogResult.OK)
                 {
-                    var selectedRow = (AnbarDataSet.PartiesRow)selector.SelectedRow;
+                    var selectedRow = (AnbarDataSet.ProductsRow)selector.SelectedRow;
                     if (selectedRow != null)
                     {
-                        dgReciteItem.Rows[e.RowIndex].Cells["ProductName"].Value = selectedRow.Name;
-                        dgReciteItem.Rows[e.RowIndex].Cells["ProductId"].Value = selectedRow.Id;
+                        var row = dgReciteItem.Rows[e.RowIndex];
+
+                        row.Cells["ProductName"].Value = selectedRow.Name;
+                        row.Cells["ProductId"].Value = selectedRow.Id;
+                        row.Cells["ProductCode"].Value = selectedRow.ProductCode;
+                        row.Cells["ProductName"].ReadOnly = true;
+                        row.Cells["ProductId"].ReadOnly = true;
+                        row.Cells["ProductCode"].ReadOnly = true;
                     }
                 }
             }

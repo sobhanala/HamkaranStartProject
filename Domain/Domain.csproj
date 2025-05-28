@@ -129,6 +129,7 @@
     <Compile Include="Repositorys\DbConnectionFactory.cs" />
     <Compile Include="Repositorys\IGenericRepository.cs" />
     <Compile Include="Repositorys\IUserRepository.cs" />
+    <Compile Include="SharedSevices\Class1.cs" />
     <Compile Include="SharedSevices\ISessionService.cs" />
     <Compile Include="SharedSevices\IUserService.cs" />
     <Compile Include="Users\Roles.cs" />

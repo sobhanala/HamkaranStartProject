@@ -28,16 +28,19 @@ namespace AnbarDomain.Tabels
 
                 try
                 {
-                    if (this.Columns.Contains("ProductCode"))
+                    if (this.Columns.Contains(ProductCodeColumn.ColumnName))
                     {
-                        this.ProductCodeColumn.ReadOnly = true;
                         this.ProductCodeColumn.ExtendedProperties["IsViewColumn"] = true;
                     }
 
-                    if (this.Columns.Contains("ProductName"))
+                    if (this.Columns.Contains(ProductNameColumn.ColumnName))
                     {
-                        this.ProductNameColumn.ReadOnly = true;
                         this.ProductNameColumn.ExtendedProperties["IsViewColumn"] = true;
+                    }
+
+                    if (this.Columns.Contains(ReceiptIdColumn.ColumnName))
+                    {
+                        ReceiptIdColumn.ReadOnly = true;
                     }
                 }
                 catch (Exception ex)

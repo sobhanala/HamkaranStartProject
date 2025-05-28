@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging;
 
 namespace Domain.Repositorys
 {
-    //TODO GEneric with table name and view name in partial and command inisitate here 
     public abstract class EnhancedTableAdapterBase<TDataTable> : IEnhancedTableAdapter
         where TDataTable : DataTable, IEnhancedDataTableMetadata, new()
 
@@ -173,6 +172,11 @@ namespace Domain.Repositorys
             {
                 if (Connection.State != ConnectionState.Open)
                     Connection.Open();
+
+                if (Transaction !=null)
+                {
+                    return;
+                }
 
                 Transaction = Connection.BeginTransaction();
 

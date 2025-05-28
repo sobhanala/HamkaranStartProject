@@ -1,22 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 using AnbarDomain.repositorys;
 using AnbarDomain.Tabels;
+using AnbarDomain.Tabels.AnbarDataSetTableAdapters;
 using Domain.Attribute;
-using Domain.Repositorys;
 
 
-/// <summary>
-///  برای دفعه بعد ما میخوایم اینجوری کنیم ک ه چی صفحه اول بیاد ایتم های سند اولیه یعنی مستر رو نشون بده به چه فرمی همشونو نشون بده با دکمه ی ادد و ادیت وارد این صفحه که جدید زدی بشی 
-///
-/// اینمه که خود سند انبار کلی باید از ویو پر شه عین ایتم هاش و همچنین یه کار دیکه که بزنس لاجیک اصافه شدن هر کاله اونو به یه اینونتوری ببره یعنی چی یعنی ما هینونتوری دارینم یا همون انبار اوکیه و اینکه اضافه شدن هر کالا اونو تو انبار داشته باشیم یعنی موقع ااضفه شدن انبار مت لیست اینوتوری داریم
-///  یعنی هر انبار یه رابطه با پروداکت داره
-///
-/// </summary>
 namespace AnbarService
 {
     [Service]
@@ -32,7 +23,7 @@ namespace AnbarService
             _receiptItemRepository = receiptItemRepository;
         }
 
-        private async  Task<string> GenerateNewReceiptNumber()
+        public async  Task<string> GenerateNewReceiptNumber()
         {
             var recitenum=await _receiptRepository.GetNextReceiptNumberAsync();
             return recitenum;
@@ -136,5 +127,37 @@ namespace AnbarService
             
         }
 
+        public async Task SaveReceiptWithItemsAsync(AnbarDataSet dataset)
+        {
+            _receiptRepository.BeginTransaction();
+            _receiptItemRepository.BeginTransaction();
+            try
+            {
+                var receiptNumber =await _receiptRepository.GetNextReceiptNumberAsync();
+                dataset.WarehouseReceipts[0].ReceiptNumber = receiptNumber;
+                await _receiptRepository.UpdateAsync(dataset.WarehouseReceiptItems);
+                await _receiptRepository.FillAsync(dataset.WarehouseReceiptItems);
+                foreach (var item in dataset.WarehouseReceiptItemsWithProductView)
+                {
+                    item.ReceiptId = dataset.WarehouseReceipts[0].Id;
+
+                }
+
+                
+
+                await _receiptItemRepository.UpdateAsync(dataset.WarehouseReceiptItemsWithProductView);
+
+                _receiptRepository.CommitTransaction();
+                _receiptItemRepository.CommitTransaction();
+            }
+            catch (Exception ex)
+            {
+                _receiptRepository.RollbackTransaction();
+                _receiptItemRepository.RollbackTransaction();
+                throw new Exception("Failed to save receipt and items together", ex);
+            }
+        }
+
     }
 }
+
