@@ -6,9 +6,9 @@ namespace Domain.SharedSevices
 {
     public interface ITransactionManager : IDisposable
     {
-        Task BeginTransactionAsync();
-        Task CommitTransactionAsync();
-        Task RollbackTransactionAsync();
+        void BeginTransactionAsync();
+        void CommitTransactionAsync();
+        void RollbackTransactionAsync();
         SqlConnection GetConnection();
         SqlTransaction GetTransaction();
         bool HasActiveTransaction { get; }

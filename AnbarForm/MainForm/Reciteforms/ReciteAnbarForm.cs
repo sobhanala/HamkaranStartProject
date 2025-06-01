@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
+using AnbarDomain.Orders;
 using AnbarDomain.Tabels;
 using AnbarDomain.Tabels.AnbarDataSetTableAdapters;
 using AnbarForm.MainForm.Reciteforms.selectors;
 using AnbarService;
 using Domain.SharedSevices;
 
-namespace AnbarForm.MainForm
+namespace AnbarForm.MainForm.Reciteforms
 {
     public partial class ReciteAnbarFormincome : Form
 
@@ -36,12 +38,19 @@ namespace AnbarForm.MainForm
             _partyManagement = partyManagement;
             _productService = productService;
             InitializeComponent();
-
+            ConfigureComboBox();
         }
 
+        private void ConfigureComboBox()
+        {
 
+            var receiptTypes = Enum.GetValues(typeof(ReciteType)).Cast<ReciteType>().Select
+               (u => new { Name = u.ToString(), Value = (byte)u }).ToList();
 
-
+            cmbType.DisplayMember = "Name";
+            cmbType.ValueMember = "Value";
+            cmbType.DataSource = receiptTypes;
+        }
 
         private void TableLayoutPanel1_Paint(object sender, PaintEventArgs e)
         {
@@ -50,28 +59,43 @@ namespace AnbarForm.MainForm
 
         private async void Btn_Save_Click(object sender, EventArgs e)
         {
-            PrepareDataSetBeforeSave();
+            try
+            {
+                var receiptNumber = await _warehouseReceiptService.GenerateNewReceiptNumber();
+                PrepareDataSetBeforeSave(receiptNumber);
+                await _warehouseReceiptService.SaveReceiptWithItemsAsync(_currentDataSet);
 
-            await _warehouseReceiptService.SaveReceiptWithItemsAsync(_currentDataSet);
+                MessageBox.Show("Receipt saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to save receipt: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
 
         }
 
-        private async  void PrepareDataSetBeforeSave()
+        private  void PrepareDataSetBeforeSave(string resitenum)
         {
             if (_currentDataSet == null) return;
-            _currentDataSet.WarehouseReceipts.Clear();
 
+            _currentDataSet.WarehouseReceipts.Clear();
             var receiptRow = _currentDataSet.WarehouseReceipts.NewWarehouseReceiptsRow();
-            receiptRow.ReceiptDate = DateTime.Now;
+            receiptRow.ReceiptDate = dateTimePicker1.Value;
 
             if (ReciteHeaderPartiesRow != null)
                 receiptRow.PartyId = ReciteHeaderPartiesRow.Id;
 
             if (ReciteHeaderWarehousesRow != null)
                 receiptRow.WarehouseId = ReciteHeaderWarehousesRow.Id;
+            receiptRow.ReceiptNumber = resitenum;
 
-            receiptRow.ReceiptNumber = await _warehouseReceiptService.GenerateNewReceiptNumber();
+            if (cmbType.SelectedValue is byte type)
+            {
+                receiptRow.ReceiptStatus = type;
+            }
             _currentDataSet.WarehouseReceipts.AddWarehouseReceiptsRow(receiptRow);
         }
 
@@ -88,7 +112,7 @@ namespace AnbarForm.MainForm
             dgReciteItem.DataSource = _detailBindingSource;
 
 
-            ReplaceProductIdWithButtonColumn();
+            AddPartyButtonColumn();
 
 
 
@@ -176,7 +200,7 @@ namespace AnbarForm.MainForm
         private async void DgReciteItem_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
         {
 
-            if (e.RowIndex >= 0 && dgReciteItem.Columns[e.ColumnIndex].Name == "ProductId")
+            if (e.RowIndex >= 0 && dgReciteItem.Columns[e.ColumnIndex].Name == "PartySelector")
             {
                 var anbar = await _productService.GetDataSet();
 
@@ -224,23 +248,19 @@ namespace AnbarForm.MainForm
                 dgReciteItem.Rows.Remove(dgReciteItem.CurrentRow);
             }
         }
-        private void ReplaceProductIdWithButtonColumn()
+        private void AddPartyButtonColumn()
         {
-            if (dgReciteItem.Columns.Contains("ProductId"))
+            if (!dgReciteItem.Columns.Contains("PartySelector"))
             {
-                int columnIndex = dgReciteItem.Columns["ProductId"].Index;
-
-                dgReciteItem.Columns.Remove("ProductId");
-
-                var buttonColumn = new DataGridViewButtonColumn
+                var partyButtonColumn = new DataGridViewButtonColumn
                 {
-                    Name = "ProductId",
-                    HeaderText = "Product",
-                    Text = "Select",
+                    Name = "PartySelector",
+                    HeaderText = "Party",
+                    Text = "Select Party",
                     UseColumnTextForButtonValue = true
                 };
 
-                dgReciteItem.Columns.Insert(columnIndex, buttonColumn);
+                dgReciteItem.Columns.Add(partyButtonColumn);
             }
         }
 

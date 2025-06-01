@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using AnbarDomain.Orders;
@@ -13,7 +8,7 @@ using AnbarDomain.Tabels;
 using AnbarDomain.Tabels.AnbarDataSetTableAdapters;
 using AnbarService;
 
-namespace AnbarForm.MainForm
+namespace AnbarForm.MainForm.Reciteforms
 {   //TOOD this form  should be in this way that the master in top initialized and detail then
     public partial class EditReciteForm : Form
     {
@@ -48,7 +43,7 @@ namespace AnbarForm.MainForm
         private async void LoadReceiptItemsFromView()
         {
             _anbar = new AnbarDataSet();
-            var viewTable = await _warehouseReceiptService.FillByReceiptIdWithProductInfo(_anbar,receiptId: _receipt.Id);
+            var viewTable = await _warehouseReceiptService.FillByReceiptIdWithProductInfo(receiptId: _receipt.Id);
 
             _itemsBindingSource.DataSource = viewTable;
             dataGridViewItems.DataSource = _itemsBindingSource;

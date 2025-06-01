@@ -67,12 +67,11 @@
     <Compile Include="Tabels\AnbarDataset.cs">
       <DependentUpon>AnbarDataset.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Tabels\AnbarDataset.Designer.cs">
-      <DependentUpon>AnbarDataset.xsd</DependentUpon>
+    <Compile Include="Tabels\AnbarDataset1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>AnbarDataset.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Warehouse\Warehouse.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj">
@@ -92,8 +91,8 @@
     </None>
     <None Include="Tabels\AnbarDataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>AnbarDataset.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>AnbarDataset1.Designer.cs</LastGenOutput>
     </None>
     <None Include="Tabels\AnbarDataset.xss">
       <DependentUpon>AnbarDataset.xsd</DependentUpon>

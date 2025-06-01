@@ -40,7 +40,6 @@ namespace AnbarDomain.Tabels
 
                     if (this.Columns.Contains(ReceiptIdColumn.ColumnName))
                     {
-                        ReceiptIdColumn.ReadOnly = true;
                     }
                 }
                 catch (Exception ex)
@@ -89,7 +88,12 @@ namespace AnbarDomain.Tabels
         }
         partial class WarehouseReceiptsDataTable : IAuditable
         {
+            private void changetheRow()
+            {
 
+
+
+            }
         }
 
 
@@ -116,7 +120,6 @@ namespace AnbarDomain.Tabels.AnbarDataSetTableAdapters
     public partial class WarehouseReceiptsTableAdapter
     {
 
-            public SqlConnection GetConnection() => this.Connection;
             public DbDataAdapter GetAdapter() => this.Adapter;
     }
 }

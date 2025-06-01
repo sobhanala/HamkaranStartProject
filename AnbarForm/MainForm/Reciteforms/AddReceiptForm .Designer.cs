@@ -1,4 +1,4 @@
-﻿namespace AnbarForm.MainForm
+﻿namespace AnbarForm.MainForm.Reciteforms
 {
     partial class AddReceiptForm
     {

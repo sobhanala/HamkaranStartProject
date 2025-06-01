@@ -1,10 +1,10 @@
-﻿using AnbarDomain.Tabels;
-using System;
+﻿using System;
 using System.Linq;
 using System.Windows.Forms;
 using AnbarDomain.Orders;
+using AnbarDomain.Tabels;
 
-namespace AnbarForm.MainForm
+namespace AnbarForm.MainForm.Reciteforms
 {
     public partial class AddReceiptForm : Form
     {

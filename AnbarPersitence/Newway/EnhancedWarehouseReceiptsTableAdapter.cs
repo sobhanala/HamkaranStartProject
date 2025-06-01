@@ -1,6 +1,8 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using AnbarDomain.repositorys;
 using AnbarDomain.Tabels;
@@ -18,12 +20,11 @@ namespace AnbarPersitence.Newway
         private readonly WarehouseReceiptsTableAdapter _baseAdapter;
 
         protected override DbDataAdapter DataAdapter => _baseAdapter.GetAdapter();
-        protected override SqlConnection Connection => _baseAdapter.GetConnection();
 
         public EnhancedWarehouseReceiptsTableAdapter(
             ILogger<EnhancedWarehouseReceiptsTableAdapter> logger,
-            ISessionService sessionService)
-            : base(logger, sessionService)
+            ISessionService sessionService,ITransactionManager _manager)
+            : base(logger, sessionService,_manager)
         {
             _baseAdapter = new WarehouseReceiptsTableAdapter();
             InitCommands();
@@ -70,6 +71,41 @@ namespace AnbarPersitence.Newway
             }
         }
 
+        public async Task<AnbarDataSet.WarehouseReceiptsDataTable> FetchAsync()
+        {
+           var datatable= await base.FetchTypedAsync();
+           return datatable;
+        }
+        public async Task<int> UpdateTransaction2(AnbarDataSet.WarehouseReceiptsDataTable data)
+        {
+            try
+            {
+                var insertCommand = CreateInsertCommand();
+                Debug.WriteLine($"THE INSERT COMMAND IS {insertCommand.CommandText}");
+                insertCommand.Transaction = Transaction;
+                foreach (var parameter in insertCommand.Parameters)
+                {
+                    Debug.WriteLine(parameter);
+                }
+
+                return await insertCommand.ExecuteNonQueryAsync();
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine(e);
+                throw;
+            }
+        }
+
+        public async Task<int> UpdateTransaction(AnbarDataSet.WarehouseReceiptsDataTable data)
+        {
+            var insertCommand = CreateInsertCommand();
+            _baseAdapter.GetAdapter().InsertCommand = insertCommand;
+           var updated =  await base.UpdateAsync(data);
+
+           return updated;
+        }
+
 
         protected override void ApplyTransactionToCommands(SqlTransaction transaction)
         {
@@ -79,6 +115,9 @@ namespace AnbarPersitence.Newway
                 _baseAdapter.GetAdapter().UpdateCommand.Transaction = transaction;
             if (_baseAdapter.GetAdapter().DeleteCommand != null)
                 _baseAdapter.GetAdapter().DeleteCommand.Transaction = transaction;
+            if (_baseAdapter.GetAdapter().SelectCommand != null)
+                _baseAdapter.GetAdapter().SelectCommand.Transaction = transaction;
+
         }
 
 

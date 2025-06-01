@@ -19,32 +19,27 @@ namespace AnbarPersitence.Newway
         private readonly WarehouseReceiptItemsWithProductViewTableAdapter _adapter;
 
         protected override DbDataAdapter DataAdapter => _adapter.GetAdapter();
-        protected override SqlConnection Connection => _adapter.GetConnection();
 
 
 
         public EnhancedWarehouseReceiptItemsViewAdapter(
             ILogger<EnhancedWarehouseReceiptItemsViewAdapter> logger,
-            ISessionService sessionService)
-            : base(logger, sessionService)
+            ISessionService sessionService,ITransactionManager _manager)
+            : base(logger, sessionService,_manager)
         {
             _adapter = new WarehouseReceiptItemsWithProductViewTableAdapter();
             InitCommands();
         }
 
 
-        public async Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FillByReceiptIdWithProductInfo(AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable dataTable ,int receiptId)
+        public async Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FetchByReceiptIdWithProductInfo(int receiptId)
         {
             try
             {
-
-
                 var command = new SqlCommand("SELECT * FROM WarehouseReceiptItemsWithProductView WHERE ReceiptId = @ReceiptId", Connection);
 
                 command.Parameters.AddWithValue("@ReceiptId", receiptId);
-
-
-                 var a = await FillAsyncByCommand(dataTable, command);
+                 var a = await FetchAsyncByCommand(command);
                 return a;
             }
             catch (Exception ex)

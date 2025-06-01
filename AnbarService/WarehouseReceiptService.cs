@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using AnbarDomain.repositorys;
 using AnbarDomain.Tabels;
-using AnbarDomain.Tabels.AnbarDataSetTableAdapters;
 using Domain.Attribute;
+using Domain.SharedSevices;
 
 
 namespace AnbarService
@@ -15,12 +16,16 @@ namespace AnbarService
     {
         private readonly IWarehouseReceiptRepository _receiptRepository;
         private readonly IWarehouseReceiptItemRepository _receiptItemRepository;
-        
+        private readonly ITransactionManager _transactionManager;
 
-        public WarehouseReceiptService(IWarehouseReceiptRepository receiptRepository, IWarehouseReceiptItemRepository receiptItemRepository)
+
+
+
+        public WarehouseReceiptService(IWarehouseReceiptRepository receiptRepository, IWarehouseReceiptItemRepository receiptItemRepository, ITransactionManager transactionManager)
         {
             _receiptRepository = receiptRepository;
             _receiptItemRepository = receiptItemRepository;
+           _transactionManager = transactionManager;
         }
 
         public async  Task<string> GenerateNewReceiptNumber()
@@ -29,10 +34,9 @@ namespace AnbarService
             return recitenum;
         }
 
-        public  async Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FillByReceiptIdWithProductInfo(
-            AnbarDataSet dataset, int receiptId)
+        public  async Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FillByReceiptIdWithProductInfo(int receiptId)
         {
-            return await _receiptItemRepository.FillByReceiptIdWithProductInfo(dataset.WarehouseReceiptItemsWithProductView,receiptId);
+            return await _receiptItemRepository.FetchByReceiptIdWithProductInfo(receiptId);
         }
 
 
@@ -126,34 +130,52 @@ namespace AnbarService
 
             
         }
+        private void LogTableRows(DataTable table, string tableName, string context)
+        {
+            Debug.WriteLine($"\n---- {context}: Table = {tableName} ----");
+
+            foreach (DataRow row in table.Rows)
+            {
+                var rowState = row.RowState;
+                var rowValues = string.Join(", ", table.Columns
+                    .Cast<DataColumn>()
+                    .Select(c => $"{c.ColumnName}={row[c]}"));
+
+                Debug.WriteLine($"[{rowState}] {rowValues}");
+            }
+
+            Debug.WriteLine($"---- End of {context} ----\n");
+        }
 
         public async Task SaveReceiptWithItemsAsync(AnbarDataSet dataset)
         {
-            _receiptRepository.BeginTransaction();
-            _receiptItemRepository.BeginTransaction();
+
+            _transactionManager.BeginTransactionAsync();
             try
             {
-                var receiptNumber =await _receiptRepository.GetNextReceiptNumberAsync();
-                dataset.WarehouseReceipts[0].ReceiptNumber = receiptNumber;
-                await _receiptRepository.UpdateAsync(dataset.WarehouseReceiptItems);
-                await _receiptRepository.FillAsync(dataset.WarehouseReceiptItems);
+                LogTableRows(dataset.WarehouseReceipts, "WarehouseReceipts", "Before Update");
+
+                await _receiptRepository.UpdateTransaction(dataset.WarehouseReceipts);
+
+                LogTableRows(dataset.WarehouseReceipts, "WarehouseReceipts", "after Update");
+
+
+                var header=await _receiptRepository.FetchAsync();
+
+                var lastRow = (AnbarDataSet.WarehouseReceiptsRow)header.Rows[header.Rows.Count - 1];
+
                 foreach (var item in dataset.WarehouseReceiptItemsWithProductView)
                 {
-                    item.ReceiptId = dataset.WarehouseReceipts[0].Id;
+                    item.ReceiptId = lastRow.Id;
 
                 }
-
-                
-
                 await _receiptItemRepository.UpdateAsync(dataset.WarehouseReceiptItemsWithProductView);
 
-                _receiptRepository.CommitTransaction();
-                _receiptItemRepository.CommitTransaction();
+                _transactionManager.CommitTransactionAsync();
             }
             catch (Exception ex)
             {
-                _receiptRepository.RollbackTransaction();
-                _receiptItemRepository.RollbackTransaction();
+                _transactionManager.RollbackTransactionAsync();
                 throw new Exception("Failed to save receipt and items together", ex);
             }
         }

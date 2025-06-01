@@ -10,10 +10,7 @@ using AnbarPersitence.Newway;
 using AnbarService;
 using Domain.SharedSevices;
 
-//TODO fix the view  detail order ==> on left click 
-//TODO view the detailed version 
-//TODO and show the abstract  version on detail 
-//TODO on double click show detailed version of the recite 
+
 
 namespace AnbarForm.MainForm.Reciteforms
 {
@@ -51,23 +48,21 @@ namespace AnbarForm.MainForm.Reciteforms
             _userService = userService;
             _productService = productService;
             InitializeComponent();
-            SetupContextMenu();
             SetupDataGridView();
-            SetupPanel();
-
+            //SetupPanel();
         }
 
-        private void SetupPanel()
-        {
-            panel_Details.Visible = false; 
-            panel_Details.Dock = DockStyle.None;
-        }
+        //private void SetupPanel()
+        //{
+        //    panel_Details.Visible = false; 
+        //    panel_Details.Dock = DockStyle.None;
+        //}
 
-        private void ShowPanelDetails()
-        {
-            panel_Details.Visible = true;
+        //private void ShowPanelDetails()
+        //{
+        //    panel_Details.Visible = true;
 
-        }
+        //}
 
         private void SetupDataGridView()
         {
@@ -78,75 +73,7 @@ namespace AnbarForm.MainForm.Reciteforms
             
         }
 
-        private void SetupContextMenu()
-        {
 
-            EditReceipt.Click += EditMenuItem_Click;
-
-            DeleteReceipt.Click += DeleteMenuItem_Click;
-
-            toolStripMenuItem1.Click += ViewDetailsMenuItem_Click;
-
-            dataGridViewMaster.ContextMenuStrip = contextMenuStrip1;
-        }
-
-
-
-        private void EditMenuItem_Click(object sender, EventArgs e)
-        {
-            var selectedRow = GetSelectedReceipt();
-            if (selectedRow == null)
-            {
-                MessageBox.Show("Please select a receipt to edit.", "No Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            _partyAdapter.Fill(_Anbar.Parties);
-            _warehouseAdapter.Fill(_Anbar.Warehouses);
-
-            using (var editForm = new ReciteAnbarFormincome(_userService, _warehouseReceiptService, _partyManagement,_productService))
-            {
-                if (editForm.ShowDialog() == DialogResult.OK)
-                {
-                    _masterBindingSource.ResetBindings(false);
-                    _detailBindingSource.ResetBindings(false);
-                }
-            }
-        }
-
-        private void DeleteMenuItem_Click(object sender, EventArgs e)
-        {
-            var receiptRow = GetSelectedReceipt();
-
-            if (MessageBox.Show(
-                    $"Are you sure you want to delete Receipt #{receiptRow.ReceiptNumber} and all its items?",
-                    "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
-                var childRows = receiptRow.GetWarehouseReceiptItemsRows();
-                foreach (var childRow in childRows)
-                {
-                    childRow.Delete();
-                }
-
-                receiptRow.Delete();
-
-                _masterBindingSource.ResetBindings(false);
-                _detailBindingSource.ResetBindings(false);
-
-                _masterBindingSource.EndEdit();
-                _detailBindingSource.EndEdit();
-
-                _warehouseReceiptService.SaveChangesTableAsync(_Anbar.WarehouseReceipts);
-
-            }
-        }
-
-        private  void ViewDetailsMenuItem_Click(object sender, EventArgs e)
-        {
-            var receiptRow = GetSelectedReceipt();
-            if (receiptRow == null) return;
-             DisplayReceiptDetails(receiptRow);
-        }
 
         private AnbarDataSet.WarehouseReceiptsRow GetSelectedReceipt()
         {
@@ -213,12 +140,6 @@ namespace AnbarForm.MainForm.Reciteforms
                 {
                     try
                     {
-                        //await _warehouseReceiptService.CreateWarehouseReceiptAsync(
-                        //    _Anbar,
-                        //    addForm.SelectedWarehouseId,
-                        //    addForm.SelectedPartyId,
-                        //    addForm.Type
-                        //    ,addForm.Date);
 
                         _masterBindingSource.ResetBindings(false);
                         MessageBox.Show("Receipt created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -231,80 +152,20 @@ namespace AnbarForm.MainForm.Reciteforms
             }
         }
 
-
-        private async void DisplayReceiptDetails(AnbarDataSet.WarehouseReceiptsRow receipt)
+        private void ViewReceipt_Click(object sender, EventArgs e)
         {
-            await LoadPartyInfo(receipt.PartyId);
-            LoadWarehouseInfo(receipt.WarehouseId);
+            var row = GetSelectedReceipt();
+            var viewForm = new ViewForm(_warehouseReceiptService);
+            viewForm.LoadData(row);
+            viewForm.ShowDialog();
 
-            int? createdBy = receipt.IsCreatedByNull() ? null : (int?)receipt.CreatedBy;
-            int? updatedBy = receipt.IsUpdatedByNull() ? null : (int?)receipt.UpdatedBy;
 
-            await LoadUserInfo(createdBy, updatedBy);
-            FillReceiptLabels(receipt);
-
-            ShowPanelDetails();
         }
 
-        private void Label3_Click(object sender, EventArgs e)
+        private void DeleteReceipt_Click(object sender, EventArgs e)
         {
 
         }
 
-        private async Task LoadPartyInfo(int partyId)
-        {
-            var party = await _partyManagement.GetPartyById(partyId);
-            labelPartyName.Text = $"Party Name: {party?.Name ?? "Unknown Party"}";
-        }
-
-
-        private void LoadWarehouseInfo(int warehouseId)
-        {
-            _warehouseAdapter.Fill(_Anbar.Warehouses);
-            var warehouseRow = _Anbar.Warehouses.FirstOrDefault(w => w.Id == warehouseId);
-            lblWareHouseName.Text = $"Warehouse Name: {warehouseRow?.Name ?? "Unknown Warehouse"}";
-        }
-
-
-        private async Task LoadUserInfo(int? createdBy, int? updatedBy)
-        {
-            if (createdBy.HasValue)
-            {
-                var creator = await _userService.GetUserById(createdBy.Value);
-                lblCreatedBy.Text = $"Created By: {creator?.Username ?? $"ID: {createdBy.Value}"}";
-            }
-            else
-            {
-                lblCreatedBy.Text = "Created By: Unknown";
-            }
-
-            if (updatedBy.HasValue)
-            {
-                var updater = await _userService.GetUserById(updatedBy.Value);
-                lblUpdateBy.Text = $"Updated By: {updater?.Username ?? $"ID: {updatedBy.Value}"}";
-            }
-            else
-            {
-                lblUpdateBy.Text = "Updated By: Not updated";
-            }
-        }
-
-        private void FillReceiptLabels(AnbarDataSet.WarehouseReceiptsRow receipt)
-        {
-            lblDiscount.Text = $"Discount: {(receipt.IsDiscountNull() ? "0" : receipt.Discount.ToString("N0"))}";
-            lblTransportCost.Text = $"Transport Cost: {(receipt.IsTransportCostNull() ? "0" : receipt.TransportCost.ToString("N0"))}";
-            lblTotalCost.Text = $"Total Cost: {(receipt.IsTotalAmountNull() ? "0" : receipt.TotalAmount.ToString("N0"))}";
-
-            lblReciteDate.Text = $"Receipt Date: {(receipt.IsReceiptDateNull() ? "N/A" : receipt.ReceiptDate.ToShortDateString())}";
-            lblCreatedAt.Text = $"Created At: {(receipt.IsCreatedAtNull() ? "N/A" : receipt.CreatedAt.ToShortDateString())}";
-            lblUpdatedAt.Text = $"Updated At: {(receipt.IsUpdatedAtNull() ? "N/A" : receipt.UpdatedAt.ToShortDateString())}";
-
-            lblType.Text = $"Type: {((ReciteType)receipt.ReceiptStatus).ToString()}";
-        }
-
-        private void Btn_PanelClose_Click(object sender, EventArgs e)
-        {
-            SetupPanel();
-        }
     }
 }

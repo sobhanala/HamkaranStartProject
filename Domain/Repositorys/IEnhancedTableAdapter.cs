@@ -9,9 +9,6 @@ namespace Domain.Repositorys
         Task<int> FillAsync(DataTable dataTable);
         Task<int> UpdateAsync(DataTable dataTable);
         Task<int> UpdateAsync(DataSet dataSet, string tableName);
-        void BeginTransaction();
-        void CommitTransaction();
-        void RollbackTransaction();
         void SetAuditUser(int userId);
         Task<DataTable> GetByIdAsync(int id);
     }

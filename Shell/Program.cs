@@ -19,17 +19,30 @@ namespace Shell
         [STAThread]
         private static void Main()
         {
-            System.Windows.Forms.Application.EnableVisualStyles();
-            System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
+            try
+            {
+                System.Windows.Forms.Application.EnableVisualStyles();
+                System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
 
+                ConfigureLogging();
+                ConfigureServices();
 
-            ConfigureLogging();
-            ConfigureServices();
-
-            var welcomeForm = _serviceProvider.GetRequiredService<WelcomeForm>();
-            System.Windows.Forms.Application.Run(welcomeForm);
-
-            if (_serviceProvider != null) _serviceProvider.Dispose();
+                var welcomeForm = _serviceProvider.GetRequiredService<WelcomeForm>();
+                System.Windows.Forms.Application.Run(welcomeForm);
+            }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show(
+                    $"An unhandled exception occurred:\n\n{ex}",
+                    "Fatal Error",
+                    System.Windows.Forms.MessageBoxButtons.OK,
+                    System.Windows.Forms.MessageBoxIcon.Error
+                );
+            }
+            finally
+            {
+                _serviceProvider?.Dispose();
+            }
         }
 
 

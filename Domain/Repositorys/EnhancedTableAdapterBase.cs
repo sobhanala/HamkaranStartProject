@@ -9,24 +9,30 @@ using Microsoft.Extensions.Logging;
 
 namespace Domain.Repositorys
 {
+    /// <summary>
+    /// moshkel injoori bud ke id -1 bud ye zamani ava taghir dadam ke in ghaziye hal she vali khub in migi db auto inc ro khammosh konam ke fek konam esthebahee 
+    /// </summary>
+    /// <typeparam name="TDataTable"></typeparam>
     public abstract class EnhancedTableAdapterBase<TDataTable> : IEnhancedTableAdapter
         where TDataTable : DataTable, IEnhancedDataTableMetadata, new()
 
     {
         protected readonly ILogger Logger;
         protected readonly ISessionService SessionService;
-        protected SqlTransaction Transaction;
         protected int? AuditUserId;
         protected  TDataTable DataTable;
+        protected readonly ITransactionManager TransactionManager;
 
         protected abstract DbDataAdapter DataAdapter { get; }
-        protected abstract SqlConnection Connection { get; }
+        protected  SqlConnection Connection => TransactionManager.GetConnection();
+        protected SqlTransaction Transaction => TransactionManager.GetTransaction();
 
-        protected EnhancedTableAdapterBase(ILogger logger, ISessionService sessionService)
+
+        protected EnhancedTableAdapterBase(ILogger logger, ISessionService sessionService, ITransactionManager transactionManager)
         {
             Logger = logger;
             SessionService = sessionService;
-
+            TransactionManager = transactionManager;
         }
 
         protected string TableName => DataTable.tableName;
@@ -92,6 +98,7 @@ namespace Domain.Repositorys
                 if (Connection.State != ConnectionState.Open)
                     await Connection.OpenAsync();
 
+                ApplyTransactionToCommands(Transaction);
 
                 return await Task.Run(() => DataAdapter.Fill(dataTable));
             }
@@ -113,6 +120,7 @@ namespace Domain.Repositorys
                 using (var adapter = new SqlDataAdapter())
                 {
                     adapter.SelectCommand = command;
+
                     await Task.Run(() => adapter.Fill(dataTable));
                 } 
 
@@ -125,6 +133,34 @@ namespace Domain.Repositorys
             }
         }
 
+        public virtual async Task<TDataTable> FetchAsyncByCommand(SqlCommand command)
+        {
+            try
+            {
+                if (Connection.State != ConnectionState.Open)
+                    await Connection.OpenAsync();
+
+
+                var result = new TDataTable();
+
+
+                using (var adapter = new SqlDataAdapter())
+                {
+                    adapter.SelectCommand = command;
+
+                    await Task.Run(() => adapter.Fill(result));
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error filling DataTable for {TableName}", TableName);
+                throw;
+            }
+        }
+
+
         public virtual async Task<int> UpdateAsync(DataTable dataTable)
         {
             try
@@ -135,6 +171,8 @@ namespace Domain.Repositorys
                 ApplyViewSafety(dataTable);
 
                 ApplyAuditFields(dataTable);
+
+                ApplyTransactionToCommands(Transaction);
                 return await Task.Run(() => DataAdapter.Update(dataTable));
             }
             catch (Exception ex)
@@ -157,6 +195,7 @@ namespace Domain.Repositorys
                     ApplyAuditFields(table);
                     return await Task.Run(() => DataAdapter.Update(dataSet, tableName));
                 }
+
                 return 0;
             }
             catch (Exception ex)
@@ -166,56 +205,28 @@ namespace Domain.Repositorys
             }
         }
 
-        public virtual void BeginTransaction()
+        public virtual async Task<TDataTable> FetchTypedAsync()
         {
             try
             {
                 if (Connection.State != ConnectionState.Open)
-                    Connection.Open();
+                    await Connection.OpenAsync();
 
-                if (Transaction !=null)
-                {
-                    return;
-                }
+                var result = new TDataTable();
 
-                Transaction = Connection.BeginTransaction();
+                await Task.Run(() => DataAdapter.Fill(result));
+             
 
-                ApplyTransactionToCommands(Transaction);
+                return result;
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "Error beginning transaction for {TableName}", TableName);
+                Logger.LogError(ex, "Error fetching typed data for {TableName}", TableName);
                 throw;
             }
         }
 
-        public virtual void CommitTransaction()
-        {
-            try
-            {
-                Transaction?.Commit();
-                Transaction = null;
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, "Error committing transaction for {TableName}", TableName);
-                throw;
-            }
-        }
 
-        public virtual void RollbackTransaction()
-        {
-            try
-            {
-                Transaction?.Rollback();
-                Transaction = null;
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, "Error rolling back transaction for {TableName}", TableName);
-                throw;
-            }
-        }
 
         public virtual void SetAuditUser(int userId)
         {
@@ -290,10 +301,11 @@ namespace Domain.Repositorys
 
             var columnNames = string.Join(", ", insertColumns.Select(c => $"[{c.ColumnName}]"));
             var paramNames = string.Join(", ", insertColumns.Select(c => $"@{c.ColumnName}"));
+            string t = ""; 
 
             var cmd = new SqlCommand
             {
-                CommandText = $"INSERT INTO [{TableName}] ({columnNames}) VALUES ({paramNames})",
+                CommandText = $"INSERT INTO [{TableName}] ({columnNames}) {t} VALUES ({paramNames})",
                 CommandType = CommandType.Text,
                 Connection = Connection
             };
@@ -302,6 +314,9 @@ namespace Domain.Repositorys
             {
                 cmd.Parameters.Add($"@{col.ColumnName}", GetSqlDbType(col)).SourceColumn = col.ColumnName;
             }
+
+
+
 
             return cmd;
         }
@@ -356,6 +371,7 @@ namespace Domain.Repositorys
 
             return cmd;
         }
+        
 
 
 
