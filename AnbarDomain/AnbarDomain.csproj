@@ -58,6 +58,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="repositorys\IInventoryRepository.cs" />
     <Compile Include="repositorys\IPartyRepository.cs" />
     <Compile Include="repositorys\IProductRepository.cs" />
     <Compile Include="repositorys\IWarehouseReceiptItemRepository.cs" />

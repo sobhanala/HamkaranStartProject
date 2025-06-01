@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using AnbarDomain.Partys;
+﻿using AnbarDomain.Partys;
 using AnbarDomain.repositorys;
 using AnbarDomain.Tabels;
 using Domain.Attribute;
 using Domain.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AnbarService
 {
     [Service]
-    public class PartyManagement:IPartyManagement
+    public class PartyManagement : IPartyManagement
     {
         private readonly IPartyRepository _partyRepository;
 
@@ -38,7 +38,7 @@ namespace AnbarService
             await _partyRepository.InsertAsync(party1);
         }
 
-        public async  Task SaveAllChanges(DataTable partiesTable)
+        public async Task SaveAllChanges(DataTable partiesTable)
         {
 
             await _partyRepository.SaveChangesFromDataTable(partiesTable);
@@ -48,7 +48,7 @@ namespace AnbarService
         public async Task<List<Party>> GetAllParties()
         {
             var a = await _partyRepository.GetAllAsync();
-           return a.ToList();
+            return a.ToList();
         }
 
         public async Task UpdateParty(Party party1)
@@ -61,11 +61,11 @@ namespace AnbarService
 
             var party = await _partyRepository.GetByIdAsync(party1.Id);
             if (party == null)
-                throw new ValidationException("The party Shown as created but not in db", 
+                throw new ValidationException("The party Shown as created but not in db",
                     "Party Not Found", ErrorCode.PartyNotFound);
 
 
-            await _partyRepository.UpdateAsync(party1,"Id");
+            await _partyRepository.UpdateAsync(party1, "Id");
 
         }
 
@@ -85,7 +85,7 @@ namespace AnbarService
         {
             try
             {
-               return await _partyRepository.GetByIdAsync(id);
+                return await _partyRepository.GetByIdAsync(id);
             }
             catch (Exception ex)
             {

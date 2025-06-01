@@ -1,21 +1,21 @@
-﻿using System;
-using System.Data;
-using System.Data.Common;
-using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using AnbarDomain.repositorys;
+﻿using AnbarDomain.repositorys;
 using AnbarDomain.Tabels;
 using AnbarDomain.Tabels.AnbarDataSetTableAdapters;
 using Domain.Attribute;
 using Domain.Repositorys;
 using Domain.SharedSevices;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Data;
+using System.Data.Common;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace AnbarPersitence.Newway
 {
     [Repository]
-    public class EnhancedWarehouseReceiptsTableAdapter : EnhancedTableAdapterBase<AnbarDataSet.WarehouseReceiptsDataTable>,IWarehouseReceiptRepository
+    public class EnhancedWarehouseReceiptsTableAdapter : EnhancedTableAdapterBase<AnbarDataSet.WarehouseReceiptsDataTable>, IWarehouseReceiptRepository
     {
         private readonly WarehouseReceiptsTableAdapter _baseAdapter;
 
@@ -23,8 +23,8 @@ namespace AnbarPersitence.Newway
 
         public EnhancedWarehouseReceiptsTableAdapter(
             ILogger<EnhancedWarehouseReceiptsTableAdapter> logger,
-            ISessionService sessionService,ITransactionManager _manager)
-            : base(logger, sessionService,_manager)
+            ISessionService sessionService, ITransactionManager _manager)
+            : base(logger, sessionService, _manager)
         {
             _baseAdapter = new WarehouseReceiptsTableAdapter();
             InitCommands();
@@ -73,8 +73,8 @@ namespace AnbarPersitence.Newway
 
         public async Task<AnbarDataSet.WarehouseReceiptsDataTable> FetchAsync()
         {
-           var datatable= await base.FetchTypedAsync();
-           return datatable;
+            var datatable = await base.FetchTypedAsync();
+            return datatable;
         }
         public async Task<int> UpdateTransaction2(AnbarDataSet.WarehouseReceiptsDataTable data)
         {
@@ -101,9 +101,9 @@ namespace AnbarPersitence.Newway
         {
             var insertCommand = CreateInsertCommand();
             _baseAdapter.GetAdapter().InsertCommand = insertCommand;
-           var updated =  await base.UpdateAsync(data);
+            var updated = await base.UpdateAsync(data);
 
-           return updated;
+            return updated;
         }
 
 

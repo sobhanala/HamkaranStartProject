@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Domain.SharedSevices;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain.SharedSevices;
-using Microsoft.Extensions.Logging;
 
 namespace Domain.Repositorys
 {
@@ -20,11 +20,11 @@ namespace Domain.Repositorys
         protected readonly ILogger Logger;
         protected readonly ISessionService SessionService;
         protected int? AuditUserId;
-        protected  TDataTable DataTable;
+        protected TDataTable DataTable;
         protected readonly ITransactionManager TransactionManager;
 
         protected abstract DbDataAdapter DataAdapter { get; }
-        protected  SqlConnection Connection => TransactionManager.GetConnection();
+        protected SqlConnection Connection => TransactionManager.GetConnection();
         protected SqlTransaction Transaction => TransactionManager.GetTransaction();
 
 
@@ -39,16 +39,16 @@ namespace Domain.Repositorys
         protected string ViewName => DataTable.viewName;
 
 
-        public   void InitCommands()
+        public void InitCommands()
         {
-            
+
             DataTable = new TDataTable();
             if (DataAdapter is SqlDataAdapter sqlAdapter)
             {
                 sqlAdapter.InsertCommand = CreateInsertCommand();
                 sqlAdapter.UpdateCommand = CreateUpdateCommand();
                 sqlAdapter.DeleteCommand = CreateDeleteCommand();
-                sqlAdapter.SelectCommand=  CreateSelectCommand();
+                sqlAdapter.SelectCommand = CreateSelectCommand();
             }
             else
             {
@@ -90,6 +90,40 @@ namespace Domain.Repositorys
             }
         }
 
+        public virtual async Task<int> DeleteByIdAsync(int id)
+        {
+            try
+            {
+                if (Connection.State != ConnectionState.Open)
+                    await Connection.OpenAsync();
+
+                using (var command = Connection.CreateCommand())
+                {
+                    command.Transaction = Transaction;
+                    command.CommandText = $"DELETE FROM [{TableName}] WHERE [Id] = @Id";
+                    command.CommandType = CommandType.Text;
+
+                    var param = command.CreateParameter();
+                    param.ParameterName = "@Id";
+                    param.Value = id;
+                    command.Parameters.Add(param);
+
+                    if (Transaction != null)
+                    {
+                        command.Transaction = Transaction;
+                    }
+
+                    return await command.ExecuteNonQueryAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error retrieving row from {TableName} by ID: {Id}", TableName, id);
+                throw;
+            }
+        }
+
+
 
         public virtual async Task<int> FillAsync(DataTable dataTable)
         {
@@ -122,7 +156,7 @@ namespace Domain.Repositorys
                     adapter.SelectCommand = command;
 
                     await Task.Run(() => adapter.Fill(dataTable));
-                } 
+                }
 
                 return dataTable;
             }
@@ -215,7 +249,7 @@ namespace Domain.Repositorys
                 var result = new TDataTable();
 
                 await Task.Run(() => DataAdapter.Fill(result));
-             
+
 
                 return result;
             }
@@ -270,7 +304,7 @@ namespace Domain.Repositorys
 
             foreach (var column in columnsToIgnore)
             {
-                column.ReadOnly = true; 
+                column.ReadOnly = true;
             }
         }
 
@@ -301,7 +335,7 @@ namespace Domain.Repositorys
 
             var columnNames = string.Join(", ", insertColumns.Select(c => $"[{c.ColumnName}]"));
             var paramNames = string.Join(", ", insertColumns.Select(c => $"@{c.ColumnName}"));
-            string t = ""; 
+            string t = "";
 
             var cmd = new SqlCommand
             {
@@ -355,7 +389,7 @@ namespace Domain.Repositorys
             {
                 CommandText = $"UPDATE [{TableName}] SET {setClause} WHERE [Id] = @Id",
                 CommandType = CommandType.Text,
-               Connection = Connection
+                Connection = Connection
             };
 
             foreach (var col in updatableColumns)
@@ -371,7 +405,7 @@ namespace Domain.Repositorys
 
             return cmd;
         }
-        
+
 
 
 
@@ -381,7 +415,8 @@ namespace Domain.Repositorys
             var cmd = new SqlCommand
             {
                 CommandText = $"SELECT * FROM [{ViewName}]",
-                CommandType = CommandType.Text,Connection = Connection
+                CommandType = CommandType.Text,
+                Connection = Connection
             };
 
             return cmd;

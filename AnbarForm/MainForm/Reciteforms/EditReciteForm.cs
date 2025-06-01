@@ -1,12 +1,12 @@
-﻿using System;
+﻿using AnbarDomain.Orders;
+using AnbarDomain.Tabels;
+using AnbarDomain.Tabels.AnbarDataSetTableAdapters;
+using AnbarService;
+using System;
 using System.Data;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AnbarDomain.Orders;
-using AnbarDomain.Tabels;
-using AnbarDomain.Tabels.AnbarDataSetTableAdapters;
-using AnbarService;
 
 namespace AnbarForm.MainForm.Reciteforms
 {   //TOOD this form  should be in this way that the master in top initialized and detail then
@@ -19,7 +19,7 @@ namespace AnbarForm.MainForm.Reciteforms
         private readonly IWarehouseReceipt _warehouseReceiptService;
         private ProductsTableAdapter _productAdapter = new ProductsTableAdapter();
 
-        public EditReciteForm( AnbarDataSet.WarehouseReceiptsRow receipt,
+        public EditReciteForm(AnbarDataSet.WarehouseReceiptsRow receipt,
             IWarehouseReceipt warehouseReceipt)
         {
             _warehouseReceiptService = warehouseReceipt;
@@ -31,7 +31,7 @@ namespace AnbarForm.MainForm.Reciteforms
         }
 
         // SOLUTION 1: Work with actual data table instead of view
-        private  void LoadReceiptItems()
+        private void LoadReceiptItems()
         {
             LoadReceiptItemsFromView();
 
@@ -65,7 +65,7 @@ namespace AnbarForm.MainForm.Reciteforms
             }
         }
 
-        private async void DataGridViewItems_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        private void DataGridViewItems_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             {

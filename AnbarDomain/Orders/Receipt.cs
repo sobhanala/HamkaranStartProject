@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Common;
+﻿using Domain.Common;
+using System;
 
 namespace AnbarDomain.Orders
 {
@@ -12,7 +8,7 @@ namespace AnbarDomain.Orders
         public string ReceiptNumber { get; set; }
         public ReciteType ReceiptType { get; set; }
         public int PartyId { get; set; }
-        public decimal Discount { get; set; } 
+        public decimal Discount { get; set; }
         public DateTime ReceiptTime { get; set; }
         public int WareHouseId { get; set; }
         public decimal TransportCost { get; set; }

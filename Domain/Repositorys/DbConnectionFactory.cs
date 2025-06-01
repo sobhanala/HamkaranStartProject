@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using Microsoft.Extensions.Logging;
 
 namespace Domain.Repositorys
 {
@@ -16,21 +15,21 @@ namespace Domain.Repositorys
 
         public SqlConnection CreateConnection()
         {
-        
-                var connection = new SqlConnection(_connectionString);
-                return connection;
-            
-         
+
+            var connection = new SqlConnection(_connectionString);
+            return connection;
+
+
         }
 
         public SqlCommand CreateCommand(string commandText, CommandType commandType, IDbConnection connection)
         {
-    
-                var command = new SqlCommand(commandText, (SqlConnection)connection);
-                command.CommandType = commandType;
-                return command;
-            
-           
+
+            var command = new SqlCommand(commandText, (SqlConnection)connection);
+            command.CommandType = commandType;
+            return command;
+
+
         }
 
         public SqlParameter CreateParameter(string name, object value, DbType dbType)

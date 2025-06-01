@@ -1,8 +1,8 @@
 ﻿namespace Domain.Repositorys
 {
-    public interface  IEnhancedDataTableMetadata
+    public interface IEnhancedDataTableMetadata
     {
-         string tableName { get; }
-         string viewName { get; }
+        string tableName { get; }
+        string viewName { get; }
     }
 }

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using AnbarDomain.Orders;
+using AnbarDomain.Tabels;
+using System;
 using System.Linq;
 using System.Windows.Forms;
-using AnbarDomain.Orders;
-using AnbarDomain.Tabels;
 
 namespace AnbarForm.MainForm.Reciteforms
 {
@@ -10,7 +10,7 @@ namespace AnbarForm.MainForm.Reciteforms
     {
         public int SelectedWarehouseId => (int)cmbwarehouse.SelectedValue;
         public int SelectedPartyId => (int)cmbParty.SelectedValue;
-        public decimal  Disount;
+        public decimal Disount;
         public decimal TransportCost;
         public byte Type;
         public DateTime Date;
@@ -18,7 +18,7 @@ namespace AnbarForm.MainForm.Reciteforms
         public AddReceiptForm(AnbarDataSet.WarehousesDataTable warehouses, AnbarDataSet.PartiesDataTable parties)
         {
             InitializeComponent();
-            ConfigureComboBox(warehouses,parties);
+            ConfigureComboBox(warehouses, parties);
             ConfigureDate();
 
         }
@@ -77,7 +77,7 @@ namespace AnbarForm.MainForm.Reciteforms
             cmbParty.DataSource = parties;
 
             var receiptTypes = Enum.GetValues(typeof(ReciteType)).Cast<ReciteType>().Select
-               (u => new { Name = u.ToString(),Value=(byte)u}).ToList();
+               (u => new { Name = u.ToString(), Value = (byte)u }).ToList();
 
             ReciteType.DisplayMember = "Name";
             ReciteType.ValueMember = "Value";

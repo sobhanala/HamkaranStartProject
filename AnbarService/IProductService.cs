@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using AnbarDomain.Tabels;
+﻿using AnbarDomain.Tabels;
+using System.Threading.Tasks;
 
 namespace AnbarService
 {

@@ -93,7 +93,8 @@
             // 
             // btn_Save
             // 
-            this.btn_Save.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_Save.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Save.Location = new System.Drawing.Point(3, 567);
             this.btn_Save.Name = "btn_Save";
             this.btn_Save.Size = new System.Drawing.Size(1437, 57);
@@ -104,6 +105,8 @@
             // 
             // grpHeader
             // 
+            this.grpHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.grpHeader.Controls.Add(this.nestedTableLayoutPanel);
             this.grpHeader.Location = new System.Drawing.Point(3, 3);
             this.grpHeader.Name = "grpHeader";
@@ -171,9 +174,10 @@
             // 
             // flowLayoutPanel5
             // 
+            this.flowLayoutPanel5.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel5.Controls.Add(this.lblCost);
             this.flowLayoutPanel5.Controls.Add(this.numCost);
-            this.flowLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel5.Location = new System.Drawing.Point(480, 84);
             this.flowLayoutPanel5.Name = "flowLayoutPanel5";
             this.flowLayoutPanel5.Size = new System.Drawing.Size(471, 76);
@@ -344,6 +348,8 @@
             // 
             // BtnAddRow
             // 
+            this.BtnAddRow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnAddRow.BackColor = System.Drawing.Color.LimeGreen;
             this.BtnAddRow.Location = new System.Drawing.Point(3, 3);
             this.BtnAddRow.Name = "BtnAddRow";
@@ -354,6 +360,8 @@
             // 
             // BtnDeleteRow
             // 
+            this.BtnDeleteRow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnDeleteRow.BackColor = System.Drawing.Color.OrangeRed;
             this.BtnDeleteRow.Location = new System.Drawing.Point(37, 3);
             this.BtnDeleteRow.Name = "BtnDeleteRow";
@@ -367,6 +375,8 @@
             this.dgReciteItem.AllowUserToAddRows = false;
             this.dgReciteItem.AllowUserToDeleteRows = false;
             this.dgReciteItem.AllowUserToOrderColumns = true;
+            this.dgReciteItem.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgReciteItem.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgReciteItem.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgReciteItem.Location = new System.Drawing.Point(3, 32);
             this.dgReciteItem.Name = "dgReciteItem";

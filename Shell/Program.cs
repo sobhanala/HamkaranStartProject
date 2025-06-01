@@ -1,5 +1,4 @@
-﻿using System;
-using Application;
+﻿using Application;
 using Domain.Module;
 using Domain.Repositorys;
 using Domain.SharedSevices;
@@ -7,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Shell.DI;
 using Shell.forms;
+using System;
 
 namespace Shell
 {
@@ -58,7 +58,7 @@ namespace Shell
             services.AddSingleton(_loggerFactory);
             services.AddLogging();
 
-            
+
             services.AddSingleton(new AppSettings());
             services.AddSingleton<ISessionService, SessionService>();
 

@@ -1,7 +1,7 @@
-﻿using System.Data;
-using System.Windows.Forms;
-using AnbarDomain.Tabels;
+﻿using AnbarDomain.Tabels;
 using AnbarDomain.Tabels.AnbarDataSetTableAdapters;
+using System.Data;
+using System.Windows.Forms;
 
 namespace AnbarForm.MainForm.Reciteforms.selectors
 {

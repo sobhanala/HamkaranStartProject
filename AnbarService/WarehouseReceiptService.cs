@@ -1,40 +1,41 @@
-﻿using System;
+﻿using AnbarDomain.repositorys;
+using AnbarDomain.Tabels;
+using Domain.Attribute;
+using Domain.SharedSevices;
+using System;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using AnbarDomain.repositorys;
-using AnbarDomain.Tabels;
-using Domain.Attribute;
-using Domain.SharedSevices;
 
 
 namespace AnbarService
 {
     [Service]
-    class WarehouseReceiptService: IWarehouseReceipt
+    class WarehouseReceiptService : IWarehouseReceipt
     {
         private readonly IWarehouseReceiptRepository _receiptRepository;
         private readonly IWarehouseReceiptItemRepository _receiptItemRepository;
         private readonly ITransactionManager _transactionManager;
+        private readonly IInventoryService _inventoryService;
 
 
 
-
-        public WarehouseReceiptService(IWarehouseReceiptRepository receiptRepository, IWarehouseReceiptItemRepository receiptItemRepository, ITransactionManager transactionManager)
+        public WarehouseReceiptService(IWarehouseReceiptRepository receiptRepository, IWarehouseReceiptItemRepository receiptItemRepository, ITransactionManager transactionManager, IInventoryService inventoryService)
         {
             _receiptRepository = receiptRepository;
             _receiptItemRepository = receiptItemRepository;
-           _transactionManager = transactionManager;
+            _transactionManager = transactionManager;
+            _inventoryService = inventoryService;
         }
 
-        public async  Task<string> GenerateNewReceiptNumber()
+        public async Task<string> GenerateNewReceiptNumber()
         {
-            var recitenum=await _receiptRepository.GetNextReceiptNumberAsync();
+            var recitenum = await _receiptRepository.GetNextReceiptNumberAsync();
             return recitenum;
         }
 
-        public  async Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FillByReceiptIdWithProductInfo(int receiptId)
+        public async Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FillByReceiptIdWithProductInfo(int receiptId)
         {
             return await _receiptItemRepository.FetchByReceiptIdWithProductInfo(receiptId);
         }
@@ -73,37 +74,15 @@ namespace AnbarService
         }
 
 
-        public async Task SaveChangesTableAsync(AnbarDataSet.WarehouseReceiptsDataTable  dataTable)
+        public async Task SaveChangesTableAsync(AnbarDataSet.WarehouseReceiptsDataTable dataTable)
         {
             await _receiptRepository.UpdateAsync(dataTable);
         }
-        public async Task SaveChanges2TableAsync(AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable  dataTable)
+        public async Task SaveChanges2TableAsync(AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable dataTable)
         {
             await _receiptItemRepository.UpdateAsync(dataTable);
         }
 
-        public Task UpdateSingleItemAsync(int itemId, decimal newQty, decimal newPrice)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public async Task<DataRow> CreateWarehouseReceiptAsync(AnbarDataSet dataset, int warehouseId, int partyId, byte type, DateTime date)
-        {
-
-            var newRow = dataset.WarehouseReceipts.NewWarehouseReceiptsRow();
-            newRow.WarehouseId = warehouseId;
-            newRow.PartyId = partyId;
-            newRow.ReceiptNumber = await GenerateNewReceiptNumber();
-            newRow.ReceiptStatus = type;
-            newRow.ReceiptDate = date;
-
-            dataset.WarehouseReceipts.AddWarehouseReceiptsRow(newRow);
-
-            await SaveChangesTableAsync(dataset.WarehouseReceipts);
-
-            return newRow;
-        }
 
         public async Task SaveReceiptItemsAndUpdateEwiAsync(AnbarDataSet dataset, int receiptId)
         {
@@ -125,11 +104,108 @@ namespace AnbarService
             await SaveChanges2TableAsync(dataset.WarehouseReceiptItemsWithProductView);
         }
 
-        public async Task UpdateSingleItemAsync(AnbarDataSet.WarehouseReceiptItemsWithProductViewRow dViewRow)
+
+        public async Task SaveReceiptWithItemsAsync(AnbarDataSet dataset)
         {
 
-            
+            _transactionManager.BeginTransactionAsync();
+            try
+            {
+                LogTableRows(dataset.WarehouseReceipts, "WarehouseReceipts", "Before Update");
+
+                await _receiptRepository.UpdateTransaction(dataset.WarehouseReceipts);
+
+                LogTableRows(dataset.WarehouseReceipts, "WarehouseReceipts", "after Update");
+
+
+                var header = await _receiptRepository.FetchAsync();
+
+                var lastRow = (AnbarDataSet.WarehouseReceiptsRow)header.Rows[header.Rows.Count - 1];
+
+                foreach (var item in dataset.WarehouseReceiptItemsWithProductView)
+                {
+                    item.ReceiptId = lastRow.Id;
+
+                }
+                await _receiptItemRepository.UpdateAsync(dataset.WarehouseReceiptItemsWithProductView);
+
+                var detail = await _receiptItemRepository.FetchByReceiptIdWithProductInfo(lastRow.Id);
+
+                await UpdateHeaderTotalAmount(detail, lastRow, header);
+
+                await _inventoryService.UpdateInventoryAsync(detail, lastRow);
+                _transactionManager.CommitTransactionAsync();
+
+
+            }
+            catch (Exception ex)
+            {
+                _transactionManager.RollbackTransactionAsync();
+                throw new Exception("Failed to save receipt and items together", ex);
+            }
         }
+
+
+        public async Task DeleteReceiptWithInventoryAsync(AnbarDataSet.WarehouseReceiptsRow receiptRow)
+        {
+            _transactionManager.BeginTransactionAsync();
+
+            try
+            {
+                var detail = await _receiptItemRepository.FetchByReceiptIdWithProductInfo(receiptRow.Id);
+
+                await _inventoryService.DeleteInventoryAsync(detail, receiptRow);
+                await _receiptItemRepository.DeleteByReciteInfo(receiptRow.Id);
+
+                await _receiptRepository.DeleteByIdAsync(receiptRow.Id);
+
+                _transactionManager.CommitTransactionAsync();
+            }
+            catch (Exception ex)
+            {
+                _transactionManager.RollbackTransactionAsync();
+                throw new Exception("Failed to delete receipt and update inventory", ex);
+            }
+        }
+
+
+
+
+        #region Private
+
+        private async Task UpdateHeaderTotalAmount(AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable detail, AnbarDataSet.WarehouseReceiptsRow lastRow,
+            AnbarDataSet.WarehouseReceiptsDataTable header)
+        {
+
+            decimal totalAmount = 0;
+
+            foreach (var item in detail)
+            {
+                if (!item.IsTotalAmountNull())
+                    totalAmount += item.TotalAmount;
+            }
+
+            decimal discount = lastRow.IsDiscountNull() ? 0 : lastRow.Discount;
+            decimal transportCost = lastRow.IsTransportCostNull() ? 0 : lastRow.TransportCost;
+
+            decimal discountedAmount = totalAmount * (1 - discount / 100m);
+            decimal finalAmount = discountedAmount + transportCost;
+
+            lastRow.TotalAmount = finalAmount;
+
+
+
+            await _receiptRepository.UpdateTransaction(header);
+        }
+
+
+
+
+
+
+
+
+
         private void LogTableRows(DataTable table, string tableName, string context)
         {
             Debug.WriteLine($"\n---- {context}: Table = {tableName} ----");
@@ -147,39 +223,14 @@ namespace AnbarService
             Debug.WriteLine($"---- End of {context} ----\n");
         }
 
-        public async Task SaveReceiptWithItemsAsync(AnbarDataSet dataset)
-        {
-
-            _transactionManager.BeginTransactionAsync();
-            try
-            {
-                LogTableRows(dataset.WarehouseReceipts, "WarehouseReceipts", "Before Update");
-
-                await _receiptRepository.UpdateTransaction(dataset.WarehouseReceipts);
-
-                LogTableRows(dataset.WarehouseReceipts, "WarehouseReceipts", "after Update");
 
 
-                var header=await _receiptRepository.FetchAsync();
 
-                var lastRow = (AnbarDataSet.WarehouseReceiptsRow)header.Rows[header.Rows.Count - 1];
-
-                foreach (var item in dataset.WarehouseReceiptItemsWithProductView)
-                {
-                    item.ReceiptId = lastRow.Id;
-
-                }
-                await _receiptItemRepository.UpdateAsync(dataset.WarehouseReceiptItemsWithProductView);
-
-                _transactionManager.CommitTransactionAsync();
-            }
-            catch (Exception ex)
-            {
-                _transactionManager.RollbackTransactionAsync();
-                throw new Exception("Failed to save receipt and items together", ex);
-            }
-        }
+        #endregion
 
     }
+
+
+
 }
 

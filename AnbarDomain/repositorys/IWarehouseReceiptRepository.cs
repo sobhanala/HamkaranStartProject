@@ -1,5 +1,4 @@
-﻿using AnbarDomain.Orders;
-using AnbarDomain.Tabels;
+﻿using AnbarDomain.Tabels;
 using Domain.Repositorys;
 using System.Threading.Tasks;
 

@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="Newway\EnhancedInventoryAdapter.cs" />
     <Compile Include="Newway\EnhancedWarehouseReceiptItemsViewAdapter.cs" />
     <Compile Include="Newway\EnhancedWarehouseReceiptsTableAdapter.cs" />
     <Compile Include="ProductRepository.cs" />

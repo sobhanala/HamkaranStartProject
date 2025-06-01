@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
-using AnbarDomain.Partys;
+﻿using AnbarDomain.Partys;
 using AnbarDomain.repositorys;
 using AnbarDomain.Tabels;
 using Domain.Attribute;
 using Domain.Common;
-using Domain.Exceptions;
 using Domain.Repositorys;
 using Domain.SharedSevices;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
 
 
 
@@ -27,12 +25,12 @@ namespace AnbarPersitence
 
 
         public PartyRepository(DbConnectionFactory connectionFactory, ILogger<PartyRepository> logger, ISessionService sessionService)
-            : base(connectionFactory, "Parties", "Id", GetColumnNames(new AnbarDataSet.PartiesDataTable()),logger,sessionService)
+            : base(connectionFactory, "Parties", "Id", GetColumnNames(new AnbarDataSet.PartiesDataTable()), logger, sessionService)
         {
             _sessionService = sessionService;
         }
 
- 
+
 
 
 
@@ -68,7 +66,7 @@ namespace AnbarPersitence
             return new Party
             {
                 Id = row.Id,
-                Name = row. Name,
+                Name = row.Name,
                 Address = new Address(
                     row.IsStreetNull() ? null : row.Street,
                     row.IsCityNull() ? null : row.City,

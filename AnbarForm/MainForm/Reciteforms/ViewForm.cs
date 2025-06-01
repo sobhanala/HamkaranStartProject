@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows.Forms;
-using AnbarDomain.Tabels;
+﻿using AnbarDomain.Tabels;
 using AnbarService;
+using System;
+using System.Windows.Forms;
 
 namespace AnbarForm.MainForm.Reciteforms
 {
@@ -35,7 +35,7 @@ namespace AnbarForm.MainForm.Reciteforms
         {
             _receiptRow = receiptRow;
             var masterTable = receiptRow.Table.Clone();
-            masterTable.ImportRow(receiptRow); 
+            masterTable.ImportRow(receiptRow);
             masterGrid.DataSource = masterTable;
 
             var viewTable = await _warehouseReceiptService.FillByReceiptIdWithProductInfo(receiptId: _receiptRow.Id);

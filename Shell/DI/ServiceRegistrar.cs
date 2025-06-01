@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Domain.Attribute;
+using Domain.Module;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using Domain.Attribute;
-using Domain.Module;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Shell.DI
 {
@@ -116,7 +115,7 @@ namespace Shell.DI
                         return Type.EmptyTypes;
                     }
                 })
-                .Where(t => t.IsClass && !t.IsAbstract && t.GetCustomAttribute<ServiceAttribute>()!=null);
+                .Where(t => t.IsClass && !t.IsAbstract && t.GetCustomAttribute<ServiceAttribute>() != null);
 
             foreach (var serviceType in serviceTypes)
             {

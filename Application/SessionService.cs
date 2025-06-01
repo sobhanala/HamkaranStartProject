@@ -1,5 +1,4 @@
-﻿using Domain.Attribute;
-using Domain.SharedSevices;
+﻿using Domain.SharedSevices;
 using Domain.Users;
 
 namespace Application

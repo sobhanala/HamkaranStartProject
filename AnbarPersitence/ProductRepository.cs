@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
-using AnbarDomain.Products;
+﻿using AnbarDomain.Products;
 using AnbarDomain.repositorys;
 using AnbarDomain.Tabels;
 using Domain.Attribute;
 using Domain.Repositorys;
 using Domain.SharedSevices;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
 
 
 
@@ -25,7 +25,7 @@ namespace AnbarPersitence
 
 
         public ProductRepository(DbConnectionFactory connectionFactory, ILogger<ProductRepository> logger, ISessionService sessionService)
-            : base(connectionFactory, "Products", "Id", GetColumnNames(new AnbarDataSet.ProductsDataTable()),logger,sessionService)
+            : base(connectionFactory, "Products", "Id", GetColumnNames(new AnbarDataSet.ProductsDataTable()), logger, sessionService)
         {
             _logger = logger;
             _sessionService = sessionService;

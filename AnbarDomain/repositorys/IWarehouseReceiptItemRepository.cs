@@ -1,12 +1,12 @@
-﻿using System.Threading.Tasks;
-using AnbarDomain.Tabels;
+﻿using AnbarDomain.Tabels;
 using Domain.Repositorys;
+using System.Threading.Tasks;
 
 namespace AnbarDomain.repositorys
 {
-    public interface IWarehouseReceiptItemRepository:IEnhancedTableAdapter
+    public interface IWarehouseReceiptItemRepository : IEnhancedTableAdapter
     {
         Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FetchByReceiptIdWithProductInfo(int receiptId);
-
+        Task<int> DeleteByReciteInfo(int receiptId);
     }
 }

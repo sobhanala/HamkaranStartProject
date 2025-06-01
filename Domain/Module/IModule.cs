@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace Domain.Module
 {
@@ -8,9 +7,9 @@ namespace Domain.Module
 
         string Name { get; }
         string Subname { get; }
-        Form GetMainForm();  
+        Form GetMainForm();
         void Initialize();
-        int Id { get; } 
+        int Id { get; }
 
 
         //IEnumerable<ISubModule> GetSubModules();

@@ -1,20 +1,18 @@
-﻿using System;
-using System.Data;
+﻿using AnbarDomain.Tabels;
 using System.Threading.Tasks;
-using AnbarDomain.Tabels;
 
 namespace AnbarService
 {
     public interface IWarehouseReceipt
     {
         Task<AnbarDataSet> GetFullDatasetAsync();
-        Task<AnbarDataSet> GetReceiptWithItemsAsync(int receiptId);
-        Task<DataRow> CreateWarehouseReceiptAsync(AnbarDataSet dataset, int warehouseId, int partyId, byte type, DateTime recitedDateTime);
         Task SaveReceiptItemsAndUpdateEwiAsync(AnbarDataSet dataset, int receiptId);
         Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FillByReceiptIdWithProductInfo(int receiptId);
         Task SaveChangesTableAsync(AnbarDataSet.WarehouseReceiptsDataTable dataTable);
         Task SaveChanges2TableAsync(AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable dataTable);
         Task SaveReceiptWithItemsAsync(AnbarDataSet dataset);
         Task<string> GenerateNewReceiptNumber();
+
+        Task DeleteReceiptWithInventoryAsync(AnbarDataSet.WarehouseReceiptsRow receiptRow);
     }
 }

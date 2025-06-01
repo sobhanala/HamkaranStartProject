@@ -1,20 +1,19 @@
-﻿using System;
-using System.Data;
-using System.Data.Common;
-using System.Data.SqlClient;
-using System.Threading.Tasks;
-using AnbarDomain.repositorys;
+﻿using AnbarDomain.repositorys;
 using AnbarDomain.Tabels;
 using AnbarDomain.Tabels.AnbarDataSetTableAdapters;
 using Domain.Attribute;
 using Domain.Repositorys;
 using Domain.SharedSevices;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Data.Common;
+using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace AnbarPersitence.Newway
 {
     [Repository]
-    public class EnhancedWarehouseReceiptItemsViewAdapter : EnhancedTableAdapterBase<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable>,IWarehouseReceiptItemRepository
+    public class EnhancedWarehouseReceiptItemsViewAdapter : EnhancedTableAdapterBase<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable>, IWarehouseReceiptItemRepository
     {
         private readonly WarehouseReceiptItemsWithProductViewTableAdapter _adapter;
 
@@ -24,8 +23,8 @@ namespace AnbarPersitence.Newway
 
         public EnhancedWarehouseReceiptItemsViewAdapter(
             ILogger<EnhancedWarehouseReceiptItemsViewAdapter> logger,
-            ISessionService sessionService,ITransactionManager _manager)
-            : base(logger, sessionService,_manager)
+            ISessionService sessionService, ITransactionManager _manager)
+            : base(logger, sessionService, _manager)
         {
             _adapter = new WarehouseReceiptItemsWithProductViewTableAdapter();
             InitCommands();
@@ -39,7 +38,11 @@ namespace AnbarPersitence.Newway
                 var command = new SqlCommand("SELECT * FROM WarehouseReceiptItemsWithProductView WHERE ReceiptId = @ReceiptId", Connection);
 
                 command.Parameters.AddWithValue("@ReceiptId", receiptId);
-                 var a = await FetchAsyncByCommand(command);
+                if (Transaction != null)
+                {
+                    command.Transaction = Transaction;
+                }
+                var a = await FetchAsyncByCommand(command);
                 return a;
             }
             catch (Exception ex)
@@ -48,6 +51,29 @@ namespace AnbarPersitence.Newway
                 throw;
             }
         }
+
+        public async Task<int> DeleteByReciteInfo(int receiptId)
+        {
+            try
+            {
+                var command = new SqlCommand("DELETE FROM WarehouseReceiptItems WHERE ReceiptId = @ReceiptId", Connection);
+
+                command.Parameters.AddWithValue("@ReceiptId", receiptId);
+                if (Transaction != null)
+                {
+                    command.Transaction = Transaction;
+                }
+                return await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error loading items for ReceiptId: {ReceiptId}", receiptId);
+                throw;
+            }
+        }
+
+
+
 
         protected override void ApplyTransactionToCommands(SqlTransaction transaction)
         {

@@ -1,11 +1,9 @@
-﻿using System;
-using AnbarDomain.Partys;
-using Domain.Common;
+﻿using Domain.Common;
+using System;
 
 namespace AnbarDomain.Inventory
 {
 
-    //TODO fix it  and have inventory and stock movement data table
     public class Inventory : BaseEntity
     {
         public int ProductId { get; set; }

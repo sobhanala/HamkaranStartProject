@@ -1,8 +1,7 @@
-﻿using System;
-using System.Windows.Forms;
-using Application;
-using Domain.Exceptions;
+﻿using Domain.Exceptions;
 using Domain.SharedSevices;
+using System;
+using System.Windows.Forms;
 
 namespace Shell.forms
 {
@@ -50,7 +49,7 @@ namespace Shell.forms
                 MessageBox.Show(ex.UserFriendlyMessage, "Registration Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            catch (Exception )
+            catch (Exception)
             {
                 MessageBox.Show("An unexpected error occurred during registration", "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);

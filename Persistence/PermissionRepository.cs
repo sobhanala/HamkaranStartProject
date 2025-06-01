@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
-using Domain.Attribute;
+﻿using Domain.Attribute;
 using Domain.Data;
 using Domain.Exceptions;
 using Domain.Permissons;
 using Domain.Repositorys;
 using Domain.SharedSevices;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Persistence
 {
@@ -25,7 +25,7 @@ namespace Persistence
 
 
         public PermissionRepository(DbConnectionFactory connectionFactory, ILogger<PermissionRepository> logger, ISessionService sessionService)
-            : base(connectionFactory, "Permissions", "Id", GetColumnNames(new AnbarProjectDataSet.PermissionsDataTable()),logger,sessionService)
+            : base(connectionFactory, "Permissions", "Id", GetColumnNames(new AnbarProjectDataSet.PermissionsDataTable()), logger, sessionService)
         {
             _logger = logger;
             _sessionService = sessionService;
@@ -91,9 +91,9 @@ namespace Persistence
                 var toInsert = selectedModuleIds.Where(selected => existing.All(e => e.Id != selected.Id));
                 foreach (var permission in toInsert)
                 {
-               
-                        var row = MapPermissionToRow(permission, permissionTable);
-                        permissionTable.AddPermissionsRow(row);
+
+                    var row = MapPermissionToRow(permission, permissionTable);
+                    permissionTable.AddPermissionsRow(row);
                 }
 
                 var toDelete = existing
@@ -136,7 +136,7 @@ namespace Persistence
                     $"Error synchronizing permissions for user {userId}",
                     ErrorCode.DataBaseError, ex);
             }
-            
+
         }
 
 

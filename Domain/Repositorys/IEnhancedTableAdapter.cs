@@ -11,5 +11,6 @@ namespace Domain.Repositorys
         Task<int> UpdateAsync(DataSet dataSet, string tableName);
         void SetAuditUser(int userId);
         Task<DataTable> GetByIdAsync(int id);
+        Task<int> DeleteByIdAsync(int id);
     }
 }

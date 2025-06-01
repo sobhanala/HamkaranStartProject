@@ -1,17 +1,18 @@
-﻿using System;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using AnbarDomain.Orders;
+﻿using AnbarDomain.Orders;
 using AnbarDomain.Tabels;
 using AnbarDomain.Tabels.AnbarDataSetTableAdapters;
 using AnbarForm.MainForm.Reciteforms.selectors;
 using AnbarService;
 using Domain.SharedSevices;
+using System;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace AnbarForm.MainForm.Reciteforms
 {
     public partial class ReciteAnbarFormincome : Form
+
 
     {
         private AnbarDataSet _currentDataSet;
@@ -19,10 +20,9 @@ namespace AnbarForm.MainForm.Reciteforms
 
         private AnbarDataSet.WarehousesRow ReciteHeaderWarehousesRow { get; set; }
         private AnbarDataSet.PartiesRow ReciteHeaderPartiesRow { get; set; }
-        private AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable viewDataTable { get; set; }
+        private AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable ViewDataTable { get; set; }
 
 
-        private readonly BindingSource _masterBindingSource = new BindingSource();
         private readonly BindingSource _detailBindingSource = new BindingSource();
         private readonly WarehousesTableAdapter _warehousesTableAdapter = new WarehousesTableAdapter();
 
@@ -77,12 +77,13 @@ namespace AnbarForm.MainForm.Reciteforms
 
         }
 
-        private  void PrepareDataSetBeforeSave(string resitenum)
+        private void PrepareDataSetBeforeSave(string resitenum)
         {
             if (_currentDataSet == null) return;
 
             _currentDataSet.WarehouseReceipts.Clear();
             var receiptRow = _currentDataSet.WarehouseReceipts.NewWarehouseReceiptsRow();
+
             receiptRow.ReceiptDate = dateTimePicker1.Value;
 
             if (ReciteHeaderPartiesRow != null)
@@ -92,6 +93,14 @@ namespace AnbarForm.MainForm.Reciteforms
                 receiptRow.WarehouseId = ReciteHeaderWarehousesRow.Id;
             receiptRow.ReceiptNumber = resitenum;
 
+            if (numCost.Value is decimal transportCost)
+            {
+                receiptRow.TransportCost = transportCost;
+            }
+            if (numDiscount.Value is decimal discount)
+            {
+                receiptRow.Discount = discount;
+            }
             if (cmbType.SelectedValue is byte type)
             {
                 receiptRow.ReceiptStatus = type;
@@ -106,16 +115,13 @@ namespace AnbarForm.MainForm.Reciteforms
             _currentDataSet = new AnbarDataSet();
 
 
-            viewDataTable = _currentDataSet.WarehouseReceiptItemsWithProductView;
+            ViewDataTable = _currentDataSet.WarehouseReceiptItemsWithProductView;
 
-            _detailBindingSource.DataSource = viewDataTable;
+            _detailBindingSource.DataSource = ViewDataTable;
             dgReciteItem.DataSource = _detailBindingSource;
 
 
             AddPartyButtonColumn();
-
-
-
 
         }
 
@@ -172,28 +178,6 @@ namespace AnbarForm.MainForm.Reciteforms
         }
 
 
-        private async void BtnSelectProduct_Click(object sender, EventArgs e)
-        {
-            var anbar = await _partyManagement.GetPartyDataSetAsync();
-            var selector = new SelectorForm<AnbarDataSet.PartiesDataTable>(anbar.Parties, "name", "Products");
-            selector.StartPosition = FormStartPosition.Manual;
-
-            var btn = sender as Button;
-            var buttonPosition = btn.PointToScreen(Point.Empty);
-
-            selector.Location = new Point(buttonPosition.X, buttonPosition.Y + btn.Height);
-
-            if (selector.ShowDialog() == DialogResult.OK)
-            {
-                var selectedRow = (AnbarDataSet.PartiesRow)selector.SelectedRow;
-                if (selectedRow != null)
-                {
-                    ReciteHeaderPartiesRow = selectedRow;
-                    MessageBox.Show($"Selected Party: {selectedRow.Name}");
-                }
-            }
-
-        }
 
         #endregion
 
@@ -231,13 +215,14 @@ namespace AnbarForm.MainForm.Reciteforms
 
         private void BtnAddRow_Click(object sender, EventArgs e)
         {
-            viewDataTable.AddWarehouseReceiptItemsWithProductViewRow(
+            ViewDataTable.AddWarehouseReceiptItemsWithProductViewRow(
                 ReceiptId: 0,
                 ProductId: 0,
                 ProductName: "",
                 ProductCode: "",
                 Quantity: 0,
-                UnitPrice: 0
+                UnitPrice: 0,
+                TotalAmount: 0
             );
         }
 

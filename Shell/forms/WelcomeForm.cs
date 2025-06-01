@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Windows.Forms;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Shell.forms
 {

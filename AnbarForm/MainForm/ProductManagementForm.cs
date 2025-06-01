@@ -1,17 +1,17 @@
-﻿using System;
-using System.Data;
-using System.Linq;
-using System.Windows.Forms;
-using AnbarDomain.Products;
+﻿using AnbarDomain.Products;
 using AnbarDomain.Tabels;
 using AnbarService;
 using Domain.Exceptions;
+using System;
+using System.Data;
+using System.Linq;
+using System.Windows.Forms;
 
 namespace AnbarForm.MainForm
 {
     public partial class ProductManagementForm : Form
     {
-        private readonly IProductService _productService; 
+        private readonly IProductService _productService;
 
         public AnbarDataSet AnbarDataSet1
         {

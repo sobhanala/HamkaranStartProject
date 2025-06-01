@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Domain.Permissons;
+﻿using Domain.Permissons;
 using Domain.Users;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Domain.SharedSevices
 {

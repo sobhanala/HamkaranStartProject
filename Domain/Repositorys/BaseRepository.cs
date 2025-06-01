@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Domain.SharedSevices;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain.SharedSevices;
 
 
 namespace Domain.Repositorys
@@ -20,26 +20,26 @@ namespace Domain.Repositorys
         }
 
 
-        public  void MarkReadOnlyColumnsFromSchema(SqlConnection sqlConnection,string tableName, DataTable dataTable)
+        public void MarkReadOnlyColumnsFromSchema(SqlConnection sqlConnection, string tableName, DataTable dataTable)
         {
-            
-                using (var command = new SqlCommand($"SELECT * FROM {tableName} WHERE 1 = 0", sqlConnection))
-                {
-                    using (var adapter = new SqlDataAdapter(command))
-                    {
-                        var schemaTable = new DataTable();
-                        adapter.FillSchema(schemaTable, SchemaType.Source);
 
-                        foreach (DataColumn schemaColumn in schemaTable.Columns)
+            using (var command = new SqlCommand($"SELECT * FROM {tableName} WHERE 1 = 0", sqlConnection))
+            {
+                using (var adapter = new SqlDataAdapter(command))
+                {
+                    var schemaTable = new DataTable();
+                    adapter.FillSchema(schemaTable, SchemaType.Source);
+
+                    foreach (DataColumn schemaColumn in schemaTable.Columns)
+                    {
+                        var originalColumn = dataTable.Columns[schemaColumn.ColumnName];
+                        if (originalColumn != null && schemaColumn.ReadOnly)
                         {
-                            var originalColumn = dataTable.Columns[schemaColumn.ColumnName];
-                            if (originalColumn != null && schemaColumn.ReadOnly)
-                            {
-                                originalColumn.ReadOnly = true;
-                            }
+                            originalColumn.ReadOnly = true;
                         }
                     }
                 }
+            }
         }
 
         protected async Task<T> ExecuteTypedDataSetAsync<T>(
@@ -133,7 +133,7 @@ namespace Domain.Repositorys
             T dataTable,
             Dictionary<string, SqlCommand> commands = null) where T : DataTable
         {
-            var connection =_connectionFactory.CreateConnection();
+            var connection = _connectionFactory.CreateConnection();
             await connection.OpenAsync();
 
             var adapter = new SqlDataAdapter();
@@ -174,7 +174,7 @@ namespace Domain.Repositorys
                 }
                 MarkReadOnlyColumnsFromSchema(connection, dataTable.TableName, dataTable);
 
-  
+
 
                 return adapter.Update(dataTable);
             }
@@ -317,7 +317,7 @@ namespace Domain.Repositorys
 
             return command;
         }
-        protected SqlCommand BuildInsertCommand(string tableName, DataTable table,string KeyColumn)
+        protected SqlCommand BuildInsertCommand(string tableName, DataTable table, string KeyColumn)
         {
             var editableColumns = table.Columns
                 .Cast<DataColumn>()
@@ -327,7 +327,7 @@ namespace Domain.Repositorys
                 .Select(col => col.ColumnName)
                 .ToList();
 
-            var query = GenerateInsertQuery(tableName, editableColumns.Where(c => c!=KeyColumn));
+            var query = GenerateInsertQuery(tableName, editableColumns.Where(c => c != KeyColumn));
 
             var command = new SqlCommand(query);
 

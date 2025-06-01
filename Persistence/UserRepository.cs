@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
-using Domain.Attribute;
+﻿using Domain.Attribute;
 using Domain.Data;
 using Domain.Exceptions;
 using Domain.Permissons;
@@ -12,6 +6,12 @@ using Domain.Repositorys;
 using Domain.SharedSevices;
 using Domain.Users;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Persistence
 {
@@ -24,7 +24,7 @@ namespace Persistence
 
 
         public UserRepository(DbConnectionFactory connectionFactory, ILogger<UserRepository> logger, ISessionService sessionService)
-            : base(connectionFactory, "Users", "Id", GetColumnNames(new AnbarProjectDataSet.UsersDataTable()),logger,sessionService)
+            : base(connectionFactory, "Users", "Id", GetColumnNames(new AnbarProjectDataSet.UsersDataTable()), logger, sessionService)
         {
             _logger = logger;
             _sessionService = sessionService;
@@ -60,7 +60,7 @@ namespace Persistence
         }
 
 
-        
+
 
         public async Task<IEnumerable<Permission>> GetUserPermissionsAsync(int userId)
         {
@@ -91,11 +91,11 @@ namespace Persistence
 
 
 
-    #endregion
+        #endregion
 
-    #region Mapping Methods
+        #region Mapping Methods
 
-    protected override IEnumerable<User> MapResultsToEntities(AnbarProjectDataSet dataSet)
+        protected override IEnumerable<User> MapResultsToEntities(AnbarProjectDataSet dataSet)
         {
             return dataSet.Users.Select(MapUserFromRow).ToList();
         }

@@ -1,11 +1,11 @@
-﻿using System;
-using System.Data;
-using System.Windows.Forms;
-using AnbarDomain.Partys;
+﻿using AnbarDomain.Partys;
 using AnbarDomain.Tabels;
 using AnbarService;
 using Domain.Common;
 using Domain.Exceptions;
+using System;
+using System.Data;
+using System.Windows.Forms;
 
 namespace AnbarForm.MainForm
 {
@@ -136,12 +136,12 @@ namespace AnbarForm.MainForm
             }
             catch (ValidationException ex)
             {
-                MessageBox.Show(ex.UserFriendlyMessage); 
+                MessageBox.Show(ex.UserFriendlyMessage);
 
             }
             catch (DatabaseException ex)
             {
-                MessageBox.Show(ex.UserFriendlyMessage); 
+                MessageBox.Show(ex.UserFriendlyMessage);
             }
             catch (Exception ex)
             {

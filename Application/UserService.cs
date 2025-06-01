@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Domain.Attribute;
+﻿using Domain.Attribute;
 using Domain.Exceptions;
 using Domain.Module;
 using Domain.Permissons;
 using Domain.Repositorys;
 using Domain.SharedSevices;
 using Domain.Users;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Application
 {
@@ -47,7 +47,8 @@ namespace Application
             await _userRepository.InsertAsync(user);
             return true;
         }
-        public async Task<List<User>> GetAllUsers(){
+        public async Task<List<User>> GetAllUsers()
+        {
 
 
             var users = await _userRepository.GetAllAsync();
@@ -75,7 +76,7 @@ namespace Application
         }
 
 
-        public async Task AddPermissionToUser(List<int>moduleId,int userId)
+        public async Task AddPermissionToUser(List<int> moduleId, int userId)
         {
             var permission = new List<Permission>();
             foreach (var i in moduleId)
@@ -87,16 +88,16 @@ namespace Application
                     Authority = Authority.All,
                     UserId = userId,
                     CreatedAt = DateTime.Now
-                };  
+                };
                 permission.Add(per);
             }
 
-            await _permissionRepository.SyncPermissionsViaDataTable(permission,userId);
+            await _permissionRepository.SyncPermissionsViaDataTable(permission, userId);
         }
 
         public async Task<List<Permission>> ShowAllUserPermission(int userId)
         {
-            var permissinons= await _userRepository.GetUserPermissionsAsync(userId);
+            var permissinons = await _userRepository.GetUserPermissionsAsync(userId);
             return permissinons.ToList();
         }
 

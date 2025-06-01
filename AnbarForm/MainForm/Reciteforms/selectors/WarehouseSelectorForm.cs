@@ -1,14 +1,14 @@
-﻿using System;
+﻿using AnbarDomain.Tabels;
+using AnbarDomain.Tabels.AnbarDataSetTableAdapters;
+using System;
 using System.Data;
 using System.Windows.Forms;
-using AnbarDomain.Tabels;
-using AnbarDomain.Tabels.AnbarDataSetTableAdapters;
 
 namespace AnbarForm.MainForm.Reciteforms.selectors
 {
     public partial class WarehouseSelectorForm : Form
     {
-        private AnbarDataSet _anbar; 
+        private AnbarDataSet _anbar;
 
         private WarehousesTableAdapter _warehouseAdapter = new WarehousesTableAdapter();
         public AnbarDataSet.WarehousesRow SelectedWarehouse { get; private set; }
@@ -25,7 +25,7 @@ namespace AnbarForm.MainForm.Reciteforms.selectors
         private void InitializeControls()
         {
             dataGridView1.DataSource = _bindingSource;
-                
+
         }
 
         private void InittializeTheDs()
@@ -37,7 +37,7 @@ namespace AnbarForm.MainForm.Reciteforms.selectors
 
         private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (_bindingSource.Current is DataRowView rowView )
+            if (_bindingSource.Current is DataRowView rowView)
             {
                 SelectedWarehouse = (AnbarDataSet.WarehousesRow)rowView.Row;
                 this.DialogResult = DialogResult.OK;

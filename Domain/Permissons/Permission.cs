@@ -1,6 +1,6 @@
-﻿using System;
-using Domain.Common;
+﻿using Domain.Common;
 using Domain.Users;
+using System;
 
 namespace Domain.Permissons
 {

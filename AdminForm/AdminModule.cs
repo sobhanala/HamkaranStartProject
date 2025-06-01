@@ -1,7 +1,7 @@
-﻿using System.Windows.Forms;
-using Domain.Module;
+﻿using Domain.Module;
 using Domain.SharedSevices;
 using Infrastructure;
+using System.Windows.Forms;
 
 namespace AdminForm
 {

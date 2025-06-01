@@ -1,13 +1,13 @@
-﻿using System.Data;
-using System.Threading.Tasks;
-using AnbarDomain.repositorys;
+﻿using AnbarDomain.repositorys;
 using AnbarDomain.Tabels;
 using Domain.Attribute;
+using System.Data;
+using System.Threading.Tasks;
 
 namespace AnbarService
 {
     [Service]
-    public class ProductService:IProductService
+    public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
 
@@ -25,7 +25,7 @@ namespace AnbarService
         }
         public async Task<AnbarDataSet> GetDataSet()
         {
-           return  await _productRepository.GetDataSetAsync();
+            return await _productRepository.GetDataSetAsync();
         }
 
         public async Task<AnbarDataSet.ProductsDataTable> SetProductValues(AnbarDataSet.ProductsDataTable changedTable)
@@ -34,7 +34,7 @@ namespace AnbarService
             var count = 1;
             foreach (var row in changedTable)
             {
-                if (row.RowState==DataRowState.Added)
+                if (row.RowState == DataRowState.Added)
                 {
                     if (row.IsProductCodeNull())
                     {

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Data;
-using System.Data.SqlClient;
-using System.Threading.Tasks;
-using Domain.Attribute;
+﻿using Domain.Attribute;
 using Domain.SharedSevices;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace Domain.Repositorys
 {
@@ -17,7 +16,7 @@ namespace Domain.Repositorys
         private SqlTransaction _transaction;
         private bool _disposed = false;
         private DbConnectionFactory _factory;
-        public TransactionManager( DbConnectionFactory factory, ILogger<TransactionManager> logger)
+        public TransactionManager(DbConnectionFactory factory, ILogger<TransactionManager> logger)
         {
             this._factory = factory;
             _logger = logger;
@@ -42,7 +41,7 @@ namespace Domain.Repositorys
             return _transaction;
         }
 
-        public void  BeginTransactionAsync()
+        public void BeginTransactionAsync()
         {
             try
             {
@@ -53,7 +52,7 @@ namespace Domain.Repositorys
 
                 if (_connection.State != ConnectionState.Open)
                 {
-                     _connection.OpenAsync();
+                    _connection.OpenAsync();
                 }
 
                 if (_transaction == null)
@@ -69,13 +68,13 @@ namespace Domain.Repositorys
             }
         }
 
-        public void  CommitTransactionAsync()
+        public void CommitTransactionAsync()
         {
             try
             {
                 if (_transaction != null)
                 {
-                  _transaction.Commit();
+                    _transaction.Commit();
                     _transaction.Dispose();
                     _transaction = null;
                     _logger.LogDebug("Transaction committed");
@@ -84,7 +83,7 @@ namespace Domain.Repositorys
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error committing transaction");
-                 RollbackTransactionAsync();
+                RollbackTransactionAsync();
                 throw;
             }
         }

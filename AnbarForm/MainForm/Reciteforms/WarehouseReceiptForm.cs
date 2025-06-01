@@ -1,14 +1,10 @@
-﻿using System;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using AnbarDomain.Orders;
-using AnbarDomain.Tabels;
-using AnbarDomain.Tabels.AnbarDataSetTableAdapters;
-using AnbarPersitence.Newway;
+﻿using AnbarDomain.Tabels;
 using AnbarService;
 using Domain.SharedSevices;
+using System;
+using System.Data;
+using System.Linq;
+using System.Windows.Forms;
 
 
 
@@ -25,12 +21,6 @@ namespace AnbarForm.MainForm.Reciteforms
             set => _anbarBackingField = value;
         }
 
-        private EnhancedWarehouseReceiptsTableAdapter _warehouseaAdapter;
-
-        private PartiesTableAdapter _partyAdapter = new PartiesTableAdapter();
-
-        private WarehousesTableAdapter _warehouseAdapter= new WarehousesTableAdapter();
-
         private AnbarDataSet.WarehouseReceiptsDataTable _receiptsTable;
         private AnbarDataSet.WarehouseReceiptItemsDataTable _receiptItemsTable;
         private readonly BindingSource _masterBindingSource = new BindingSource();
@@ -39,7 +29,7 @@ namespace AnbarForm.MainForm.Reciteforms
         private readonly IPartyManagement _partyManagement;
         private readonly IUserService _userService;
         private readonly IProductService _productService;
-        
+
 
         public WarehouseReceiptForm(IWarehouseReceipt warehouseReceipt, IPartyManagement partyManagement, IUserService userService, IProductService productService)
         {
@@ -49,28 +39,18 @@ namespace AnbarForm.MainForm.Reciteforms
             _productService = productService;
             InitializeComponent();
             SetupDataGridView();
-            //SetupPanel();
         }
 
-        //private void SetupPanel()
-        //{
-        //    panel_Details.Visible = false; 
-        //    panel_Details.Dock = DockStyle.None;
-        //}
-
-        //private void ShowPanelDetails()
-        //{
-        //    panel_Details.Visible = true;
-
-        //}
 
         private void SetupDataGridView()
         {
             dataGridViewMaster.AutoGenerateColumns = false;
             dataGridViewMaster.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dataGridViewMaster.MultiSelect = false;
+            dataGridViewMaster.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dataGridViewMaster.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridViewMaster.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.True;
 
-            
         }
 
 
@@ -88,9 +68,9 @@ namespace AnbarForm.MainForm.Reciteforms
                 AnbarDataSet.WarehouseReceiptsRow;
         }
 
-        private  void WarehouseReceiptForm_Load_1(object sender, EventArgs e)
+        private void WarehouseReceiptForm_Load_1(object sender, EventArgs e)
         {
-             ConfigureAutoBinding();
+            ConfigureAutoBinding();
 
         }
 
@@ -130,11 +110,9 @@ namespace AnbarForm.MainForm.Reciteforms
             }
         }
 
-        private async void AddRecite_Click(object sender, EventArgs e)
+        private  void AddRecite_Click(object sender, EventArgs e)
         {
-            _warehouseAdapter.Fill(_Anbar.Warehouses);
-            _partyAdapter.Fill(_Anbar.Parties);
-            using (var addForm = new ReciteAnbarFormincome(_userService,_warehouseReceiptService,_partyManagement,_productService))
+            using (var addForm = new ReciteAnbarFormincome(_userService, _warehouseReceiptService, _partyManagement, _productService))
             {
                 if (addForm.ShowDialog() == DialogResult.OK)
                 {
@@ -143,6 +121,7 @@ namespace AnbarForm.MainForm.Reciteforms
 
                         _masterBindingSource.ResetBindings(false);
                         MessageBox.Show("Receipt created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ConfigureAutoBinding();
                     }
                     catch (Exception ex)
                     {
@@ -159,13 +138,39 @@ namespace AnbarForm.MainForm.Reciteforms
             viewForm.LoadData(row);
             viewForm.ShowDialog();
 
-
         }
-
-        private void DeleteReceipt_Click(object sender, EventArgs e)
+        private async void DeleteReceipt_Click(object sender, EventArgs e)
         {
+            var row = GetSelectedReceipt();
+            if (row == null)
+            {
+                MessageBox.Show("No receipt selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
+            var confirmResult = MessageBox.Show(
+                "Are you sure you want to delete this receipt?",
+                "Confirm Delete",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (confirmResult == DialogResult.Yes)
+            {
+                try
+                {
+                    await _warehouseReceiptService.DeleteReceiptWithInventoryAsync(row);
+                    MessageBox.Show("Receipt deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error deleting receipt:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                ConfigureAutoBinding();
+            }
         }
+
 
     }
 }

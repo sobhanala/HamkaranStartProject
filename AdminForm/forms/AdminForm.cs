@@ -1,13 +1,12 @@
-﻿using System;
+﻿using Domain.Module;
+using Domain.SharedSevices;
+using Domain.Users;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Application;
-using Domain.Module;
-using Domain.SharedSevices;
-using Domain.Users;
 
 namespace AdminForm.forms
 {
@@ -16,7 +15,7 @@ namespace AdminForm.forms
         private readonly IUserService _userService;
         private User _selectedUser = null;
         private List<int> _selctedModules = new List<int>();
-        private DataGridViewRow _lastSelectedRow = null; 
+        private DataGridViewRow _lastSelectedRow = null;
 
 
 
@@ -28,7 +27,7 @@ namespace AdminForm.forms
             InitializeComponent();
 
         }
-        
+
 
         private async void AdminForm_Load(object sender, EventArgs e)
         {

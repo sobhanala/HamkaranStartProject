@@ -1,10 +1,9 @@
-﻿using System;
-using System.Windows.Forms;
-using Application;
-using Domain.Exceptions;
+﻿using Domain.Exceptions;
 using Domain.SharedSevices;
 using Domain.Users;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Windows.Forms;
 
 namespace Shell.forms
 {
@@ -47,7 +46,7 @@ namespace Shell.forms
 
                 SetupSession(result);
 
-                       
+
                 DialogResult = DialogResult.OK;
             }
             catch (ValidationException ex)

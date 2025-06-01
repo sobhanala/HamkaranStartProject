@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Domain.Attribute;
+using Domain.Exceptions;
+using Domain.SharedSevices;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using Domain.Attribute;
-using Domain.Exceptions;
-using Domain.SharedSevices;
-using Microsoft.Extensions.Logging;
 
 namespace Domain.Repositorys
 {
-    public abstract class TypedDataSetRepository<TEntity, TKey, TDataSet> : BaseRepository, IGenericRepository<TEntity, TKey,TDataSet>
+    public abstract class TypedDataSetRepository<TEntity, TKey, TDataSet> : BaseRepository, IGenericRepository<TEntity, TKey, TDataSet>
         where TEntity : class
         where TDataSet : DataSet, new()
     {
@@ -20,12 +20,12 @@ namespace Domain.Repositorys
         protected readonly string TableName;
         protected readonly string KeyColumn;
         protected readonly string[] TableColumns;
-        private readonly  ISessionService _sessionService;
+        private readonly ISessionService _sessionService;
         protected TypedDataSetRepository(
             DbConnectionFactory connectionFactory,
             string tableName,
             string keyColumn,
-            string[] tableColumns, ILogger<TypedDataSetRepository<TEntity, TKey, TDataSet>> logger, ISessionService sessionService) : base(connectionFactory,sessionService)
+            string[] tableColumns, ILogger<TypedDataSetRepository<TEntity, TKey, TDataSet>> logger, ISessionService sessionService) : base(connectionFactory, sessionService)
         {
             TableName = tableName ?? throw new ArgumentNullException(nameof(tableName));
             KeyColumn = keyColumn ?? throw new ArgumentNullException(nameof(keyColumn));
@@ -102,7 +102,7 @@ namespace Domain.Repositorys
             {
                 foreach (DataRow row in table.Rows)
                 {
-                    SetAuditFields(row); 
+                    SetAuditFields(row);
                 }
             }
         }
@@ -240,7 +240,7 @@ namespace Domain.Repositorys
             if (type == typeof(bool)) return SqlDbType.Bit;
             if (type == typeof(byte[])) return SqlDbType.VarBinary;
             if (type == typeof(Guid)) return SqlDbType.UniqueIdentifier;
-            if (type == typeof(byte)) return SqlDbType.TinyInt;         
+            if (type == typeof(byte)) return SqlDbType.TinyInt;
 
 
             throw new NotSupportedException($"Unsupported data type: {type.FullName}");
@@ -269,13 +269,13 @@ namespace Domain.Repositorys
                 if (row.Table.Columns.Contains("CreatedBy") && row["CreatedBy"] == DBNull.Value)
                     row["CreatedBy"] = _sessionService.CurrentUser.Id;
             }
-            else if (row.RowState == DataRowState.Modified) 
+            else if (row.RowState == DataRowState.Modified)
             {
                 if (row.Table.Columns.Contains("UpdatedAt"))
                     row["UpdatedAt"] = DateTime.Now;
 
                 if (row.Table.Columns.Contains("UpdatedBy"))
-                    row["UpdatedBy"] = _sessionService.CurrentUser.Id; 
+                    row["UpdatedBy"] = _sessionService.CurrentUser.Id;
             }
         }
 

@@ -6,16 +6,16 @@
         UserNameEmpty = 0,
         PasswordEmpty,
         EmailEmpty,
-        
+
 
 
         /// Authentication Errors
-        UserExist=10,
-        PasswordWrong=11,
+        UserExist = 10,
+        PasswordWrong = 11,
         PartyNotFound,
 
         /// Data base Errors 
-        DataBaseError=50,
+        DataBaseError = 50,
 
         Internal = 20
 

@@ -1,6 +1,4 @@
 ﻿using System.Windows.Forms;
-using AnbarDomain.Tabels;
-using AnbarDomain.Tabels.AnbarDataSetTableAdapters;
 
 namespace AnbarForm.MainForm.Reciteforms.selectors
 {

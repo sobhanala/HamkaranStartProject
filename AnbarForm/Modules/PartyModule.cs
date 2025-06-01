@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using AnbarForm.MainForm;
-using AnbarService;
+﻿using AnbarService;
 using Domain.Module;
 using Infrastructure;
+using System.Windows.Forms;
 
 namespace AnbarForm.Modules
 {

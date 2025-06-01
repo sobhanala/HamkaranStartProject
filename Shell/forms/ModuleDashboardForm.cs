@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows.Forms;
-using Application;
-using Domain.Module;
+﻿using Domain.Module;
 using Domain.SharedSevices;
 using Domain.Users;
+using System;
+using System.Linq;
+using System.Windows.Forms;
 
 
 namespace Shell.forms
@@ -15,7 +13,7 @@ namespace Shell.forms
         private readonly IUserService _userService;
         private readonly ISessionService _sessionService;
 
-        public ModuleDashboardForm( IUserService userService, ISessionService sessionService)
+        public ModuleDashboardForm(IUserService userService, ISessionService sessionService)
         {
             _userService = userService;
             _sessionService = sessionService;
@@ -48,7 +46,7 @@ namespace Shell.forms
 
                     foreach (var module in group)
                     {
-                        if (!permittedModuleIds.Contains(module.Id) && _sessionService.CurrentUser.Role!= Roles.Admin )
+                        if (!permittedModuleIds.Contains(module.Id) && _sessionService.CurrentUser.Role != Roles.Admin)
                             continue;
 
                         var childNode = new TreeNode
@@ -69,10 +67,10 @@ namespace Shell.forms
             }
             catch (Exception exception)
             {
-             
-                    MessageBox.Show($"Error loading module: {exception.Message}", "Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                
+
+                MessageBox.Show($"Error loading module: {exception.Message}", "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+
             }
         }
         private void OnModuleNodeClicked(object sender, TreeNodeMouseClickEventArgs e)
@@ -86,7 +84,7 @@ namespace Shell.forms
                 if (moduleForm != null)
                 {
                     moduleForm.Show();
-        
+
                 }
 
                 module.Initialize();
