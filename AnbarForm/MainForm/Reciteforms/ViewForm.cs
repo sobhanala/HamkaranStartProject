@@ -2,6 +2,7 @@
 using AnbarService;
 using System;
 using System.Windows.Forms;
+using Infrastructure;
 
 namespace AnbarForm.MainForm.Reciteforms
 {
@@ -38,7 +39,7 @@ namespace AnbarForm.MainForm.Reciteforms
             masterTable.ImportRow(receiptRow);
             masterGrid.DataSource = masterTable;
 
-            var viewTable = await _warehouseReceiptService.FillByReceiptIdWithProductInfo(receiptId: _receiptRow.Id);
+            var viewTable = await UiSafeExecutor.ExecuteAsync(()=>  _warehouseReceiptService.FillByReceiptIdWithProductInfo(receiptId: _receiptRow.Id)); 
 
             detailGrid.DataSource = viewTable;
         }

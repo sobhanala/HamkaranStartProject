@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Infrastructure;
 
 namespace AdminForm.forms
 {
@@ -55,7 +56,7 @@ namespace AdminForm.forms
 
         private async Task LoadUsers()
         {
-            var users = await _userService.GetAllUsers();
+            var users = await UiSafeExecutor.ExecuteAsync(()=>  _userService.GetAllUsers());
             dgvUsers.DataSource = users;
 
             // Hide sensitive columns
@@ -98,7 +99,7 @@ namespace AdminForm.forms
 
             try
             {
-                var userModules = await _userService.ShowAllUserPermission(_selectedUser.Id);
+                var userModules = await UiSafeExecutor.ExecuteAsync( ()=> _userService.ShowAllUserPermission(_selectedUser.Id));
                 _selctedModules = userModules.Select(p => p.ModuleId).ToList();
 
                 for (int i = 0; i < clbModules.Items.Count; i++)
@@ -146,7 +147,7 @@ namespace AdminForm.forms
                     }
                 }
 
-                await _userService.AddPermissionToUser(selectedIds, _selectedUser.Id);
+                await UiSafeExecutor.ExecuteAsync( async()=>await _userService.AddPermissionToUser(selectedIds, _selectedUser.Id));
                 MessageBox.Show("Modules updated successfully!");
             }
             catch (Exception ex)

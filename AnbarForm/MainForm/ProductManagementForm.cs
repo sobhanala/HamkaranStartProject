@@ -6,6 +6,7 @@ using System;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
+using Infrastructure;
 
 namespace AnbarForm.MainForm
 {
@@ -39,7 +40,7 @@ namespace AnbarForm.MainForm
             {
                 AnbarDataSet1.Products.Clear();
 
-                AnbarDataSet1 = await _productService.GetDataSet();
+                AnbarDataSet1 = await UiSafeExecutor.ExecuteAsync( () => _productService.GetDataSet());
                 AnbarDataSet1.Products.AcceptChanges();
 
 
@@ -230,8 +231,9 @@ namespace AnbarForm.MainForm
 
                 LogChanges();
 
-                var changeDataTable = await _productService.SetProductValues(changedTable);
-                await _productService.SaveAllChanges(changeDataTable);
+                var changeDataTable =
+                    await UiSafeExecutor.ExecuteAsync( () =>  _productService.SetProductValues(changedTable));
+                await UiSafeExecutor.ExecuteAsync( () =>  _productService.SaveAllChanges(changeDataTable));
 
                 AnbarDataSet1.AcceptChanges();
 
@@ -239,23 +241,12 @@ namespace AnbarForm.MainForm
                 MessageBox.Show(" All Changes Saved.", "Information",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+            }
+            finally
+            {
                 LoadData();
             }
-            catch (ValidationException ex)
-            {
-                MessageBox.Show(ex.UserFriendlyMessage, "Validation Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            catch (DatabaseException ex)
-            {
-                MessageBox.Show(ex.UserFriendlyMessage, "Database Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error saving changes: " + ex.Message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+
 
 
         }

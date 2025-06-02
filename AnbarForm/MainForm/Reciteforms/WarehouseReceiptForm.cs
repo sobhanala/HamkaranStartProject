@@ -5,7 +5,7 @@ using System;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
-
+using Infrastructure;
 
 
 namespace AnbarForm.MainForm.Reciteforms
@@ -76,10 +76,8 @@ namespace AnbarForm.MainForm.Reciteforms
 
         private async void ConfigureAutoBinding()
         {
-            try
-            {
-
-                _anbarBackingField = await _warehouseReceiptService.GetFullDatasetAsync();
+           
+                _anbarBackingField =await UiSafeExecutor.ExecuteAsync( () =>  _warehouseReceiptService.GetFullDatasetAsync());
 
                 _receiptsTable = _Anbar.WarehouseReceipts;
                 _receiptItemsTable = _Anbar.WarehouseReceiptItems;
@@ -102,12 +100,6 @@ namespace AnbarForm.MainForm.Reciteforms
                 dataGridViewMaster.DataSource = _masterBindingSource;
 
 
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show($"Error loading data: {e.Message}", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private  void AddRecite_Click(object sender, EventArgs e)
@@ -157,17 +149,16 @@ namespace AnbarForm.MainForm.Reciteforms
 
             if (confirmResult == DialogResult.Yes)
             {
-                try
-                {
-                    await _warehouseReceiptService.DeleteReceiptWithInventoryAsync(row);
-                    MessageBox.Show("Receipt deleted successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Error deleting receipt:\n{ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
 
-                ConfigureAutoBinding();
+                await UiSafeExecutor.ExecuteAsync(async () =>
+                {
+
+                    await _warehouseReceiptService.DeleteReceiptWithInventoryAsync(row);
+                    MessageBox.Show("Receipt deleted successfully.", "Success", MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+
+                    ConfigureAutoBinding();
+                });
             }
         }
 

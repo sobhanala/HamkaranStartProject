@@ -28,7 +28,7 @@
         /// <summary>
         /// 
         /// </summary>
-        WerHouseTransactionFailed=70
+        WerHouseTransactionFailed=70,
 
 
 

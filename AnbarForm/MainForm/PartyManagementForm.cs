@@ -6,6 +6,7 @@ using Domain.Exceptions;
 using System;
 using System.Data;
 using System.Windows.Forms;
+using Infrastructure;
 
 namespace AnbarForm.MainForm
 {
@@ -31,7 +32,7 @@ namespace AnbarForm.MainForm
             try
             {
                 AnbarDataSet1.Parties.Clear();
-                AnbarDataSet1 = await _partyService.GetPartyDataSetAsync();
+                AnbarDataSet1 = await UiSafeExecutor.ExecuteAsync(()=> _partyService.GetPartyDataSetAsync());
 
 
                 AnbarDataSet1.Parties.AcceptChanges();
@@ -65,33 +66,14 @@ namespace AnbarForm.MainForm
                     CreatedAt = DateTime.Now
                 };
 
-                _partyService.AddParty(party);
+                UiSafeExecutor.Execute(()=>_partyService.AddParty(party));
 
                 MessageBox.Show("Party saved successfully!", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 LoadData();
             }
-            catch (ValidationException ex)
-            {
-                MessageBox.Show(ex.UserFriendlyMessage, "Validation Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            catch (AuthenticationException ex)
-            {
-                MessageBox.Show(ex.UserFriendlyMessage, "Authentication Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-
-            catch (DatabaseException ex)
-            {
-                MessageBox.Show(ex.UserFriendlyMessage); // Display this in your message box
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An unexpected error occurred during registration: " + ex.Message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+    
             finally
             {
                 ClearInputFields();
@@ -125,7 +107,7 @@ namespace AnbarForm.MainForm
 
                 LogChanges();
 
-                await _partyService.SaveAllChanges(changedTable);
+                await UiSafeExecutor.ExecuteAsync( async()=>await _partyService.SaveAllChanges(changedTable));
 
                 AnbarDataSet1.Parties.AcceptChanges();
 

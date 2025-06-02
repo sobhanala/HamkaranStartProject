@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Shell.DI;
 using Shell.forms;
 using System;
+using Infrastructure;
 
 namespace Shell
 {
@@ -86,13 +87,14 @@ namespace Shell
                     .AddDebug();
 
             });
+            AppLogger.Initialize(_loggerFactory);
+
         }
 
         private static void InitializeModules()
         {
             var moduleLoader = _serviceProvider.GetRequiredService<ModuleLoader>();
             var modules = moduleLoader.LoadModules();
-
             ModuleManager.RegisterModules(modules);
             moduleLoader.InitializeModules(modules);
             moduleLoader.DisplayModuleInfo(modules);

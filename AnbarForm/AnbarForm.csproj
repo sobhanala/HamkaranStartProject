@@ -115,12 +115,6 @@
     <Compile Include="MainForm\PartyManagementForm.Designer.cs">
       <DependentUpon>PartyManagementForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainForm\WarehouseMainForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainForm\WarehouseMainForm.Designer.cs">
-      <DependentUpon>WarehouseMainForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Modules\ProductModule.cs" />
     <Compile Include="Modules\PartyModule.cs" />
     <Compile Include="Modules\WarehouseModuleEntry.cs" />
@@ -176,9 +170,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm\Reciteforms\selectors\WarehouseSelectorForm.resx">
       <DependentUpon>WarehouseSelectorForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainForm\WarehouseMainForm.resx">
-      <DependentUpon>WarehouseMainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm\Reciteforms\WarehouseReceiptForm.resx">
       <DependentUpon>WarehouseReceiptForm.cs</DependentUpon>

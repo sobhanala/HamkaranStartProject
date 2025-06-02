@@ -9,6 +9,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Domain.Exceptions;
+using Infrastructure;
 
 namespace AnbarForm.MainForm.Reciteforms
 {
@@ -60,38 +61,16 @@ namespace AnbarForm.MainForm.Reciteforms
 
         private async void Btn_Save_Click(object sender, EventArgs e)
         {
-            try
-            {
-                var receiptNumber = await _warehouseReceiptService.GenerateNewReceiptNumber();
-                PrepareDataSetBeforeSave(receiptNumber);
-                await _warehouseReceiptService.SaveReceiptWithItemsAsync(_currentDataSet);
 
-                MessageBox.Show("Receipt saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.DialogResult = DialogResult.OK;
-                this.Close();
-            }
-            catch (InventoryException ex)
-            {
-                MessageBox.Show(ex.UserFriendlyMessage, "Inventory Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            catch (WarehouseReceiptException ex)
-            {
-                MessageBox.Show(ex.UserFriendlyMessage, "WarehouseReceipt Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
+            var receiptNumber =await  UiSafeExecutor.ExecuteAsync( () =>  _warehouseReceiptService.GenerateNewReceiptNumber());
 
-            catch (DatabaseException ex)
-            {
-                MessageBox.Show(ex.UserFriendlyMessage); 
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An unexpected error occurred during registration: " + ex.Message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            PrepareDataSetBeforeSave(receiptNumber);
 
+            await UiSafeExecutor.ExecuteAsync(()=>   _warehouseReceiptService.SaveReceiptWithItemsAsync(_currentDataSet));
 
+            MessageBox.Show("Receipt saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void PrepareDataSetBeforeSave(string resitenum)
@@ -174,7 +153,7 @@ namespace AnbarForm.MainForm.Reciteforms
 
         private async void BtnSelectParty_Click_1(object sender, EventArgs e)
         {
-            var anbar = await _partyManagement.GetPartyDataSetAsync();
+            var anbar = await UiSafeExecutor.ExecuteAsync(()=>  _partyManagement.GetPartyDataSetAsync());
             var selector = new SelectorForm<AnbarDataSet.PartiesDataTable>(anbar.Parties, "name", "Products");
             selector.StartPosition = FormStartPosition.Manual;
 
@@ -203,7 +182,7 @@ namespace AnbarForm.MainForm.Reciteforms
 
             if (e.RowIndex >= 0 && dgReciteItem.Columns[e.ColumnIndex].Name == "PartySelector")
             {
-                var anbar = await _productService.GetDataSet();
+                var anbar = await UiSafeExecutor.ExecuteAsync(() =>   _productService.GetDataSet());
 
                 var selector = new SelectorForm<AnbarDataSet.ProductsDataTable>(anbar.Products, "name", "Select Product");
                 selector.StartPosition = FormStartPosition.Manual;
