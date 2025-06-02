@@ -15,7 +15,7 @@ namespace Domain.Repositorys
         private SqlConnection _connection;
         private SqlTransaction _transaction;
         private bool _disposed = false;
-        private DbConnectionFactory _factory;
+        private readonly DbConnectionFactory _factory;
         public TransactionManager(DbConnectionFactory factory, ILogger<TransactionManager> logger)
         {
             this._factory = factory;

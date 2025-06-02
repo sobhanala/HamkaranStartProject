@@ -9,6 +9,7 @@ using System;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using Domain.Exceptions;
 
 namespace AnbarPersitence.Newway
 {
@@ -48,7 +49,7 @@ namespace AnbarPersitence.Newway
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Error loading items for ReceiptId: {ReceiptId}", receiptId);
-                throw;
+                throw new DatabaseException(ex.Message, "cannot FetchByReceiptIdWithProductInfo Track", ErrorCode.DataBaseError, ex); 
             }
         }
 
@@ -68,7 +69,7 @@ namespace AnbarPersitence.Newway
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Error loading items for ReceiptId: {ReceiptId}", receiptId);
-                throw;
+                 throw new DatabaseException(ex.Message, "cannot DeleteByReciteInfo Track", ErrorCode.DataBaseError, ex); ;
             }
         }
 

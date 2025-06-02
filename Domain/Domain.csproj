@@ -105,6 +105,8 @@
     </Compile>
     <Compile Include="Exceptions\AuthenticationException.cs" />
     <Compile Include="Exceptions\BaseException.cs" />
+    <Compile Include="Exceptions\WarehouseReceiptException.cs" />
+    <Compile Include="Exceptions\InventoryException.cs" />
     <Compile Include="Exceptions\DatabaseException.cs" />
     <Compile Include="Exceptions\ErrorCode.cs" />
     <Compile Include="Exceptions\ValidationException.cs" />

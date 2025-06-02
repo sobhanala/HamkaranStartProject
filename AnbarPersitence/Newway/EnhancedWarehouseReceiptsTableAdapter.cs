@@ -1,16 +1,16 @@
-﻿using AnbarDomain.repositorys;
+﻿using System;
+using AnbarDomain.repositorys;
 using AnbarDomain.Tabels;
 using AnbarDomain.Tabels.AnbarDataSetTableAdapters;
 using Domain.Attribute;
 using Domain.Repositorys;
 using Domain.SharedSevices;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
-using System.Diagnostics;
 using System.Threading.Tasks;
+using Domain.Exceptions;
 
 namespace AnbarPersitence.Newway
 {
@@ -28,20 +28,6 @@ namespace AnbarPersitence.Newway
         {
             _baseAdapter = new WarehouseReceiptsTableAdapter();
             InitCommands();
-        }
-
-        public async Task<AnbarDataSet.WarehouseReceiptsDataTable> GetDataByIdAsync(int receiptId)
-        {
-            try
-            {
-                var result = await base.GetByIdAsync(receiptId);
-                return result as AnbarDataSet.WarehouseReceiptsDataTable;
-            }
-            catch (System.Exception ex)
-            {
-                Logger.LogError(ex, "Error getting WarehouseReceipt by ID: {ReceiptId}", receiptId);
-                throw;
-            }
         }
 
         public async Task<string> GetNextReceiptNumberAsync()
@@ -64,46 +50,45 @@ namespace AnbarPersitence.Newway
                 }
 
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 Logger.LogError(ex, "Error generating next receipt number");
-                throw;
+                throw new DatabaseException(ex.Message, "Error generating next receipt number", ErrorCode.DataBaseError, ex);
             }
         }
 
         public async Task<AnbarDataSet.WarehouseReceiptsDataTable> FetchAsync()
         {
-            var datatable = await base.FetchTypedAsync();
-            return datatable;
+            try
+            {
+
+                var datatable = await base.FetchTypedAsync();
+                return datatable;
+            }
+            catch (Exception e)
+            {
+                Logger.LogError(e, "Error FetchAsync ");
+                throw new DatabaseException(e.Message, "cannot FetchAsync Track", ErrorCode.DataBaseError, e); ;
+            }
         }
-        public async Task<int> UpdateTransaction2(AnbarDataSet.WarehouseReceiptsDataTable data)
+
+
+        public async Task<int> UpdateTransaction(AnbarDataSet.WarehouseReceiptsDataTable data)
         {
             try
             {
                 var insertCommand = CreateInsertCommand();
-                Debug.WriteLine($"THE INSERT COMMAND IS {insertCommand.CommandText}");
-                insertCommand.Transaction = Transaction;
-                foreach (var parameter in insertCommand.Parameters)
-                {
-                    Debug.WriteLine(parameter);
-                }
+                _baseAdapter.GetAdapter().InsertCommand = insertCommand;
+                var updated = await base.UpdateAsync(data);
 
-                return await insertCommand.ExecuteNonQueryAsync();
+                return updated;
             }
             catch (Exception e)
             {
-                Debug.WriteLine(e);
-                throw;
+                Logger.LogError(e, "Error UpdateTransaction");
+                throw new DatabaseException(e.Message, "cannot UpdateTransaction Track", ErrorCode.DataBaseError, e); ;
             }
-        }
 
-        public async Task<int> UpdateTransaction(AnbarDataSet.WarehouseReceiptsDataTable data)
-        {
-            var insertCommand = CreateInsertCommand();
-            _baseAdapter.GetAdapter().InsertCommand = insertCommand;
-            var updated = await base.UpdateAsync(data);
-
-            return updated;
         }
 
 

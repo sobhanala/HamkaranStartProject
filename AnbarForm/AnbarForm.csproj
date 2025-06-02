@@ -61,18 +61,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainForm\Reciteforms\AddReceiptForm .cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainForm\Reciteforms\AddReceiptForm .Designer.cs">
-      <DependentUpon>AddReceiptForm .cs</DependentUpon>
-    </Compile>
-    <Compile Include="MainForm\Reciteforms\EditReciteForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="MainForm\Reciteforms\EditReciteForm.Designer.cs">
-      <DependentUpon>EditReciteForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="MainForm\Reciteforms\ViewForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -164,12 +152,6 @@
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="MainForm\Reciteforms\AddReceiptForm .resx">
-      <DependentUpon>AddReceiptForm .cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MainForm\Reciteforms\EditReciteForm.resx">
-      <DependentUpon>EditReciteForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainForm\Reciteforms\ViewForm.resx">
       <DependentUpon>ViewForm.cs</DependentUpon>
     </EmbeddedResource>

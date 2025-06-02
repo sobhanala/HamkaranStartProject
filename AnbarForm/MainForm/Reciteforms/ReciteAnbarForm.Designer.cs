@@ -56,6 +56,8 @@
             this.BtnDeleteRow = new System.Windows.Forms.Button();
             this.dgReciteItem = new System.Windows.Forms.DataGridView();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.textBoxWarhouse = new System.Windows.Forms.TextBox();
+            this.textBoxParty = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.grpHeader.SuspendLayout();
             this.nestedTableLayoutPanel.SuspendLayout();
@@ -273,6 +275,7 @@
             // 
             this.flowLayoutPanel2.Controls.Add(this.lblParty);
             this.flowLayoutPanel2.Controls.Add(this.BtnSelectParty);
+            this.flowLayoutPanel2.Controls.Add(this.textBoxParty);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel2.Location = new System.Drawing.Point(480, 3);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
@@ -306,6 +309,7 @@
             // 
             this.flowLayoutPanel1.Controls.Add(this.txtWarehouse);
             this.flowLayoutPanel1.Controls.Add(this.BtnSelectWarehouse);
+            this.flowLayoutPanel1.Controls.Add(this.textBoxWarhouse);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
@@ -388,6 +392,24 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // textBoxWarhouse
+            // 
+            this.textBoxWarhouse.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxWarhouse.Location = new System.Drawing.Point(175, 3);
+            this.textBoxWarhouse.Name = "textBoxWarhouse";
+            this.textBoxWarhouse.Size = new System.Drawing.Size(219, 20);
+            this.textBoxWarhouse.TabIndex = 2;
+            // 
+            // textBoxParty
+            // 
+            this.textBoxParty.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxParty.Location = new System.Drawing.Point(142, 3);
+            this.textBoxParty.Name = "textBoxParty";
+            this.textBoxParty.Size = new System.Drawing.Size(227, 20);
+            this.textBoxParty.TabIndex = 3;
+            // 
             // ReciteAnbarFormincome
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -451,5 +473,7 @@
         private System.Windows.Forms.DataGridView dgReciteItem;
         private System.Windows.Forms.Button BtnDeleteRow;
         private System.Windows.Forms.Button BtnAddRow;
+        private System.Windows.Forms.TextBox textBoxWarhouse;
+        private System.Windows.Forms.TextBox textBoxParty;
     }
 }

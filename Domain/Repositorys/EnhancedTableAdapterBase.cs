@@ -6,6 +6,7 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain.Exceptions;
 
 namespace Domain.Repositorys
 {
@@ -86,7 +87,8 @@ namespace Domain.Repositorys
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Error retrieving row from {TableName} by ID: {Id}", TableName, id);
-                throw;
+
+                throw new DatabaseException(ex.Message, "cannot GetByIdAsync Track", ErrorCode.DataBaseError, ex);
             }
         }
 
@@ -119,7 +121,8 @@ namespace Domain.Repositorys
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Error retrieving row from {TableName} by ID: {Id}", TableName, id);
-                throw;
+
+                throw new DatabaseException(ex.Message, "cannot DeleteByIdAsync", ErrorCode.DataBaseError, ex);
             }
         }
 
@@ -139,7 +142,8 @@ namespace Domain.Repositorys
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Error filling DataTable for {TableName}", TableName);
-                throw;
+                throw new DatabaseException(ex.Message, "cannot GetByIdAsync Track", ErrorCode.DataBaseError, ex);
+
             }
         }
 
@@ -212,7 +216,8 @@ namespace Domain.Repositorys
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Error updating DataTable for {TableName}", TableName);
-                throw;
+
+                throw new DatabaseException(ex.Message, "cannot UpdateAsync Track", ErrorCode.DataBaseError, ex);
             }
         }
 
@@ -235,7 +240,9 @@ namespace Domain.Repositorys
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Error updating DataSet table {TableName}", tableName);
-                throw;
+                
+                throw new DatabaseException(ex.Message, "cannot UpdateAsync Track", ErrorCode.DataBaseError, ex);
+
             }
         }
 
@@ -256,7 +263,9 @@ namespace Domain.Repositorys
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Error fetching typed data for {TableName}", TableName);
-                throw;
+
+
+                throw new DatabaseException(ex.Message, "cannot FetchTypedAsync Track", ErrorCode.DataBaseError, ex);
             }
         }
 

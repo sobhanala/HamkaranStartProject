@@ -8,6 +8,7 @@ using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Domain.Exceptions;
 
 namespace AnbarForm.MainForm.Reciteforms
 {
@@ -69,9 +70,25 @@ namespace AnbarForm.MainForm.Reciteforms
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
+            catch (InventoryException ex)
+            {
+                MessageBox.Show(ex.UserFriendlyMessage, "Inventory Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            catch (WarehouseReceiptException ex)
+            {
+                MessageBox.Show(ex.UserFriendlyMessage, "WarehouseReceipt Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+
+            catch (DatabaseException ex)
+            {
+                MessageBox.Show(ex.UserFriendlyMessage); 
+            }
             catch (Exception ex)
             {
-                MessageBox.Show($"Failed to save receipt: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("An unexpected error occurred during registration: " + ex.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
 
@@ -149,7 +166,7 @@ namespace AnbarForm.MainForm.Reciteforms
                 if (selectedRow != null)
                 {
                     ReciteHeaderWarehousesRow = selectedRow;
-                    MessageBox.Show($"Selected warehouse: {selectedRow.Name}");
+                    textBoxWarhouse.Text = selectedRow.Name;
                 }
             }
 
@@ -172,7 +189,7 @@ namespace AnbarForm.MainForm.Reciteforms
                 if (selectedRow != null)
                 {
                     ReciteHeaderPartiesRow = selectedRow;
-                    MessageBox.Show($"Selected Party: {selectedRow.Name}");
+                    textBoxParty.Text = selectedRow.Name;
                 }
             }
         }

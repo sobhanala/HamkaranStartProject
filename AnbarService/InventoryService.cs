@@ -4,6 +4,7 @@ using Domain.Attribute;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain.Exceptions;
 
 namespace AnbarService
 {
@@ -11,7 +12,6 @@ namespace AnbarService
     class InventoryService : IInventoryService
     {
         private readonly IInventoryRepository _inventoryRepository;
-        //private readonly IWarehouseReceipt _warehouseReceipt; //TODO think and thoght aabout it  i use this and put it in to the domain layer or 
 
         public InventoryService(IInventoryRepository inventoryRepository)
         {
@@ -44,30 +44,20 @@ namespace AnbarService
                 {
                     if (headerRow.ReceiptStatus == 1 && existingRow.Quantity < item.Quantity)
                     {
-                        throw new InvalidOperationException($"Insufficient stock for product {item.ProductId}");
+                        throw new InventoryException(technicalMessage:" ",userFriendlyMessage: $"Insufficient stock for product {item.ProductId}", ErrorCode.InssufientProduct);
                     }
 
-                    var row = inventoryTable.NewInventoryRow();
-                    row.Id = existingRow.Id;
-                    row.ProductId = item.ProductId;
-                    row.WarehouseId = headerRow.WarehouseId;
-                    row.Quantity = existingRow.Quantity + deltaQty;
-
-                    inventoryTable.ImportRow(row);
+                    await _inventoryRepository.UpdateATrack(item.ProductId, headerRow.WarehouseId,
+                        deltaQty + existingRow.Quantity);
                 }
                 else
                 {
                     if (headerRow.ReceiptStatus == 1)
                     {
-                        throw new InvalidOperationException($"No stock found for product {item.ProductId}");
+                        throw new InventoryException(technicalMessage:" ",userFriendlyMessage: $"No stock found for product {item.ProductId}", ErrorCode.NoStockFound);
                     }
 
-                    var row = inventoryTable.NewInventoryRow();
-                    row.ProductId = item.ProductId;
-                    row.WarehouseId = headerRow.WarehouseId;
-                    row.Quantity = item.Quantity;
-
-                    inventoryTable.AddInventoryRow(row);
+                    AddNewRowToInventory(headerRow, inventoryTable, item);
                 }
             }
 
@@ -78,8 +68,6 @@ namespace AnbarService
         public async Task DeleteInventoryAsync(AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable detail,
             AnbarDataSet.WarehouseReceiptsRow headerRow)
         {
-            var inventoryTable = await GetTheDataset();
-
 
             foreach (var item in detail)
             {
@@ -88,27 +76,46 @@ namespace AnbarService
 
                 if (existingRow == null)
                 {
-                    throw new InvalidOperationException($"No inventory found for product {item.ProductId} in warehouse {headerRow.WarehouseId}");
+                    throw new InventoryException(technicalMessage:" ", userFriendlyMessage: $"No inventory found for product {item.ProductId} in warehouse {headerRow.WarehouseId}", ErrorCode.NoInventoryFound);
+
                 }
 
                 if (existingRow.Quantity < item.Quantity)
                 {
-                    throw new InvalidOperationException($"Cannot delete. Not enough stock for product {item.ProductId}.");
+                    throw new InventoryException(technicalMessage: " ", userFriendlyMessage: $"Cannot delete. Not enough stock for product {item.ProductId}.", ErrorCode.NoStockFound);
                 }
                 int deltaQty = headerRow.ReceiptStatus == 1 ? item.Quantity : -item.Quantity;
 
 
-                var row = inventoryTable.NewInventoryRow();
-                row.Id = existingRow.Id;
-                row.ProductId = item.ProductId;
-                row.WarehouseId = headerRow.WarehouseId;
-                row.Quantity = existingRow.Quantity - deltaQty;
-
-                inventoryTable.ImportRow(row);
+                await _inventoryRepository.UpdateATrack(item.ProductId, headerRow.WarehouseId,
+                    deltaQty + existingRow.Quantity);
             }
 
-            await _inventoryRepository.UpdateAsync(inventoryTable);
         }
 
+
+
+
+
+
+
+        #region Private
+
+
+
+
+        private void AddNewRowToInventory(AnbarDataSet.WarehouseReceiptsRow headerRow, AnbarDataSet.InventoryDataTable inventoryTable,
+            AnbarDataSet.WarehouseReceiptItemsWithProductViewRow item)
+        {
+            var row = inventoryTable.NewInventoryRow();
+            row.ProductId = item.ProductId;
+            row.WarehouseId = headerRow.WarehouseId;
+            row.Quantity = item.Quantity;
+
+            inventoryTable.AddInventoryRow(row);
+        }
+
+
+        #endregion
     }
 }

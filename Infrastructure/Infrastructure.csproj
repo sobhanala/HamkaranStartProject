@@ -90,7 +90,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="ExceptionLoggingExtensions.cs" />
     <Compile Include="PasswordHasher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

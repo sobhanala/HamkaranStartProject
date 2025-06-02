@@ -9,6 +9,7 @@ using System;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using Domain.Exceptions;
 
 namespace AnbarPersitence.Newway
 {
@@ -64,7 +65,35 @@ namespace AnbarPersitence.Newway
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Error loading items for ReceiptId: {productID}-{WarehouseId}", productId, warehouseId);
-                throw;
+                throw new DatabaseException(ex.Message, "Cannot GetAvailableStock", ErrorCode.DataBaseError, ex);
+            }
+        }
+
+        public async Task<int> UpdateATrack(int productId, int warehouseId, int finalVal)
+        {
+            try
+            {
+                var command = new SqlCommand(@"
+            UPDATE Inventory 
+            SET Quantity = @Value 
+            WHERE ProductId = @ProductId AND WarehouseId = @WarehouseId", Connection);
+
+                command.Parameters.AddWithValue("@ProductId", productId);
+                command.Parameters.AddWithValue("@WarehouseId", warehouseId);
+                command.Parameters.AddWithValue("@Value", finalVal);
+
+                if (Transaction != null)
+                {
+                    command.Transaction = Transaction;
+                }
+
+                var affectedRows = await command.ExecuteNonQueryAsync();
+                return affectedRows; 
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error updating quantity for ProductId: {ProductId}, WarehouseId: {WarehouseId}", productId, warehouseId);
+                throw new DatabaseException(ex.Message, "cannot update a Track", ErrorCode.DataBaseError, ex);
             }
         }
     }

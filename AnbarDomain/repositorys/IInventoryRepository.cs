@@ -8,6 +8,6 @@ namespace AnbarDomain.repositorys
     {
 
         Task<AnbarDataSet.InventoryDataTable> GetAvailableStock(int productId, int warehouseId);
-
+        Task<int> UpdateATrack(int productId, int warehouseId, int finalVal);
     }
 }
