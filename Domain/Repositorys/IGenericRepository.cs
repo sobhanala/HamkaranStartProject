@@ -1,9 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 
+
+
 namespace Domain.Repositorys
 {
+
+    [Obsolete()]//TODO 
     public interface IGenericRepository<TEntity, TKey, TDataset> where TEntity : class
     {
         Task<IEnumerable<TEntity>> GetAllAsync();

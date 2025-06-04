@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Repositorys
 {
+    [Obsolete]
     public abstract class TypedDataSetRepository<TEntity, TKey, TDataSet> : BaseRepository, IGenericRepository<TEntity, TKey, TDataSet>
         where TEntity : class
         where TDataSet : DataSet, new()

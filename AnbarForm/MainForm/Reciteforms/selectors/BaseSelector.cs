@@ -24,5 +24,20 @@ namespace AnbarForm.MainForm.Reciteforms.selectors
                 lbl_search.Text += SearchField;
             }
         }
+
+        private void Panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void Lbl_select_Click(object sender, System.EventArgs e)
+        {
+
+        }
+
+        private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

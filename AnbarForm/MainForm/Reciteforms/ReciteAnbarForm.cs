@@ -154,7 +154,7 @@ namespace AnbarForm.MainForm.Reciteforms
         private async void BtnSelectParty_Click_1(object sender, EventArgs e)
         {
             var anbar = await UiSafeExecutor.ExecuteAsync(()=>  _partyManagement.GetPartyDataSetAsync());
-            var selector = new SelectorForm<AnbarDataSet.PartiesDataTable>(anbar.Parties, "name", "Products");
+            var selector = new SelectorForm<AnbarDataSet.PartiesDataTable>(anbar.Parties, "name", "Party");
             selector.StartPosition = FormStartPosition.Manual;
 
             var btn = sender as Button;
@@ -180,11 +180,11 @@ namespace AnbarForm.MainForm.Reciteforms
         private async void DgReciteItem_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
         {
 
-            if (e.RowIndex >= 0 && dgReciteItem.Columns[e.ColumnIndex].Name == "PartySelector")
+            if (e.RowIndex >= 0 && dgReciteItem.Columns[e.ColumnIndex].Name == "ProductSelector")
             {
                 var anbar = await UiSafeExecutor.ExecuteAsync(() =>   _productService.GetDataSet());
 
-                var selector = new SelectorForm<AnbarDataSet.ProductsDataTable>(anbar.Products, "name", "Select Product");
+                var selector = new SelectorForm<AnbarDataSet.ProductsDataTable>(anbar.Products, "name", "Product");
                 selector.StartPosition = FormStartPosition.Manual;
 
                 var gridLocation = dgReciteItem.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
@@ -231,13 +231,13 @@ namespace AnbarForm.MainForm.Reciteforms
         }
         private void AddPartyButtonColumn()
         {
-            if (!dgReciteItem.Columns.Contains("PartySelector"))
+            if (!dgReciteItem.Columns.Contains("ProductSelector"))
             {
                 var partyButtonColumn = new DataGridViewButtonColumn
                 {
-                    Name = "PartySelector",
-                    HeaderText = "Party",
-                    Text = "Select Party",
+                    Name = "ProductSelector",
+                    HeaderText = "Product",
+                    Text = "Select Product",
                     UseColumnTextForButtonValue = true
                 };
 

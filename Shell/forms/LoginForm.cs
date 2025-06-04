@@ -4,6 +4,7 @@ using Domain.Users;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows.Forms;
+using Infrastructure;
 
 namespace Shell.forms
 {
@@ -22,10 +23,6 @@ namespace Shell.forms
             InitializeComponent();
         }
 
-        private void TextBox1_TextChanged(object sender, EventArgs e)
-        {
-        }
-
 
         private async void btnLogin_Click(object sender, EventArgs e)
         {
@@ -42,29 +39,13 @@ namespace Shell.forms
                 button1.Enabled = false;
                 button1.Text = "Processing...";
 
-                var result = await _userService.LoginUser(textBox1.Text, textBox2.Text);
+                var result = await UiSafeExecutor.ExecuteAsync(() => _userService.LoginUser(textBox1.Text, textBox2.Text));
 
                 SetupSession(result);
 
 
                 DialogResult = DialogResult.OK;
             }
-            catch (ValidationException ex)
-            {
-                MessageBox.Show(ex.UserFriendlyMessage, "Validation Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            catch (AuthenticationException ex)
-            {
-                MessageBox.Show(ex.UserFriendlyMessage, "Authentication Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("An unexpected error occurred during registration", "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
             finally
             {
                 button1.Enabled = true;
@@ -77,8 +58,16 @@ namespace Shell.forms
         private void SetupSession(User u)
         {
             _sessionService.Initialize(u);
+
             var moduleForm = _serviceProvider.GetService<ModuleDashboardForm>();
+
+            moduleForm.FormClosed += (s, e) =>
+            {
+                Dispose(); 
+            };
+
             moduleForm.Show();
+            Hide();
         }
     }
 }

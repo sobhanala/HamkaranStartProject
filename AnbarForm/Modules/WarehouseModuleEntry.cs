@@ -23,7 +23,7 @@ namespace AnbarForm.Modules
 
 
         public int Id => PasswordHasher.GetDeterministicHashCode(Subname);
-        public string Name => "Party Management";
+        public string Name => "WareHouseManagement Management";
         public string Subname => "Manages warehouse operations like inventory, stock, and orders.";
 
         public void Initialize()

@@ -76,7 +76,6 @@ namespace AnbarPersitence.Newway
                 var command = new SqlCommand(@"
             UPDATE Inventory 
             SET Quantity = @Value 
-            UpdatedAt = GETDATE()
             WHERE ProductId = @ProductId AND WarehouseId = @WarehouseId", Connection);
 
                 command.Parameters.AddWithValue("@ProductId", productId);
