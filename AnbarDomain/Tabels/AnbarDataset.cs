@@ -42,6 +42,10 @@ namespace AnbarDomain.Tabels
                     {
                         this.TotalAmountColumn.ExtendedProperties["IsViewColumn"] = true;
                     }
+                    if (this.Columns.Contains(ReceiptIdColumn.ColumnName))
+                    {
+                        this.TotalAmountCalculatedColumn.ExtendedProperties["IsViewColumn"] = true;
+                    }
                 }
                 catch (Exception ex)
                 {

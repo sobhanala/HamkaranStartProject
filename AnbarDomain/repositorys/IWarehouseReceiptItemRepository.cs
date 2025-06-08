@@ -8,5 +8,9 @@ namespace AnbarDomain.repositorys
     {
         Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FetchByReceiptIdWithProductInfo(int receiptId);
         Task<int> DeleteByReciteInfo(int receiptId);
+
+        Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FillByReceiptIdWithProductInfo(
+            AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable table, int receiptId);
+
     }
 }

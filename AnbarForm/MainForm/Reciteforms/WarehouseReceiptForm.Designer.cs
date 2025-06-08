@@ -42,6 +42,7 @@
             this.ReceiptDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AddRecite = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.editReceiptToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMaster)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -52,21 +53,22 @@
             this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.DeleteReceipt,
-            this.ViewReceipt});
+            this.ViewReceipt,
+            this.editReceiptToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(150, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 92);
             // 
             // DeleteReceipt
             // 
             this.DeleteReceipt.Name = "DeleteReceipt";
-            this.DeleteReceipt.Size = new System.Drawing.Size(149, 22);
+            this.DeleteReceipt.Size = new System.Drawing.Size(180, 22);
             this.DeleteReceipt.Text = "Delete Receipt";
             this.DeleteReceipt.Click += new System.EventHandler(this.DeleteReceipt_Click);
             // 
             // ViewReceipt
             // 
             this.ViewReceipt.Name = "ViewReceipt";
-            this.ViewReceipt.Size = new System.Drawing.Size(149, 22);
+            this.ViewReceipt.Size = new System.Drawing.Size(180, 22);
             this.ViewReceipt.Text = "View Receipt";
             this.ViewReceipt.Click += new System.EventHandler(this.ViewReceipt_Click);
             // 
@@ -98,7 +100,8 @@
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.dataGridViewMaster.DefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridViewMaster.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewMaster.Location = new System.Drawing.Point(3, 3);
+            this.dataGridViewMaster.Location = new System.Drawing.Point(4, 4);
+            this.dataGridViewMaster.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.dataGridViewMaster.Name = "dataGridViewMaster";
             this.dataGridViewMaster.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
@@ -110,7 +113,7 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewMaster.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dataGridViewMaster.RowHeadersWidth = 51;
-            this.dataGridViewMaster.Size = new System.Drawing.Size(958, 517);
+            this.dataGridViewMaster.Size = new System.Drawing.Size(1278, 636);
             this.dataGridViewMaster.TabIndex = 1;
             // 
             // ReceiptNumber
@@ -146,10 +149,10 @@
             // 
             this.AddRecite.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.AddRecite.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.AddRecite.Location = new System.Drawing.Point(966, 2);
-            this.AddRecite.Margin = new System.Windows.Forms.Padding(2);
+            this.AddRecite.Location = new System.Drawing.Point(1289, 2);
+            this.AddRecite.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.AddRecite.Name = "AddRecite";
-            this.AddRecite.Size = new System.Drawing.Size(167, 519);
+            this.AddRecite.Size = new System.Drawing.Size(221, 640);
             this.AddRecite.TabIndex = 2;
             this.AddRecite.Text = "AddRecite";
             this.AddRecite.UseVisualStyleBackColor = false;
@@ -164,18 +167,27 @@
             this.tableLayoutPanel1.Controls.Add(this.AddRecite, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1135, 523);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1513, 644);
             this.tableLayoutPanel1.TabIndex = 3;
+            // 
+            // editReceiptToolStripMenuItem
+            // 
+            this.editReceiptToolStripMenuItem.Name = "editReceiptToolStripMenuItem";
+            this.editReceiptToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.editReceiptToolStripMenuItem.Text = "edit Receipt";
+            this.editReceiptToolStripMenuItem.Click += new System.EventHandler(this.EditReceiptToolStripMenuItem_Click);
             // 
             // WarehouseReceiptForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1135, 523);
+            this.ClientSize = new System.Drawing.Size(1513, 644);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "WarehouseReceiptForm";
             this.Text = "WarehouseReceiptForm ";
             this.Load += new System.EventHandler(this.WarehouseReceiptForm_Load_1);
@@ -198,5 +210,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn WarehouseId;
         private System.Windows.Forms.DataGridViewTextBoxColumn ReceiptDate;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.ToolStripMenuItem editReceiptToolStripMenuItem;
     }
 }

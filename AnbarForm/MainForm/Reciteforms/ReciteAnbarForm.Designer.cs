@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.btn_Save = new System.Windows.Forms.Button();
             this.grpHeader = new System.Windows.Forms.GroupBox();
             this.nestedTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
@@ -48,16 +47,20 @@
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.lblParty = new System.Windows.Forms.Label();
             this.BtnSelectParty = new System.Windows.Forms.Button();
+            this.textBoxParty = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.txtWarehouse = new System.Windows.Forms.Label();
             this.BtnSelectWarehouse = new System.Windows.Forms.Button();
+            this.textBoxWarhouse = new System.Windows.Forms.TextBox();
             this.flowLayoutPanel7 = new System.Windows.Forms.FlowLayoutPanel();
             this.BtnAddRow = new System.Windows.Forms.Button();
             this.BtnDeleteRow = new System.Windows.Forms.Button();
             this.dgReciteItem = new System.Windows.Forms.DataGridView();
+            this.btn_Save = new System.Windows.Forms.Button();
+            this.TotalAmount = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.textBoxWarhouse = new System.Windows.Forms.TextBox();
-            this.textBoxParty = new System.Windows.Forms.TextBox();
+            this.warehouseId = new System.Windows.Forms.TextBox();
+            this.partyId = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.grpHeader.SuspendLayout();
             this.nestedTableLayoutPanel.SuspendLayout();
@@ -79,40 +82,33 @@
             this.tableLayoutPanel1.AutoSize = true;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.btn_Save, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.grpHeader, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel7, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.btn_Save, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.TotalAmount, 0, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 60F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 10F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(1443, 627);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1924, 772);
             this.tableLayoutPanel1.TabIndex = 0;
             this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.TableLayoutPanel1_Paint);
-            // 
-            // btn_Save
-            // 
-            this.btn_Save.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_Save.Location = new System.Drawing.Point(3, 567);
-            this.btn_Save.Name = "btn_Save";
-            this.btn_Save.Size = new System.Drawing.Size(1437, 57);
-            this.btn_Save.TabIndex = 3;
-            this.btn_Save.Text = "Save";
-            this.btn_Save.UseVisualStyleBackColor = true;
-            this.btn_Save.Click += new System.EventHandler(this.Btn_Save_Click);
             // 
             // grpHeader
             // 
             this.grpHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.grpHeader.Controls.Add(this.nestedTableLayoutPanel);
-            this.grpHeader.Location = new System.Drawing.Point(3, 3);
+            this.grpHeader.Location = new System.Drawing.Point(4, 4);
+            this.grpHeader.Margin = new System.Windows.Forms.Padding(4);
             this.grpHeader.Name = "grpHeader";
-            this.grpHeader.Size = new System.Drawing.Size(1437, 182);
+            this.grpHeader.Padding = new System.Windows.Forms.Padding(4);
+            this.grpHeader.Size = new System.Drawing.Size(1916, 211);
             this.grpHeader.TabIndex = 0;
             this.grpHeader.TabStop = false;
             this.grpHeader.Text = "Receipt Information";
@@ -130,13 +126,14 @@
             this.nestedTableLayoutPanel.Controls.Add(this.flowLayoutPanel2, 1, 0);
             this.nestedTableLayoutPanel.Controls.Add(this.flowLayoutPanel1, 0, 0);
             this.nestedTableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.nestedTableLayoutPanel.Location = new System.Drawing.Point(3, 16);
+            this.nestedTableLayoutPanel.Location = new System.Drawing.Point(4, 19);
+            this.nestedTableLayoutPanel.Margin = new System.Windows.Forms.Padding(4);
             this.nestedTableLayoutPanel.Name = "nestedTableLayoutPanel";
             this.nestedTableLayoutPanel.RowCount = 2;
             this.nestedTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.nestedTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.nestedTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.nestedTableLayoutPanel.Size = new System.Drawing.Size(1431, 163);
+            this.nestedTableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.nestedTableLayoutPanel.Size = new System.Drawing.Size(1908, 188);
             this.nestedTableLayoutPanel.TabIndex = 1;
             // 
             // flowLayoutPanel6
@@ -144,9 +141,10 @@
             this.flowLayoutPanel6.Controls.Add(this.lblDiscount);
             this.flowLayoutPanel6.Controls.Add(this.numDiscount);
             this.flowLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel6.Location = new System.Drawing.Point(957, 84);
+            this.flowLayoutPanel6.Location = new System.Drawing.Point(1276, 98);
+            this.flowLayoutPanel6.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel6.Name = "flowLayoutPanel6";
-            this.flowLayoutPanel6.Size = new System.Drawing.Size(471, 76);
+            this.flowLayoutPanel6.Size = new System.Drawing.Size(628, 86);
             this.flowLayoutPanel6.TabIndex = 5;
             // 
             // lblDiscount
@@ -154,9 +152,10 @@
             this.lblDiscount.AutoSize = true;
             this.lblDiscount.Dock = System.Windows.Forms.DockStyle.Left;
             this.lblDiscount.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.lblDiscount.Location = new System.Drawing.Point(3, 0);
+            this.lblDiscount.Location = new System.Drawing.Point(4, 0);
+            this.lblDiscount.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDiscount.Name = "lblDiscount";
-            this.lblDiscount.Size = new System.Drawing.Size(67, 26);
+            this.lblDiscount.Size = new System.Drawing.Size(67, 30);
             this.lblDiscount.TabIndex = 0;
             this.lblDiscount.Text = "Discount:";
             // 
@@ -164,14 +163,15 @@
             // 
             this.numDiscount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.numDiscount.Location = new System.Drawing.Point(76, 3);
+            this.numDiscount.Location = new System.Drawing.Point(79, 4);
+            this.numDiscount.Margin = new System.Windows.Forms.Padding(4);
             this.numDiscount.Maximum = new decimal(new int[] {
             1000000000,
             0,
             0,
             0});
             this.numDiscount.Name = "numDiscount";
-            this.numDiscount.Size = new System.Drawing.Size(120, 20);
+            this.numDiscount.Size = new System.Drawing.Size(160, 22);
             this.numDiscount.TabIndex = 1;
             // 
             // flowLayoutPanel5
@@ -180,9 +180,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel5.Controls.Add(this.lblCost);
             this.flowLayoutPanel5.Controls.Add(this.numCost);
-            this.flowLayoutPanel5.Location = new System.Drawing.Point(480, 84);
+            this.flowLayoutPanel5.Location = new System.Drawing.Point(640, 98);
+            this.flowLayoutPanel5.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel5.Name = "flowLayoutPanel5";
-            this.flowLayoutPanel5.Size = new System.Drawing.Size(471, 76);
+            this.flowLayoutPanel5.Size = new System.Drawing.Size(628, 86);
             this.flowLayoutPanel5.TabIndex = 4;
             // 
             // lblCost
@@ -190,9 +191,10 @@
             this.lblCost.AutoSize = true;
             this.lblCost.Dock = System.Windows.Forms.DockStyle.Left;
             this.lblCost.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.lblCost.Location = new System.Drawing.Point(3, 0);
+            this.lblCost.Location = new System.Drawing.Point(4, 0);
+            this.lblCost.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblCost.Name = "lblCost";
-            this.lblCost.Size = new System.Drawing.Size(40, 26);
+            this.lblCost.Size = new System.Drawing.Size(40, 30);
             this.lblCost.TabIndex = 0;
             this.lblCost.Text = "Cost:";
             // 
@@ -200,14 +202,15 @@
             // 
             this.numCost.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.numCost.Location = new System.Drawing.Point(49, 3);
+            this.numCost.Location = new System.Drawing.Point(52, 4);
+            this.numCost.Margin = new System.Windows.Forms.Padding(4);
             this.numCost.Maximum = new decimal(new int[] {
             1000000000,
             0,
             0,
             0});
             this.numCost.Name = "numCost";
-            this.numCost.Size = new System.Drawing.Size(120, 20);
+            this.numCost.Size = new System.Drawing.Size(160, 22);
             this.numCost.TabIndex = 1;
             // 
             // flowLayoutPanel4
@@ -215,9 +218,10 @@
             this.flowLayoutPanel4.Controls.Add(this.lblType);
             this.flowLayoutPanel4.Controls.Add(this.cmbType);
             this.flowLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 84);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(4, 98);
+            this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
-            this.flowLayoutPanel4.Size = new System.Drawing.Size(471, 76);
+            this.flowLayoutPanel4.Size = new System.Drawing.Size(628, 86);
             this.flowLayoutPanel4.TabIndex = 3;
             // 
             // lblType
@@ -225,18 +229,20 @@
             this.lblType.AutoSize = true;
             this.lblType.Dock = System.Windows.Forms.DockStyle.Left;
             this.lblType.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.lblType.Location = new System.Drawing.Point(3, 0);
+            this.lblType.Location = new System.Drawing.Point(4, 0);
+            this.lblType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblType.Name = "lblType";
-            this.lblType.Size = new System.Drawing.Size(44, 27);
+            this.lblType.Size = new System.Drawing.Size(44, 32);
             this.lblType.TabIndex = 0;
             this.lblType.Text = "Type:";
             // 
             // cmbType
             // 
             this.cmbType.FormattingEnabled = true;
-            this.cmbType.Location = new System.Drawing.Point(53, 3);
+            this.cmbType.Location = new System.Drawing.Point(56, 4);
+            this.cmbType.Margin = new System.Windows.Forms.Padding(4);
             this.cmbType.Name = "cmbType";
-            this.cmbType.Size = new System.Drawing.Size(121, 21);
+            this.cmbType.Size = new System.Drawing.Size(160, 24);
             this.cmbType.TabIndex = 1;
             // 
             // flowLayoutPanel3
@@ -244,9 +250,10 @@
             this.flowLayoutPanel3.Controls.Add(this.lblDate);
             this.flowLayoutPanel3.Controls.Add(this.dateTimePicker1);
             this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(957, 3);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(1276, 4);
+            this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(471, 75);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(628, 86);
             this.flowLayoutPanel3.TabIndex = 2;
             // 
             // lblDate
@@ -255,9 +262,10 @@
             this.lblDate.Cursor = System.Windows.Forms.Cursors.SizeWE;
             this.lblDate.Dock = System.Windows.Forms.DockStyle.Left;
             this.lblDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.lblDate.Location = new System.Drawing.Point(3, 0);
+            this.lblDate.Location = new System.Drawing.Point(4, 0);
+            this.lblDate.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(42, 26);
+            this.lblDate.Size = new System.Drawing.Size(42, 30);
             this.lblDate.TabIndex = 0;
             this.lblDate.Text = "Date:";
             // 
@@ -265,9 +273,10 @@
             // 
             this.dateTimePicker1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dateTimePicker1.Location = new System.Drawing.Point(51, 3);
+            this.dateTimePicker1.Location = new System.Drawing.Point(54, 4);
+            this.dateTimePicker1.Margin = new System.Windows.Forms.Padding(4);
             this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.Size = new System.Drawing.Size(361, 20);
+            this.dateTimePicker1.Size = new System.Drawing.Size(480, 22);
             this.dateTimePicker1.TabIndex = 1;
             this.dateTimePicker1.Value = new System.DateTime(2025, 5, 28, 10, 29, 17, 0);
             // 
@@ -276,10 +285,12 @@
             this.flowLayoutPanel2.Controls.Add(this.lblParty);
             this.flowLayoutPanel2.Controls.Add(this.BtnSelectParty);
             this.flowLayoutPanel2.Controls.Add(this.textBoxParty);
+            this.flowLayoutPanel2.Controls.Add(this.partyId);
             this.flowLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(480, 3);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(640, 4);
+            this.flowLayoutPanel2.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(471, 75);
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(628, 86);
             this.flowLayoutPanel2.TabIndex = 1;
             // 
             // lblParty
@@ -287,9 +298,10 @@
             this.lblParty.AutoSize = true;
             this.lblParty.Dock = System.Windows.Forms.DockStyle.Left;
             this.lblParty.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.lblParty.Location = new System.Drawing.Point(3, 0);
+            this.lblParty.Location = new System.Drawing.Point(4, 0);
+            this.lblParty.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblParty.Name = "lblParty";
-            this.lblParty.Size = new System.Drawing.Size(52, 29);
+            this.lblParty.Size = new System.Drawing.Size(52, 36);
             this.lblParty.TabIndex = 0;
             this.lblParty.Text = "Partys:";
             // 
@@ -297,23 +309,36 @@
             // 
             this.BtnSelectParty.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnSelectParty.Location = new System.Drawing.Point(61, 3);
+            this.BtnSelectParty.Location = new System.Drawing.Point(64, 4);
+            this.BtnSelectParty.Margin = new System.Windows.Forms.Padding(4);
             this.BtnSelectParty.Name = "BtnSelectParty";
-            this.BtnSelectParty.Size = new System.Drawing.Size(75, 23);
+            this.BtnSelectParty.Size = new System.Drawing.Size(100, 28);
             this.BtnSelectParty.TabIndex = 1;
             this.BtnSelectParty.Text = "...";
             this.BtnSelectParty.UseVisualStyleBackColor = true;
             this.BtnSelectParty.Click += new System.EventHandler(this.BtnSelectParty_Click_1);
+            // 
+            // textBoxParty
+            // 
+            this.textBoxParty.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxParty.Location = new System.Drawing.Point(172, 4);
+            this.textBoxParty.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxParty.Name = "textBoxParty";
+            this.textBoxParty.Size = new System.Drawing.Size(301, 22);
+            this.textBoxParty.TabIndex = 3;
             // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Controls.Add(this.txtWarehouse);
             this.flowLayoutPanel1.Controls.Add(this.BtnSelectWarehouse);
             this.flowLayoutPanel1.Controls.Add(this.textBoxWarhouse);
+            this.flowLayoutPanel1.Controls.Add(this.warehouseId);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(4, 4);
+            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(471, 75);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(628, 86);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // txtWarehouse
@@ -321,9 +346,10 @@
             this.txtWarehouse.AutoSize = true;
             this.txtWarehouse.Dock = System.Windows.Forms.DockStyle.Left;
             this.txtWarehouse.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.25F);
-            this.txtWarehouse.Location = new System.Drawing.Point(3, 0);
+            this.txtWarehouse.Location = new System.Drawing.Point(4, 0);
+            this.txtWarehouse.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.txtWarehouse.Name = "txtWarehouse";
-            this.txtWarehouse.Size = new System.Drawing.Size(85, 29);
+            this.txtWarehouse.Size = new System.Drawing.Size(85, 36);
             this.txtWarehouse.TabIndex = 0;
             this.txtWarehouse.Text = "Warehouse:";
             // 
@@ -331,13 +357,24 @@
             // 
             this.BtnSelectWarehouse.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.BtnSelectWarehouse.Location = new System.Drawing.Point(94, 3);
+            this.BtnSelectWarehouse.Location = new System.Drawing.Point(97, 4);
+            this.BtnSelectWarehouse.Margin = new System.Windows.Forms.Padding(4);
             this.BtnSelectWarehouse.Name = "BtnSelectWarehouse";
-            this.BtnSelectWarehouse.Size = new System.Drawing.Size(75, 23);
+            this.BtnSelectWarehouse.Size = new System.Drawing.Size(100, 28);
             this.BtnSelectWarehouse.TabIndex = 1;
             this.BtnSelectWarehouse.Text = "...";
             this.BtnSelectWarehouse.UseVisualStyleBackColor = true;
             this.BtnSelectWarehouse.Click += new System.EventHandler(this.BtnSelectWarehouse_Click_1);
+            // 
+            // textBoxWarhouse
+            // 
+            this.textBoxWarhouse.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxWarhouse.Location = new System.Drawing.Point(205, 4);
+            this.textBoxWarhouse.Margin = new System.Windows.Forms.Padding(4);
+            this.textBoxWarhouse.Name = "textBoxWarhouse";
+            this.textBoxWarhouse.Size = new System.Drawing.Size(291, 22);
+            this.textBoxWarhouse.TabIndex = 2;
             // 
             // flowLayoutPanel7
             // 
@@ -345,9 +382,10 @@
             this.flowLayoutPanel7.Controls.Add(this.BtnDeleteRow);
             this.flowLayoutPanel7.Controls.Add(this.dgReciteItem);
             this.flowLayoutPanel7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel7.Location = new System.Drawing.Point(3, 191);
+            this.flowLayoutPanel7.Location = new System.Drawing.Point(4, 223);
+            this.flowLayoutPanel7.Margin = new System.Windows.Forms.Padding(4);
             this.flowLayoutPanel7.Name = "flowLayoutPanel7";
-            this.flowLayoutPanel7.Size = new System.Drawing.Size(1437, 370);
+            this.flowLayoutPanel7.Size = new System.Drawing.Size(1916, 431);
             this.flowLayoutPanel7.TabIndex = 4;
             // 
             // BtnAddRow
@@ -355,9 +393,10 @@
             this.BtnAddRow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnAddRow.BackColor = System.Drawing.Color.LimeGreen;
-            this.BtnAddRow.Location = new System.Drawing.Point(3, 3);
+            this.BtnAddRow.Location = new System.Drawing.Point(4, 4);
+            this.BtnAddRow.Margin = new System.Windows.Forms.Padding(4);
             this.BtnAddRow.Name = "BtnAddRow";
-            this.BtnAddRow.Size = new System.Drawing.Size(28, 23);
+            this.BtnAddRow.Size = new System.Drawing.Size(37, 28);
             this.BtnAddRow.TabIndex = 2;
             this.BtnAddRow.UseVisualStyleBackColor = false;
             this.BtnAddRow.Click += new System.EventHandler(this.BtnAddRow_Click);
@@ -367,9 +406,10 @@
             this.BtnDeleteRow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnDeleteRow.BackColor = System.Drawing.Color.OrangeRed;
-            this.BtnDeleteRow.Location = new System.Drawing.Point(37, 3);
+            this.BtnDeleteRow.Location = new System.Drawing.Point(49, 4);
+            this.BtnDeleteRow.Margin = new System.Windows.Forms.Padding(4);
             this.BtnDeleteRow.Name = "BtnDeleteRow";
-            this.BtnDeleteRow.Size = new System.Drawing.Size(30, 23);
+            this.BtnDeleteRow.Size = new System.Drawing.Size(40, 28);
             this.BtnDeleteRow.TabIndex = 1;
             this.BtnDeleteRow.UseVisualStyleBackColor = false;
             this.BtnDeleteRow.Click += new System.EventHandler(this.BtnDeleteRow_Click);
@@ -382,44 +422,74 @@
             this.dgReciteItem.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgReciteItem.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgReciteItem.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgReciteItem.Location = new System.Drawing.Point(3, 32);
+            this.dgReciteItem.Location = new System.Drawing.Point(4, 40);
+            this.dgReciteItem.Margin = new System.Windows.Forms.Padding(4);
             this.dgReciteItem.Name = "dgReciteItem";
-            this.dgReciteItem.Size = new System.Drawing.Size(1434, 356);
+            this.dgReciteItem.Size = new System.Drawing.Size(1912, 438);
             this.dgReciteItem.TabIndex = 3;
             this.dgReciteItem.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgReciteItem_CellContentClick_1);
+            // 
+            // btn_Save
+            // 
+            this.btn_Save.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btn_Save.Location = new System.Drawing.Point(4, 735);
+            this.btn_Save.Margin = new System.Windows.Forms.Padding(4);
+            this.btn_Save.Name = "btn_Save";
+            this.btn_Save.Size = new System.Drawing.Size(1916, 33);
+            this.btn_Save.TabIndex = 3;
+            this.btn_Save.Text = "Save";
+            this.btn_Save.UseVisualStyleBackColor = true;
+            this.btn_Save.Click += new System.EventHandler(this.Btn_Save_Click);
+            // 
+            // TotalAmount
+            // 
+            this.TotalAmount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.TotalAmount.AutoSize = true;
+            this.TotalAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TotalAmount.Location = new System.Drawing.Point(3, 658);
+            this.TotalAmount.Name = "TotalAmount";
+            this.TotalAmount.Size = new System.Drawing.Size(1918, 29);
+            this.TotalAmount.TabIndex = 5;
+            this.TotalAmount.Text = "Total Amount: $0.00";
             // 
             // errorProvider1
             // 
             this.errorProvider1.ContainerControl = this;
             // 
-            // textBoxWarhouse
+            // warehouseId
             // 
-            this.textBoxWarhouse.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.warehouseId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxWarhouse.Location = new System.Drawing.Point(175, 3);
-            this.textBoxWarhouse.Name = "textBoxWarhouse";
-            this.textBoxWarhouse.Size = new System.Drawing.Size(219, 20);
-            this.textBoxWarhouse.TabIndex = 2;
+            this.warehouseId.Location = new System.Drawing.Point(504, 4);
+            this.warehouseId.Margin = new System.Windows.Forms.Padding(4);
+            this.warehouseId.Name = "warehouseId";
+            this.warehouseId.Size = new System.Drawing.Size(91, 22);
+            this.warehouseId.TabIndex = 3;
             // 
-            // textBoxParty
+            // partyId
             // 
-            this.textBoxParty.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.partyId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxParty.Location = new System.Drawing.Point(142, 3);
-            this.textBoxParty.Name = "textBoxParty";
-            this.textBoxParty.Size = new System.Drawing.Size(227, 20);
-            this.textBoxParty.TabIndex = 3;
+            this.partyId.Location = new System.Drawing.Point(481, 4);
+            this.partyId.Margin = new System.Windows.Forms.Padding(4);
+            this.partyId.Name = "partyId";
+            this.partyId.Size = new System.Drawing.Size(91, 22);
+            this.partyId.TabIndex = 4;
             // 
             // ReciteAnbarFormincome
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1443, 627);
+            this.ClientSize = new System.Drawing.Size(1924, 772);
             this.Controls.Add(this.tableLayoutPanel1);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "ReciteAnbarFormincome";
             this.Text = "ReciteAnbarFormincome";
             this.Load += new System.EventHandler(this.ReciteAnbarForm_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.grpHeader.ResumeLayout(false);
             this.nestedTableLayoutPanel.ResumeLayout(false);
             this.flowLayoutPanel6.ResumeLayout(false);
@@ -475,5 +545,8 @@
         private System.Windows.Forms.Button BtnAddRow;
         private System.Windows.Forms.TextBox textBoxWarhouse;
         private System.Windows.Forms.TextBox textBoxParty;
+        private System.Windows.Forms.Label TotalAmount;
+        private System.Windows.Forms.TextBox partyId;
+        private System.Windows.Forms.TextBox warehouseId;
     }
 }

@@ -51,6 +51,15 @@ namespace AnbarService
             return dataSet;
         }
 
+        public async Task FillReceiptById(AnbarDataSet dataSet,int reciteId)
+        {
+            await _receiptRepository.FillAsync(dataSet.WarehouseReceipts);
+            await _receiptItemRepository.FillByReceiptIdWithProductInfo(dataSet.WarehouseReceiptItemsWithProductView, reciteId);
+
+        }
+
+
+
 
 
 

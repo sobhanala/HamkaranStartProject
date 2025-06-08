@@ -47,7 +47,7 @@
             this.lbl_search.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F);
             this.lbl_search.Location = new System.Drawing.Point(258, 0);
             this.lbl_search.Name = "lbl_search";
-            this.lbl_search.Size = new System.Drawing.Size(80, 24);
+            this.lbl_search.Size = new System.Drawing.Size(63, 18);
             this.lbl_search.TabIndex = 5;
             this.lbl_search.Text = "Search  ";
             // 
@@ -81,7 +81,7 @@
             this.lbl_select.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F);
             this.lbl_select.Location = new System.Drawing.Point(3, 0);
             this.lbl_select.Name = "lbl_select";
-            this.lbl_select.Size = new System.Drawing.Size(67, 24);
+            this.lbl_select.Size = new System.Drawing.Size(53, 18);
             this.lbl_select.TabIndex = 7;
             this.lbl_select.Text = "Select ";
             // 
@@ -96,6 +96,8 @@
             // 
             // dataGridView1
             // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dataGridView1.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -103,6 +105,7 @@
             this.dataGridView1.Location = new System.Drawing.Point(0, 0);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.Size = new System.Drawing.Size(1255, 511);

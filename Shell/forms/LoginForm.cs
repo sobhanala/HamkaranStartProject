@@ -40,10 +40,12 @@ namespace Shell.forms
                 button1.Text = "Processing...";
 
                 var result = await UiSafeExecutor.ExecuteAsync(() => _userService.LoginUser(textBox1.Text, textBox2.Text));
+                if (result==null)
+                {
+                    return;
+                }
 
                 SetupSession(result);
-
-
                 DialogResult = DialogResult.OK;
             }
             finally

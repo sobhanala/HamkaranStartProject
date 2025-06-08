@@ -10,5 +10,6 @@ namespace AnbarService
         Task SaveReceiptWithItemsAsync(AnbarDataSet dataset);
         Task<string> GenerateNewReceiptNumber();
         Task DeleteReceiptWithInventoryAsync(AnbarDataSet.WarehouseReceiptsRow receiptRow);
+        Task FillReceiptById(AnbarDataSet dataSet, int reciteId);
     }
 }

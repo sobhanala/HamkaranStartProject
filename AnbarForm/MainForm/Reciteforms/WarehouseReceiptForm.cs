@@ -162,6 +162,25 @@ namespace AnbarForm.MainForm.Reciteforms
             }
         }
 
+        private void EditReceiptToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var addForm = new ReciteAnbarFormincome(_userService, _warehouseReceiptService, _partyManagement, _productService, GetSelectedReceipt().Id))
+            {
+                if (addForm.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
 
+                        _masterBindingSource.ResetBindings(false);
+                        MessageBox.Show("Receipt created successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ConfigureAutoBinding();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error creating receipt: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
     }
 }

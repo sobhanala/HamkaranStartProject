@@ -52,6 +52,26 @@ namespace AnbarPersitence.Newway
                 throw new DatabaseException(ex.Message, "cannot FetchByReceiptIdWithProductInfo Track", ErrorCode.DataBaseError, ex); 
             }
         }
+        public async Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FillByReceiptIdWithProductInfo(AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable Table, int receiptId)
+        {
+            try
+            {
+                var command = new SqlCommand("SELECT * FROM WarehouseReceiptItemsWithProductView WHERE ReceiptId = @ReceiptId", Connection);
+
+                command.Parameters.AddWithValue("@ReceiptId", receiptId);
+                if (Transaction != null)
+                {
+                    command.Transaction = Transaction;
+                }
+                var a = await FillAsyncByCommand(Table ,command);
+                return a;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error loading items for ReceiptId: {ReceiptId}", receiptId);
+                throw new DatabaseException(ex.Message, "cannot FetchByReceiptIdWithProductInfo Track", ErrorCode.DataBaseError, ex);
+            }
+        }
 
         public async Task<int> DeleteByReciteInfo(int receiptId)
         {
