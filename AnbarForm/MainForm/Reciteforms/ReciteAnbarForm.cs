@@ -5,6 +5,7 @@ using AnbarForm.MainForm.Reciteforms.selectors;
 using AnbarService;
 using Domain.SharedSevices;
 using System;
+using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -20,9 +21,10 @@ namespace AnbarForm.MainForm.Reciteforms
         private AnbarDataSet _currentDataSet;
 
 
+
+        private readonly BindingSource _headerBindingSource = new BindingSource();
         private AnbarDataSet.WarehousesRow ReciteHeaderWarehousesRow { get; set; }
         private AnbarDataSet.PartiesRow ReciteHeaderPartiesRow { get; set; }
-        private AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable ViewDataTable { get; set; }
 
 
         private readonly BindingSource _detailBindingSource = new BindingSource();
@@ -41,6 +43,17 @@ namespace AnbarForm.MainForm.Reciteforms
             _productService = productService;
             InitializeComponent();
             ConfigureComboBox();
+        }
+
+        private void MapToBindigSource()
+        {
+            textBoxWarhouse.DataBindings.Add("Text", _headerBindingSource, "WarehouseId", true, DataSourceUpdateMode.OnPropertyChanged);
+            textBoxParty.DataBindings.Add("Text", _headerBindingSource, "PartyId", true, DataSourceUpdateMode.OnPropertyChanged);
+            dateTimePicker1.DataBindings.Add("Value", _headerBindingSource, "ReceiptDate", true, DataSourceUpdateMode.OnPropertyChanged);
+            numCost.DataBindings.Add("Value", _headerBindingSource, "TransportCost", true, DataSourceUpdateMode.OnPropertyChanged);
+            numDiscount.DataBindings.Add("Value", _headerBindingSource, "Discount", true, DataSourceUpdateMode.OnPropertyChanged);
+            cmbType.DataBindings.Add("SelectedValue", _headerBindingSource, "ReceiptStatus", true, DataSourceUpdateMode.OnPropertyChanged);
+
         }
 
         private void ConfigureComboBox()
@@ -106,20 +119,40 @@ namespace AnbarForm.MainForm.Reciteforms
 
         private void ReciteAnbarForm_Load(object sender, EventArgs e)
         {
+            _currentDataSet = new AnbarDataSet();
+            addTempMasterRow();
+
+            _headerBindingSource.DataSource = _currentDataSet;
+            _headerBindingSource.DataMember = _currentDataSet.WarehouseReceipts.TableName;
+
+            _detailBindingSource.DataSource = _headerBindingSource;
+            _detailBindingSource.DataMember = "WarehouseReceipts_WarehouseReceiptItemsWithProductView";
+
             dgReciteItem.AutoGenerateColumns = true;
             dgReciteItem.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            _currentDataSet = new AnbarDataSet();
-
-
-            ViewDataTable = _currentDataSet.WarehouseReceiptItemsWithProductView;
-
-            _detailBindingSource.DataSource = ViewDataTable;
             dgReciteItem.DataSource = _detailBindingSource;
 
 
+            MapToBindigSource();
+            dgReciteItem.DataSource = _detailBindingSource;
             AddPartyButtonColumn();
 
+
         }
+
+        private void addTempMasterRow()
+        {
+            var newMasterRow = _currentDataSet.WarehouseReceipts.NewWarehouseReceiptsRow();
+            newMasterRow.ReceiptDate = DateTime.Now;  // example default value
+            newMasterRow.TransportCost = 0m;
+            newMasterRow.Discount = 0m;
+            newMasterRow.TotalAmount = 0;
+            newMasterRow.PartyId = 0;
+            newMasterRow.WarehouseId = 0;
+            newMasterRow.ReceiptStatus = 0;
+            _currentDataSet.WarehouseReceipts.AddWarehouseReceiptsRow(newMasterRow);
+        }
+
 
 
         #region Selectors
@@ -211,16 +244,32 @@ namespace AnbarForm.MainForm.Reciteforms
 
         private void BtnAddRow_Click(object sender, EventArgs e)
         {
-            ViewDataTable.AddWarehouseReceiptItemsWithProductViewRow(
-                ReceiptId: 0,
-                ProductId: 0,
-                ProductName: "",
-                ProductCode: "",
-                Quantity: 0,
-                UnitPrice: 0,
-                TotalAmount: 0
-            );
+            _headerBindingSource.EndEdit();
+
+            if (_headerBindingSource.Current is DataRowView masterRowView &&
+                masterRowView.Row is AnbarDataSet.WarehouseReceiptsRow masterRow)
+            {
+                var detailTable = _currentDataSet.WarehouseReceiptItemsWithProductView;
+
+                var newDetailRow = detailTable.NewWarehouseReceiptItemsWithProductViewRow();
+
+                newDetailRow.ProductId = 0;
+                newDetailRow.ProductName = "";
+                newDetailRow.ProductCode = "";
+                newDetailRow.Quantity = 0;
+                newDetailRow.UnitPrice = 0;
+                newDetailRow.TotalAmount = 0;
+
+                detailTable.AddWarehouseReceiptItemsWithProductViewRow(newDetailRow);
+
+
+            }
+            else
+            {
+                MessageBox.Show("Please create or select a master receipt first.");
+            }
         }
+
 
         private void BtnDeleteRow_Click(object sender, EventArgs e)
         {
@@ -233,17 +282,9 @@ namespace AnbarForm.MainForm.Reciteforms
         {
             if (!dgReciteItem.Columns.Contains("ProductSelector"))
             {
-                var partyButtonColumn = new DataGridViewButtonColumn
-                {
-                    Name = "ProductSelector",
-                    HeaderText = "Product",
-                    Text = "Select Product",
-                    UseColumnTextForButtonValue = true
-                };
-
+                var partyButtonColumn = new DataGridViewButtonColumn { Name = "ProductSelector", HeaderText = "Product", Text = "Select Product", UseColumnTextForButtonValue = true };
                 dgReciteItem.Columns.Add(partyButtonColumn);
-            }
+                }
         }
-
     }
 }

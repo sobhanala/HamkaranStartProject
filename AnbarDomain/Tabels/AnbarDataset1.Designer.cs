@@ -56,6 +56,8 @@ namespace AnbarDomain.Tabels {
         
         private global::System.Data.DataRelation relationFK_Inventory_Warehouse;
         
+        private global::System.Data.DataRelation relationWarehouseReceipts_WarehouseReceiptItemsWithProductView;
+        
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -407,6 +409,7 @@ namespace AnbarDomain.Tabels {
             this.relationFK__Warehouse__Recei__2EDAF651 = this.Relations["FK__Warehouse__Recei__2EDAF651"];
             this.relationFK_Inventory_Product = this.Relations["FK_Inventory_Product"];
             this.relationFK_Inventory_Warehouse = this.Relations["FK_Inventory_Warehouse"];
+            this.relationWarehouseReceipts_WarehouseReceiptItemsWithProductView = this.Relations["WarehouseReceipts_WarehouseReceiptItemsWithProductView"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -463,6 +466,10 @@ namespace AnbarDomain.Tabels {
                         this.tableWarehouses.IdColumn}, new global::System.Data.DataColumn[] {
                         this.tableInventory.IdColumn}, false);
             this.Relations.Add(this.relationFK_Inventory_Warehouse);
+            this.relationWarehouseReceipts_WarehouseReceiptItemsWithProductView = new global::System.Data.DataRelation("WarehouseReceipts_WarehouseReceiptItemsWithProductView", new global::System.Data.DataColumn[] {
+                        this.tableWarehouseReceipts.IdColumn}, new global::System.Data.DataColumn[] {
+                        this.tableWarehouseReceiptItemsWithProductView.IdColumn}, false);
+            this.Relations.Add(this.relationWarehouseReceipts_WarehouseReceiptItemsWithProductView);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4716,6 +4723,17 @@ namespace AnbarDomain.Tabels {
                     return ((WarehouseReceiptItemsRow[])(base.GetChildRows(this.Table.ChildRelations["FK__Warehouse__Recei__2EDAF651"])));
                 }
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public WarehouseReceiptItemsWithProductViewRow[] GetWarehouseReceiptItemsWithProductViewRows() {
+                if ((this.Table.ChildRelations["WarehouseReceipts_WarehouseReceiptItemsWithProductView"] == null)) {
+                    return new WarehouseReceiptItemsWithProductViewRow[0];
+                }
+                else {
+                    return ((WarehouseReceiptItemsWithProductViewRow[])(base.GetChildRows(this.Table.ChildRelations["WarehouseReceipts_WarehouseReceiptItemsWithProductView"])));
+                }
+            }
         }
         
         /// <summary>
@@ -5973,6 +5991,17 @@ namespace AnbarDomain.Tabels {
                 }
                 set {
                     this[this.tableWarehouseReceiptItemsWithProductView.TotalAmountColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public WarehouseReceiptsRow WarehouseReceiptsRow {
+                get {
+                    return ((WarehouseReceiptsRow)(this.GetParentRow(this.Table.ParentRelations["WarehouseReceipts_WarehouseReceiptItemsWithProductView"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["WarehouseReceipts_WarehouseReceiptItemsWithProductView"]);
                 }
             }
             
