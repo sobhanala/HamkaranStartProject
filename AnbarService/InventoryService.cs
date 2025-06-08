@@ -28,7 +28,7 @@ namespace AnbarService
             return inventory;
         }
 
-        public async Task UpdateInventoryAsync(AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable detail, AnbarDataSet.WarehouseReceiptsRow headerRow)
+        public async Task UpdateInventoryAsync(AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable detail, AnbarDataSet.view_WarehouseReceiptsRow headerRow)
         {
             var inventoryTable = await GetTheDataset();
 
@@ -66,7 +66,7 @@ namespace AnbarService
 
 
         public async Task DeleteInventoryAsync(AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable detail,
-            AnbarDataSet.WarehouseReceiptsRow headerRow)
+            AnbarDataSet.view_WarehouseReceiptsRow headerRow)
         {
 
             foreach (var item in detail)
@@ -104,7 +104,7 @@ namespace AnbarService
 
 
 
-        private void AddNewRowToInventory(AnbarDataSet.WarehouseReceiptsRow headerRow, AnbarDataSet.InventoryDataTable inventoryTable,
+        private void AddNewRowToInventory(AnbarDataSet.view_WarehouseReceiptsRow headerRow, AnbarDataSet.InventoryDataTable inventoryTable,
             AnbarDataSet.WarehouseReceiptItemsWithProductViewRow item)
         {
             var row = inventoryTable.NewInventoryRow();

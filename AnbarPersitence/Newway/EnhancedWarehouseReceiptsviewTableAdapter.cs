@@ -15,18 +15,18 @@ using Domain.Exceptions;
 namespace AnbarPersitence.Newway
 {
     [Repository]
-    public class EnhancedWarehouseReceiptsTableAdapter : EnhancedTableAdapterBase<AnbarDataSet.WarehouseReceiptsDataTable>
+    public class EnhancedWarehouseReceiptsviewTableAdapter : EnhancedTableAdapterBase<AnbarDataSet.view_WarehouseReceiptsDataTable>,IWarehouseReceiptRepository
     {
-        private readonly WarehouseReceiptsTableAdapter _baseAdapter;
+        private readonly view_WarehouseReceiptsTableAdapter _baseAdapter;
 
         protected override DbDataAdapter DataAdapter => _baseAdapter.GetAdapter();
 
-        public EnhancedWarehouseReceiptsTableAdapter(
+        public EnhancedWarehouseReceiptsviewTableAdapter(
             ILogger<EnhancedWarehouseReceiptsTableAdapter> logger,
             ISessionService sessionService, ITransactionManager _manager)
             : base(logger, sessionService, _manager)
         {
-            _baseAdapter = new WarehouseReceiptsTableAdapter();
+            _baseAdapter = new view_WarehouseReceiptsTableAdapter();
             InitCommands();
         }
 
@@ -57,11 +57,10 @@ namespace AnbarPersitence.Newway
             }
         }
 
-        public async Task<AnbarDataSet.WarehouseReceiptsDataTable> FetchAsync()
+        public async Task<AnbarDataSet.view_WarehouseReceiptsDataTable> FetchAsync()
         {
             try
             {
-
                 var datatable = await base.FetchTypedAsync();
                 return datatable;
             }
@@ -73,7 +72,7 @@ namespace AnbarPersitence.Newway
         }
 
 
-        public async Task<int> UpdateTransaction(AnbarDataSet.WarehouseReceiptsDataTable data)
+        public async Task<int> UpdateTransaction(AnbarDataSet.view_WarehouseReceiptsDataTable data)
         {
             try
             {

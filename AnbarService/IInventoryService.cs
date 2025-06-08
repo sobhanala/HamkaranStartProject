@@ -7,11 +7,11 @@ namespace AnbarService
     {
         Task UpdateInventoryAsync(
             AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable detail,
-            AnbarDataSet.WarehouseReceiptsRow headerRow);
+            AnbarDataSet.view_WarehouseReceiptsRow headerRow);
 
         Task<AnbarDataSet.InventoryDataTable> GetTheDataset();
 
         Task DeleteInventoryAsync(AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable detail,
-            AnbarDataSet.WarehouseReceiptsRow headerRow);
+            AnbarDataSet.view_WarehouseReceiptsRow headerRow);
     }
 }

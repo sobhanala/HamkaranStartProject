@@ -8,7 +8,7 @@ namespace AnbarForm.MainForm.Reciteforms
 {
     public partial class ViewForm : Form
     {
-        private AnbarDataSet.WarehouseReceiptsRow _receiptRow;
+        private AnbarDataSet.view_WarehouseReceiptsRow _receiptRow;
         private readonly IWarehouseReceipt _warehouseReceiptService;
 
         public ViewForm(IWarehouseReceipt warehouseReceiptService)
@@ -32,7 +32,7 @@ namespace AnbarForm.MainForm.Reciteforms
             detailGrid.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.True;
         }
 
-        public async void LoadData(AnbarDataSet.WarehouseReceiptsRow receiptRow)
+        public async void LoadData(AnbarDataSet.view_WarehouseReceiptsRow receiptRow)
         {
             _receiptRow = receiptRow;
             var masterTable = receiptRow.Table.Clone();

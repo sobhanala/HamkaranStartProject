@@ -44,8 +44,11 @@ namespace AnbarForm.MainForm.Reciteforms
 
         private void MapToBindigSource()
         {
+
             warehouseId.DataBindings.Add("Text", _headerBindingSource, "WarehouseId", true, DataSourceUpdateMode.OnPropertyChanged);
             partyId.DataBindings.Add("Text", _headerBindingSource, "PartyId", true, DataSourceUpdateMode.OnPropertyChanged);
+            textBoxWarhouse.DataBindings.Add("Text", _headerBindingSource, "WarehouseName", true, DataSourceUpdateMode.OnPropertyChanged);
+            textBoxParty.DataBindings.Add("Text", _headerBindingSource, "PartyName", true, DataSourceUpdateMode.OnPropertyChanged);
             dateTimePicker1.DataBindings.Add("Value", _headerBindingSource, "ReceiptDate", true, DataSourceUpdateMode.OnPropertyChanged);
             numCost.DataBindings.Add("Value", _headerBindingSource, "TransportCost", true, DataSourceUpdateMode.OnPropertyChanged);
             numDiscount.DataBindings.Add("Value", _headerBindingSource, "Discount", true, DataSourceUpdateMode.OnPropertyChanged);
@@ -68,9 +71,14 @@ namespace AnbarForm.MainForm.Reciteforms
 
         private async void Btn_Save_Click(object sender, EventArgs e)
         {
-            var receiptNumber = await UiSafeExecutor.ExecuteAsync(() => _warehouseReceiptService.GenerateNewReceiptNumber());
+            if (!_receiptId.HasValue)
+            {
+                var receiptNumber = await UiSafeExecutor.ExecuteAsync(() => _warehouseReceiptService.GenerateNewReceiptNumber());
+                PrepareDataSetBeforeSave(receiptNumber);
+            }
 
-            PrepareDataSetBeforeSave(receiptNumber);
+            _headerBindingSource.EndEdit();
+            _detailBindingSource.EndEdit();
 
             await UiSafeExecutor.ExecuteAsync(() => _warehouseReceiptService.SaveReceiptWithItemsAsync(_currentDataSet));
 
@@ -111,7 +119,7 @@ namespace AnbarForm.MainForm.Reciteforms
                 AddTempMasterRow();
             }
             _headerBindingSource.DataSource = _currentDataSet;
-            _headerBindingSource.DataMember = _currentDataSet.WarehouseReceipts.TableName;
+            _headerBindingSource.DataMember = _currentDataSet.view_WarehouseReceipts.TableName;
 
             _detailBindingSource.DataSource = _currentDataSet.WarehouseReceiptItemsWithProductView; ;
 
@@ -121,7 +129,7 @@ namespace AnbarForm.MainForm.Reciteforms
 
             MapToBindigSource();
             AddPartyButtonColumn();
-
+            BindTotalAmountInitial();
             SubscribeToDataChangeEvents();
         }
 
@@ -243,7 +251,7 @@ namespace AnbarForm.MainForm.Reciteforms
             try
             {
                 if (_headerBindingSource.Current is DataRowView masterRowView &&
-                    masterRowView.Row is AnbarDataSet.WarehouseReceiptsRow masterRow)
+                    masterRowView.Row is AnbarDataSet.view_WarehouseReceiptsRow masterRow)
                 {
 
                     var newDetailRow = _currentDataSet.WarehouseReceiptItemsWithProductView.NewWarehouseReceiptItemsWithProductViewRow();
@@ -381,7 +389,7 @@ namespace AnbarForm.MainForm.Reciteforms
             decimal cost = 0m;
 
             if (_headerBindingSource.Current is DataRowView headerView &&
-                headerView.Row is AnbarDataSet.WarehouseReceiptsRow headerRow)
+                headerView.Row is AnbarDataSet.view_WarehouseReceiptsRow headerRow)
             {
                 if (!headerRow.IsDiscountNull())
                     discount = headerRow.Discount;
@@ -402,8 +410,32 @@ namespace AnbarForm.MainForm.Reciteforms
             TotalAmount.Text = $"Total Amount: ${total:F2}";
 
         }
+        private void BindTotalAmountInitial()
+        {
+            if (_headerBindingSource.Current is DataRowView headerView &&
+                headerView.Row is AnbarDataSet.view_WarehouseReceiptsRow row &&
+                !row.IsTotalAmountNull())
+            {
+                TotalAmount.Text = $"Total Amount: ${row.TotalAmount:F2}";
+            }
+            else
+            {
+                TotalAmount.Text = "Total Amount: $0.00";
+            }
+        }
+
 
 
         #endregion
+
+        private void NumCost_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateTotalAmount();
+        }
+
+        private void NumDiscount_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateTotalAmount();
+        }
     }
 }

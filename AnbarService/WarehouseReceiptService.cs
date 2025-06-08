@@ -36,6 +36,7 @@ namespace AnbarService
             return recitenum;
         }
 
+
         public async Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FillByReceiptIdWithProductInfo(int receiptId)
         {
             return await _receiptItemRepository.FetchByReceiptIdWithProductInfo(receiptId);
@@ -45,7 +46,7 @@ namespace AnbarService
         public async Task<AnbarDataSet> GetFullDatasetAsync()
         {
             var dataSet = new AnbarDataSet();
-            await _receiptRepository.FillAsync(dataSet.WarehouseReceipts);
+            await _receiptRepository.FillAsync(dataSet.view_WarehouseReceipts);
             await _receiptItemRepository.FillAsync(dataSet.WarehouseReceiptItemsWithProductView);
 
             return dataSet;
@@ -53,14 +54,10 @@ namespace AnbarService
 
         public async Task FillReceiptById(AnbarDataSet dataSet,int reciteId)
         {
-            await _receiptRepository.FillAsync(dataSet.WarehouseReceipts);
+            await _receiptRepository.GetByIdAsync(dataSet.view_WarehouseReceipts,reciteId);
             await _receiptItemRepository.FillByReceiptIdWithProductInfo(dataSet.WarehouseReceiptItemsWithProductView, reciteId);
 
         }
-
-
-
-
 
 
         public async Task SaveReceiptWithItemsAsync(AnbarDataSet dataset)
@@ -70,13 +67,13 @@ namespace AnbarService
             try
             {
 
-                await _receiptRepository.UpdateTransaction(dataset.WarehouseReceipts);
+                await _receiptRepository.UpdateTransaction(dataset.view_WarehouseReceipts);
 
 
 
                 var header = await _receiptRepository.FetchAsync();
 
-                var lastRow = (AnbarDataSet.WarehouseReceiptsRow)header.Rows[header.Rows.Count - 1];
+                var lastRow = (AnbarDataSet.view_WarehouseReceiptsRow)header.Rows[header.Rows.Count - 1];
 
                 foreach (var item in dataset.WarehouseReceiptItemsWithProductView)
                 {
@@ -105,7 +102,7 @@ namespace AnbarService
         }
 
 
-        public async Task DeleteReceiptWithInventoryAsync(AnbarDataSet.WarehouseReceiptsRow receiptRow)
+        public async Task DeleteReceiptWithInventoryAsync(AnbarDataSet.view_WarehouseReceiptsRow receiptRow)
         {
             _transactionManager.BeginTransactionAsync();
 
@@ -132,8 +129,8 @@ namespace AnbarService
 
         #region Private
 
-        private async Task UpdateHeaderTotalAmount(AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable detail, AnbarDataSet.WarehouseReceiptsRow lastRow,
-            AnbarDataSet.WarehouseReceiptsDataTable header)
+        private async Task UpdateHeaderTotalAmount(AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable detail, AnbarDataSet.view_WarehouseReceiptsRow lastRow,
+            AnbarDataSet.view_WarehouseReceiptsDataTable header)
         {
 
             decimal totalAmount = 0;

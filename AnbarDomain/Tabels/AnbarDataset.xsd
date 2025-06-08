@@ -585,32 +585,6 @@ SELECT Id, ProductId, WarehouseId, Quantity, MovementType, FromLocation, ToLocat
             </Mappings>
             <Sources />
           </TableAdapter>
-          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="vw_WarehouseReceiptDetailsTableAdapter" GeneratorDataComponentClassName="vw_WarehouseReceiptDetailsTableAdapter" Name="vw_WarehouseReceiptDetails" UserDataComponentName="vw_WarehouseReceiptDetailsTableAdapter">
-            <MainSource>
-              <DbSource ConnectionRef="AnbarProjectConnectionString (Settings)" DbObjectName="AnbarProject.dbo.vw_WarehouseReceiptDetails" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
-                <SelectCommand>
-                  <DbCommand CommandType="Text" ModifiedByUser="false">
-                    <CommandText>SELECT Id, ReceiptId, ProductId, Quantity, UnitPrice, TotalAmount, ReceiptNumber, WarehouseName, PartyName, ProductName, ProductCode FROM dbo.vw_WarehouseReceiptDetails</CommandText>
-                    <Parameters />
-                  </DbCommand>
-                </SelectCommand>
-              </DbSource>
-            </MainSource>
-            <Mappings>
-              <Mapping SourceColumn="Id" DataSetColumn="Id" />
-              <Mapping SourceColumn="ReceiptId" DataSetColumn="ReceiptId" />
-              <Mapping SourceColumn="ProductId" DataSetColumn="ProductId" />
-              <Mapping SourceColumn="Quantity" DataSetColumn="Quantity" />
-              <Mapping SourceColumn="UnitPrice" DataSetColumn="UnitPrice" />
-              <Mapping SourceColumn="TotalAmount" DataSetColumn="TotalAmount" />
-              <Mapping SourceColumn="ReceiptNumber" DataSetColumn="ReceiptNumber" />
-              <Mapping SourceColumn="WarehouseName" DataSetColumn="WarehouseName" />
-              <Mapping SourceColumn="PartyName" DataSetColumn="PartyName" />
-              <Mapping SourceColumn="ProductName" DataSetColumn="ProductName" />
-              <Mapping SourceColumn="ProductCode" DataSetColumn="ProductCode" />
-            </Mappings>
-            <Sources />
-          </TableAdapter>
           <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="InventoryTableAdapter" GeneratorDataComponentClassName="InventoryTableAdapter" Name="Inventory" UserDataComponentName="InventoryTableAdapter">
             <MainSource>
               <DbSource ConnectionRef="AnbarProjectConnectionString (Settings)" DbObjectName="AnbarProject.dbo.Inventory" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
@@ -704,6 +678,37 @@ SELECT Id, ProductId, WarehouseId, Quantity, CreatedAt, UpdatedAt FROM Inventory
               <Mapping SourceColumn="Quantity" DataSetColumn="Quantity" />
               <Mapping SourceColumn="UnitPrice" DataSetColumn="UnitPrice" />
               <Mapping SourceColumn="TotalAmount" DataSetColumn="TotalAmount" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="view_WarehouseReceiptsTableAdapter" GeneratorDataComponentClassName="view_WarehouseReceiptsTableAdapter" Name="view_WarehouseReceipts" UserDataComponentName="view_WarehouseReceiptsTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="AnbarProjectConnectionString (Settings)" DbObjectName="AnbarProject.dbo.view_WarehouseReceipts" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT Id, ReceiptNumber, PartyId, WarehouseId, ReceiptDate, TransportCost, Discount, TotalAmount, CreatedAt, CreatedBy, UpdatedAt, UpdatedBy, ReceiptStatus, WarehouseName, PartyName, PartyType FROM dbo.view_WarehouseReceipts</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Id" DataSetColumn="Id" />
+              <Mapping SourceColumn="ReceiptNumber" DataSetColumn="ReceiptNumber" />
+              <Mapping SourceColumn="PartyId" DataSetColumn="PartyId" />
+              <Mapping SourceColumn="WarehouseId" DataSetColumn="WarehouseId" />
+              <Mapping SourceColumn="ReceiptDate" DataSetColumn="ReceiptDate" />
+              <Mapping SourceColumn="TransportCost" DataSetColumn="TransportCost" />
+              <Mapping SourceColumn="Discount" DataSetColumn="Discount" />
+              <Mapping SourceColumn="TotalAmount" DataSetColumn="TotalAmount" />
+              <Mapping SourceColumn="CreatedAt" DataSetColumn="CreatedAt" />
+              <Mapping SourceColumn="CreatedBy" DataSetColumn="CreatedBy" />
+              <Mapping SourceColumn="UpdatedAt" DataSetColumn="UpdatedAt" />
+              <Mapping SourceColumn="UpdatedBy" DataSetColumn="UpdatedBy" />
+              <Mapping SourceColumn="ReceiptStatus" DataSetColumn="ReceiptStatus" />
+              <Mapping SourceColumn="WarehouseName" DataSetColumn="WarehouseName" />
+              <Mapping SourceColumn="PartyName" DataSetColumn="PartyName" />
+              <Mapping SourceColumn="PartyType" DataSetColumn="PartyType" />
             </Mappings>
             <Sources />
           </TableAdapter>
@@ -915,53 +920,6 @@ SELECT Id, ProductId, WarehouseId, Quantity, CreatedAt, UpdatedAt FROM Inventory
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="vw_WarehouseReceiptDetails" msprop:Generator_TableClassName="vw_WarehouseReceiptDetailsDataTable" msprop:Generator_TableVarName="tablevw_WarehouseReceiptDetails" msprop:Generator_RowChangedName="vw_WarehouseReceiptDetailsRowChanged" msprop:Generator_TablePropName="vw_WarehouseReceiptDetails" msprop:Generator_RowDeletingName="vw_WarehouseReceiptDetailsRowDeleting" msprop:Generator_RowChangingName="vw_WarehouseReceiptDetailsRowChanging" msprop:Generator_RowEvHandlerName="vw_WarehouseReceiptDetailsRowChangeEventHandler" msprop:Generator_RowDeletedName="vw_WarehouseReceiptDetailsRowDeleted" msprop:Generator_RowClassName="vw_WarehouseReceiptDetailsRow" msprop:Generator_UserTableName="vw_WarehouseReceiptDetails" msprop:Generator_RowEvArgName="vw_WarehouseReceiptDetailsRowChangeEvent">
-          <xs:complexType>
-            <xs:sequence>
-              <xs:element name="Id" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_UserColumnName="Id" type="xs:int" />
-              <xs:element name="ReceiptId" msprop:Generator_ColumnVarNameInTable="columnReceiptId" msprop:Generator_ColumnPropNameInRow="ReceiptId" msprop:Generator_ColumnPropNameInTable="ReceiptIdColumn" msprop:Generator_UserColumnName="ReceiptId" type="xs:int" minOccurs="0" />
-              <xs:element name="ProductId" msprop:Generator_ColumnVarNameInTable="columnProductId" msprop:Generator_ColumnPropNameInRow="ProductId" msprop:Generator_ColumnPropNameInTable="ProductIdColumn" msprop:Generator_UserColumnName="ProductId" type="xs:int" minOccurs="0" />
-              <xs:element name="Quantity" msprop:Generator_ColumnVarNameInTable="columnQuantity" msprop:Generator_ColumnPropNameInRow="Quantity" msprop:Generator_ColumnPropNameInTable="QuantityColumn" msprop:Generator_UserColumnName="Quantity" type="xs:int" minOccurs="0" />
-              <xs:element name="UnitPrice" msprop:Generator_ColumnVarNameInTable="columnUnitPrice" msprop:Generator_ColumnPropNameInRow="UnitPrice" msprop:Generator_ColumnPropNameInTable="UnitPriceColumn" msprop:Generator_UserColumnName="UnitPrice" type="xs:decimal" minOccurs="0" />
-              <xs:element name="TotalAmount" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnTotalAmount" msprop:Generator_ColumnPropNameInRow="TotalAmount" msprop:Generator_ColumnPropNameInTable="TotalAmountColumn" msprop:Generator_UserColumnName="TotalAmount" type="xs:decimal" minOccurs="0" />
-              <xs:element name="ReceiptNumber" msprop:Generator_ColumnVarNameInTable="columnReceiptNumber" msprop:Generator_ColumnPropNameInRow="ReceiptNumber" msprop:Generator_ColumnPropNameInTable="ReceiptNumberColumn" msprop:Generator_UserColumnName="ReceiptNumber" minOccurs="0">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="50" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="WarehouseName" msprop:Generator_ColumnVarNameInTable="columnWarehouseName" msprop:Generator_ColumnPropNameInRow="WarehouseName" msprop:Generator_ColumnPropNameInTable="WarehouseNameColumn" msprop:Generator_UserColumnName="WarehouseName">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="255" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="PartyName" msprop:Generator_ColumnVarNameInTable="columnPartyName" msprop:Generator_ColumnPropNameInRow="PartyName" msprop:Generator_ColumnPropNameInTable="PartyNameColumn" msprop:Generator_UserColumnName="PartyName">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="100" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="ProductName" msprop:Generator_ColumnVarNameInTable="columnProductName" msprop:Generator_ColumnPropNameInRow="ProductName" msprop:Generator_ColumnPropNameInTable="ProductNameColumn" msprop:Generator_UserColumnName="ProductName" minOccurs="0">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="255" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="ProductCode" msprop:Generator_ColumnVarNameInTable="columnProductCode" msprop:Generator_ColumnPropNameInRow="ProductCode" msprop:Generator_ColumnPropNameInTable="ProductCodeColumn" msprop:Generator_UserColumnName="ProductCode" minOccurs="0">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="50" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-            </xs:sequence>
-          </xs:complexType>
-        </xs:element>
         <xs:element name="Inventory" msprop:Generator_TableClassName="InventoryDataTable" msprop:Generator_TableVarName="tableInventory" msprop:Generator_TablePropName="Inventory" msprop:Generator_RowDeletingName="InventoryRowDeleting" msprop:Generator_RowChangingName="InventoryRowChanging" msprop:Generator_RowEvHandlerName="InventoryRowChangeEventHandler" msprop:Generator_RowDeletedName="InventoryRowDeleted" msprop:Generator_UserTableName="Inventory" msprop:Generator_RowChangedName="InventoryRowChanged" msprop:Generator_RowEvArgName="InventoryRowChangeEvent" msprop:Generator_RowClassName="InventoryRow">
           <xs:complexType>
             <xs:sequence>
@@ -1001,6 +959,46 @@ SELECT Id, ProductId, WarehouseId, Quantity, CreatedAt, UpdatedAt FROM Inventory
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="view_WarehouseReceipts" msprop:Generator_TableClassName="view_WarehouseReceiptsDataTable" msprop:Generator_TableVarName="tableview_WarehouseReceipts" msprop:Generator_TablePropName="view_WarehouseReceipts" msprop:Generator_RowDeletingName="view_WarehouseReceiptsRowDeleting" msprop:Generator_RowChangingName="view_WarehouseReceiptsRowChanging" msprop:Generator_RowEvHandlerName="view_WarehouseReceiptsRowChangeEventHandler" msprop:Generator_RowDeletedName="view_WarehouseReceiptsRowDeleted" msprop:Generator_UserTableName="view_WarehouseReceipts" msprop:Generator_RowChangedName="view_WarehouseReceiptsRowChanged" msprop:Generator_RowEvArgName="view_WarehouseReceiptsRowChangeEvent" msprop:Generator_RowClassName="view_WarehouseReceiptsRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Id" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_UserColumnName="Id" type="xs:int" />
+              <xs:element name="ReceiptNumber" msprop:Generator_ColumnVarNameInTable="columnReceiptNumber" msprop:Generator_ColumnPropNameInRow="ReceiptNumber" msprop:Generator_ColumnPropNameInTable="ReceiptNumberColumn" msprop:Generator_UserColumnName="ReceiptNumber" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PartyId" msprop:Generator_ColumnVarNameInTable="columnPartyId" msprop:Generator_ColumnPropNameInRow="PartyId" msprop:Generator_ColumnPropNameInTable="PartyIdColumn" msprop:Generator_UserColumnName="PartyId" type="xs:int" minOccurs="0" />
+              <xs:element name="WarehouseId" msprop:Generator_ColumnVarNameInTable="columnWarehouseId" msprop:Generator_ColumnPropNameInRow="WarehouseId" msprop:Generator_ColumnPropNameInTable="WarehouseIdColumn" msprop:Generator_UserColumnName="WarehouseId" type="xs:int" minOccurs="0" />
+              <xs:element name="ReceiptDate" msprop:Generator_ColumnVarNameInTable="columnReceiptDate" msprop:Generator_ColumnPropNameInRow="ReceiptDate" msprop:Generator_ColumnPropNameInTable="ReceiptDateColumn" msprop:Generator_UserColumnName="ReceiptDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="TransportCost" msprop:Generator_ColumnVarNameInTable="columnTransportCost" msprop:Generator_ColumnPropNameInRow="TransportCost" msprop:Generator_ColumnPropNameInTable="TransportCostColumn" msprop:Generator_UserColumnName="TransportCost" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Discount" msprop:Generator_ColumnVarNameInTable="columnDiscount" msprop:Generator_ColumnPropNameInRow="Discount" msprop:Generator_ColumnPropNameInTable="DiscountColumn" msprop:Generator_UserColumnName="Discount" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TotalAmount" msprop:Generator_ColumnVarNameInTable="columnTotalAmount" msprop:Generator_ColumnPropNameInRow="TotalAmount" msprop:Generator_ColumnPropNameInTable="TotalAmountColumn" msprop:Generator_UserColumnName="TotalAmount" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CreatedAt" msprop:Generator_ColumnVarNameInTable="columnCreatedAt" msprop:Generator_ColumnPropNameInRow="CreatedAt" msprop:Generator_ColumnPropNameInTable="CreatedAtColumn" msprop:Generator_UserColumnName="CreatedAt" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="CreatedBy" msprop:Generator_ColumnVarNameInTable="columnCreatedBy" msprop:Generator_ColumnPropNameInRow="CreatedBy" msprop:Generator_ColumnPropNameInTable="CreatedByColumn" msprop:Generator_UserColumnName="CreatedBy" type="xs:int" minOccurs="0" />
+              <xs:element name="UpdatedAt" msprop:Generator_ColumnVarNameInTable="columnUpdatedAt" msprop:Generator_ColumnPropNameInRow="UpdatedAt" msprop:Generator_ColumnPropNameInTable="UpdatedAtColumn" msprop:Generator_UserColumnName="UpdatedAt" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="UpdatedBy" msprop:Generator_ColumnVarNameInTable="columnUpdatedBy" msprop:Generator_ColumnPropNameInRow="UpdatedBy" msprop:Generator_ColumnPropNameInTable="UpdatedByColumn" msprop:Generator_UserColumnName="UpdatedBy" type="xs:int" minOccurs="0" />
+              <xs:element name="ReceiptStatus" msprop:Generator_ColumnVarNameInTable="columnReceiptStatus" msprop:Generator_ColumnPropNameInRow="ReceiptStatus" msprop:Generator_ColumnPropNameInTable="ReceiptStatusColumn" msprop:Generator_UserColumnName="ReceiptStatus" type="xs:unsignedByte" />
+              <xs:element name="WarehouseName" msprop:Generator_ColumnVarNameInTable="columnWarehouseName" msprop:Generator_ColumnPropNameInRow="WarehouseName" msprop:Generator_ColumnPropNameInTable="WarehouseNameColumn" msprop:Generator_UserColumnName="WarehouseName">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PartyName" msprop:Generator_ColumnVarNameInTable="columnPartyName" msprop:Generator_ColumnPropNameInRow="PartyName" msprop:Generator_ColumnPropNameInTable="PartyNameColumn" msprop:Generator_UserColumnName="PartyName">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="100" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PartyType" msprop:Generator_ColumnVarNameInTable="columnPartyType" msprop:Generator_ColumnPropNameInRow="PartyType" msprop:Generator_ColumnPropNameInTable="PartyTypeColumn" msprop:Generator_UserColumnName="PartyType" type="xs:int" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
     <xs:unique name="Constraint1" msdata:PrimaryKey="true">
@@ -1027,16 +1025,16 @@ SELECT Id, ProductId, WarehouseId, Quantity, CreatedAt, UpdatedAt FROM Inventory
       <xs:selector xpath=".//mstns:StockMovements" />
       <xs:field xpath="mstns:Id" />
     </xs:unique>
-    <xs:unique name="vw_WarehouseReceiptDetails_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
-      <xs:selector xpath=".//mstns:vw_WarehouseReceiptDetails" />
-      <xs:field xpath="mstns:Id" />
-    </xs:unique>
     <xs:unique name="Inventory_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
       <xs:selector xpath=".//mstns:Inventory" />
       <xs:field xpath="mstns:Id" />
     </xs:unique>
     <xs:unique name="WarehouseReceiptItemsWithProductView_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
       <xs:selector xpath=".//mstns:WarehouseReceiptItemsWithProductView" />
+      <xs:field xpath="mstns:Id" />
+    </xs:unique>
+    <xs:unique name="view_WarehouseReceipts_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:view_WarehouseReceipts" />
       <xs:field xpath="mstns:Id" />
     </xs:unique>
   </xs:element>

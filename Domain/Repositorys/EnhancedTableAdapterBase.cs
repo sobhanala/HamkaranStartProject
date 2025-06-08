@@ -4,6 +4,7 @@ using System;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain.Exceptions;
@@ -57,7 +58,7 @@ namespace Domain.Repositorys
             }
         }
 
-        public virtual async Task<DataTable> GetByIdAsync(int id)
+        public virtual async Task<int> GetByIdAsync(DataTable dataTable,int id)
         {
             try
             {
@@ -67,7 +68,7 @@ namespace Domain.Repositorys
                 using (var command = Connection.CreateCommand())
                 {
                     command.Transaction = Transaction;
-                    command.CommandText = $"SELECT * FROM [{TableName}] WHERE [Id] = @Id";
+                    command.CommandText = $"SELECT * FROM [{ViewName}] WHERE [Id] = @Id";
                     command.CommandType = CommandType.Text;
 
                     var param = command.CreateParameter();
@@ -75,17 +76,29 @@ namespace Domain.Repositorys
                     param.Value = id;
                     command.Parameters.Add(param);
 
-                    var resultTable = new DataTable();
                     using (var adapter = new SqlDataAdapter(command))
                     {
-                        await Task.Run(() => adapter.Fill(resultTable));
+                       return  await Task.Run(() => adapter.Fill(dataTable));
                     }
 
-                    return resultTable;
                 }
             }
             catch (Exception ex)
             {
+                foreach (DataTable table in dataTable.DataSet.Tables)
+                {
+                    foreach (DataRow row in table.Rows)
+                    {
+                        if (row.HasErrors)
+                        {
+                            Debug.WriteLine($"Row error in {table.TableName}: {row.RowError}");
+                            foreach (DataColumn col in row.GetColumnsInError())
+                            {
+                                Debug.WriteLine($" - Column: {col.ColumnName}, Error: {row.GetColumnError(col)}");
+                            }
+                        }
+                    }
+                }
                 Logger.LogError(ex, "Error retrieving row from {TableName} by ID: {Id}", TableName, id);
 
                 throw new DatabaseException(ex.Message, "cannot GetByIdAsync Track", ErrorCode.DataBaseError, ex);

@@ -21,10 +21,8 @@ namespace AnbarForm.MainForm.Reciteforms
             set => _anbarBackingField = value;
         }
 
-        private AnbarDataSet.WarehouseReceiptsDataTable _receiptsTable;
-        private AnbarDataSet.WarehouseReceiptItemsDataTable _receiptItemsTable;
+        private AnbarDataSet.view_WarehouseReceiptsDataTable _receiptsTable;
         private readonly BindingSource _masterBindingSource = new BindingSource();
-        private readonly BindingSource _detailBindingSource = new BindingSource();
         private readonly IWarehouseReceipt _warehouseReceiptService;
         private readonly IPartyManagement _partyManagement;
         private readonly IUserService _userService;
@@ -55,7 +53,7 @@ namespace AnbarForm.MainForm.Reciteforms
 
 
 
-        private AnbarDataSet.WarehouseReceiptsRow GetSelectedReceipt()
+        private AnbarDataSet.view_WarehouseReceiptsRow GetSelectedReceipt()
         {
             if (dataGridViewMaster.CurrentRow == null)
             {
@@ -65,7 +63,7 @@ namespace AnbarForm.MainForm.Reciteforms
             }
 
             return (dataGridViewMaster.CurrentRow.DataBoundItem as DataRowView)?.Row as
-                AnbarDataSet.WarehouseReceiptsRow;
+                AnbarDataSet.view_WarehouseReceiptsRow;
         }
 
         private void WarehouseReceiptForm_Load_1(object sender, EventArgs e)
@@ -79,23 +77,10 @@ namespace AnbarForm.MainForm.Reciteforms
            
                 _anbarBackingField =await UiSafeExecutor.ExecuteAsync( () =>  _warehouseReceiptService.GetFullDatasetAsync());
 
-                _receiptsTable = _Anbar.WarehouseReceipts;
-                _receiptItemsTable = _Anbar.WarehouseReceiptItems;
 
                 _masterBindingSource.DataSource = _Anbar;
-                _masterBindingSource.DataMember = _Anbar.WarehouseReceipts.TableName;
+                _masterBindingSource.DataMember = _Anbar.view_WarehouseReceipts.TableName;
 
-                var relation = _Anbar.Relations.Cast<DataRelation>()
-                    .FirstOrDefault(r => r.ParentTable == _receiptsTable && r.ChildTable == _receiptItemsTable);
-
-                if (relation == null)
-                {
-                    MessageBox.Show("No relation found between WarehouseReceipts and WarehouseReceiptItems.", "Binding Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                _detailBindingSource.DataSource = _masterBindingSource;
-                _detailBindingSource.DataMember = relation.RelationName;
 
                 dataGridViewMaster.DataSource = _masterBindingSource;
 

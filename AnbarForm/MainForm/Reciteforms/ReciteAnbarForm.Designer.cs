@@ -173,6 +173,7 @@
             this.numDiscount.Name = "numDiscount";
             this.numDiscount.Size = new System.Drawing.Size(160, 22);
             this.numDiscount.TabIndex = 1;
+            this.numDiscount.ValueChanged += new System.EventHandler(this.NumDiscount_ValueChanged);
             // 
             // flowLayoutPanel5
             // 
@@ -212,6 +213,7 @@
             this.numCost.Name = "numCost";
             this.numCost.Size = new System.Drawing.Size(160, 22);
             this.numCost.TabIndex = 1;
+            this.numCost.ValueChanged += new System.EventHandler(this.NumCost_ValueChanged);
             // 
             // flowLayoutPanel4
             // 
@@ -355,8 +357,6 @@
             // 
             // BtnSelectWarehouse
             // 
-            this.BtnSelectWarehouse.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnSelectWarehouse.Location = new System.Drawing.Point(97, 4);
             this.BtnSelectWarehouse.Margin = new System.Windows.Forms.Padding(4);
             this.BtnSelectWarehouse.Name = "BtnSelectWarehouse";
@@ -368,8 +368,7 @@
             // 
             // textBoxWarhouse
             // 
-            this.textBoxWarhouse.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBoxWarhouse.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxWarhouse.Location = new System.Drawing.Point(205, 4);
             this.textBoxWarhouse.Margin = new System.Windows.Forms.Padding(4);
             this.textBoxWarhouse.Name = "textBoxWarhouse";
@@ -390,7 +389,7 @@
             // 
             // BtnAddRow
             // 
-            this.BtnAddRow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.BtnAddRow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnAddRow.BackColor = System.Drawing.Color.LimeGreen;
             this.BtnAddRow.Location = new System.Drawing.Point(4, 4);
@@ -403,7 +402,7 @@
             // 
             // BtnDeleteRow
             // 
-            this.BtnDeleteRow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.BtnDeleteRow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnDeleteRow.BackColor = System.Drawing.Color.OrangeRed;
             this.BtnDeleteRow.Location = new System.Drawing.Point(49, 4);
@@ -419,6 +418,8 @@
             this.dgReciteItem.AllowUserToAddRows = false;
             this.dgReciteItem.AllowUserToDeleteRows = false;
             this.dgReciteItem.AllowUserToOrderColumns = true;
+            this.dgReciteItem.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dgReciteItem.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgReciteItem.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgReciteItem.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -460,8 +461,7 @@
             // 
             // warehouseId
             // 
-            this.warehouseId.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.warehouseId.Dock = System.Windows.Forms.DockStyle.Fill;
             this.warehouseId.Location = new System.Drawing.Point(504, 4);
             this.warehouseId.Margin = new System.Windows.Forms.Padding(4);
             this.warehouseId.Name = "warehouseId";

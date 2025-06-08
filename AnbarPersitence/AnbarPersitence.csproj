@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Newway\EnhancedWarehouseReceiptsviewTableAdapter.cs" />
     <Compile Include="Newway\EnhancedInventoryAdapter.cs" />
     <Compile Include="Newway\EnhancedWarehouseReceiptItemsViewAdapter.cs" />
     <Compile Include="Newway\EnhancedWarehouseReceiptsTableAdapter.cs" />

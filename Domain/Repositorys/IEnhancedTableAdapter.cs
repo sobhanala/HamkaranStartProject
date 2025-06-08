@@ -8,9 +8,7 @@ namespace Domain.Repositorys
     {
         Task<int> FillAsync(DataTable dataTable);
         Task<int> UpdateAsync(DataTable dataTable);
-        Task<int> UpdateAsync(DataSet dataSet, string tableName);
-        void SetAuditUser(int userId);
-        Task<DataTable> GetByIdAsync(int id);
+        Task<int> GetByIdAsync(DataTable dataTable, int id);
         Task<int> DeleteByIdAsync(int id);
     }
 }

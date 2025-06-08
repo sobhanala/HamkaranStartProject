@@ -11,6 +11,43 @@ namespace AnbarDomain.Tabels
 
     partial class AnbarDataSet
     {
+        partial class view_WarehouseReceiptsDataTable : IEnhancedDataTableMetadata
+        {
+            public string tableName => "WarehouseReceipts";
+            public string viewName => "view_WarehouseReceipts";
+
+            public override void EndInit()
+            {
+                base.EndInit();
+
+                try
+                {
+                    if (this.Columns.Contains(PartyNameColumn.ColumnName))
+                    {
+                        this.PartyNameColumn.ExtendedProperties["IsViewColumn"] = true;
+                    }
+
+                    if (this.Columns.Contains(PartyTypeColumn.ColumnName))
+                    {
+                        this.PartyTypeColumn.ExtendedProperties["IsViewColumn"] = true;
+                    }
+
+
+                    if (this.Columns.Contains(WarehouseNameColumn.ColumnName))
+                    {
+                        this.WarehouseNameColumn.ExtendedProperties["IsViewColumn"] = true;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"EndInit failed: {ex.Message}");
+                    throw;
+                }
+            }
+
+        }
+
         partial class InventoryDataTable : IEnhancedDataTableMetadata
         {
             public string tableName => "Inventory";
@@ -35,14 +72,11 @@ namespace AnbarDomain.Tabels
                         this.ProductNameColumn.ExtendedProperties["IsViewColumn"] = true;
                     }
 
-                    if (this.Columns.Contains(ReceiptIdColumn.ColumnName))
-                    {
-                    }
-                    if (this.Columns.Contains(ReceiptIdColumn.ColumnName))
+                    if (this.Columns.Contains(TotalAmountColumn.ColumnName))
                     {
                         this.TotalAmountColumn.ExtendedProperties["IsViewColumn"] = true;
                     }
-                    if (this.Columns.Contains(ReceiptIdColumn.ColumnName))
+                    if (this.Columns.Contains(TotalAmountCalculatedColumn.ColumnName))
                     {
                         this.TotalAmountCalculatedColumn.ExtendedProperties["IsViewColumn"] = true;
                     }
@@ -89,21 +123,17 @@ namespace AnbarDomain.Tabels
 
             }
         }
-        partial class WarehouseReceiptsDataTable : IAuditable
-        {
-            private void changetheRow()
-            {
-
-
-
-            }
-        }
-
 
     }
 }
 namespace AnbarDomain.Tabels.AnbarDataSetTableAdapters
 {
+    partial class view_WarehouseReceiptsTableAdapter
+    {
+        public DbDataAdapter GetAdapter() => this.Adapter;
+
+    }
+
     partial class InventoryTableAdapter
     {
         public DbDataAdapter GetAdapter() => this.Adapter;
