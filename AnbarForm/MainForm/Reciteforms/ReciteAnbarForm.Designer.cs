@@ -173,7 +173,6 @@
             this.numDiscount.Name = "numDiscount";
             this.numDiscount.Size = new System.Drawing.Size(160, 22);
             this.numDiscount.TabIndex = 1;
-            this.numDiscount.ValueChanged += new System.EventHandler(this.NumDiscount_ValueChanged);
             // 
             // flowLayoutPanel5
             // 
@@ -213,7 +212,6 @@
             this.numCost.Name = "numCost";
             this.numCost.Size = new System.Drawing.Size(160, 22);
             this.numCost.TabIndex = 1;
-            this.numCost.ValueChanged += new System.EventHandler(this.NumCost_ValueChanged);
             // 
             // flowLayoutPanel4
             // 

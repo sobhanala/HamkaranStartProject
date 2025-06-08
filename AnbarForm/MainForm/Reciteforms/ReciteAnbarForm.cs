@@ -5,6 +5,7 @@ using AnbarForm.MainForm.Reciteforms.selectors;
 using AnbarService;
 using Domain.SharedSevices;
 using System;
+using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
@@ -53,6 +54,8 @@ namespace AnbarForm.MainForm.Reciteforms
             numCost.DataBindings.Add("Value", _headerBindingSource, "TransportCost", true, DataSourceUpdateMode.OnPropertyChanged);
             numDiscount.DataBindings.Add("Value", _headerBindingSource, "Discount", true, DataSourceUpdateMode.OnPropertyChanged);
             cmbType.DataBindings.Add("SelectedValue", _headerBindingSource, "ReceiptStatus", true, DataSourceUpdateMode.OnPropertyChanged);
+
+
         }
 
         private void ConfigureComboBox()
@@ -128,15 +131,37 @@ namespace AnbarForm.MainForm.Reciteforms
             dgReciteItem.DataSource = _detailBindingSource;
 
             MapToBindigSource();
+            ConfigureBindingSource();
             AddPartyButtonColumn();
             BindTotalAmountInitial();
-            SubscribeToDataChangeEvents();
         }
 
-        private void SubscribeToDataChangeEvents()
+        private void ConfigureBindingSource()
         {
-            dgReciteItem.RowsAdded += DgReciteItem_RowsChanged;
-            dgReciteItem.RowsRemoved += DgReciteItem_RowsChanged;
+            _headerBindingSource.ListChanged += HeaderBindingSource_ListChanged;
+            _detailBindingSource.ListChanged += DetailBindingSource_ListChanged;
+            numCost.ValueChanged += (s, e) => _headerBindingSource.EndEdit();
+            numDiscount.ValueChanged += (s, e) => _headerBindingSource.EndEdit();
+
+        }
+
+        private void DetailBindingSource_ListChanged(object sender, ListChangedEventArgs e)
+        {
+            if (e.ListChangedType == ListChangedType.ItemChanged ||
+                e.ListChangedType == ListChangedType.ItemDeleted ||
+                e.ListChangedType == ListChangedType.ItemAdded)
+            {
+                UpdateTotalAmount();
+            }
+        }
+
+        private void HeaderBindingSource_ListChanged(object sender, ListChangedEventArgs e)
+        {
+            
+            if (e.ListChangedType == ListChangedType.ItemChanged)
+            {
+                UpdateTotalAmount();
+            }
         }
 
 
@@ -240,7 +265,6 @@ namespace AnbarForm.MainForm.Reciteforms
                         if (row.Cells["UnitPrice"].Value == null)
                             row.Cells["UnitPrice"].Value = 0m;
 
-                        UpdateTotalAmount();
                     }
                 }
             }
@@ -359,15 +383,7 @@ namespace AnbarForm.MainForm.Reciteforms
 
         #region Total handeling
 
-        private void DgReciteItem_RowsChanged(object sender, DataGridViewRowsAddedEventArgs e)
-        {
-            UpdateTotalAmount();
-        }
 
-        private void DgReciteItem_RowsChanged(object sender, DataGridViewRowsRemovedEventArgs e)
-        {
-            UpdateTotalAmount();
-        }
 
         private decimal CalculateTotalAmount()
         {
@@ -428,14 +444,5 @@ namespace AnbarForm.MainForm.Reciteforms
 
         #endregion
 
-        private void NumCost_ValueChanged(object sender, EventArgs e)
-        {
-            UpdateTotalAmount();
-        }
-
-        private void NumDiscount_ValueChanged(object sender, EventArgs e)
-        {
-            UpdateTotalAmount();
-        }
     }
 }
