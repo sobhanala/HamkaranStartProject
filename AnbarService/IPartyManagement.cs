@@ -13,7 +13,7 @@ namespace AnbarService
         Task UpdateParty(Party party);
 
         Task<List<Party>> GetAllParties();
-        Task<AnbarDataSet> GetPartyDataSetAsync();
+        Task<warhouses> GetPartyDataSetAsync();
 
 
         Task AddParty(Party party);

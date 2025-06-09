@@ -43,6 +43,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Tabels\Warhouses.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Warhouses.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Tabels\ProductDataset.cs">
+      <DependentUpon>ProductDataset.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Tabels\ProductDataset.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ProductDataset.xsd</DependentUpon>
+    </Compile>
     <Compile Include="Inventory\Inventory.cs" />
     <Compile Include="Orders\Status.cs" />
     <Compile Include="Orders\ReciteType.cs" />
@@ -83,6 +96,28 @@
   <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Tabels\Warhouses.xsc">
+      <DependentUpon>Warhouses.xsd</DependentUpon>
+    </None>
+    <None Include="Tabels\Warhouses.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Warhouses.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Tabels\Warhouses.xss">
+      <DependentUpon>Warhouses.xsd</DependentUpon>
+    </None>
+    <None Include="Tabels\ProductDataset.xsc">
+      <DependentUpon>ProductDataset.xsd</DependentUpon>
+    </None>
+    <None Include="Tabels\ProductDataset.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ProductDataset.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Tabels\ProductDataset.xss">
+      <DependentUpon>ProductDataset.xsd</DependentUpon>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

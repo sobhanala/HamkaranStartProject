@@ -14,11 +14,7 @@ namespace AnbarForm.MainForm
     {
         private readonly IProductService _productService;
 
-        public AnbarDataSet AnbarDataSet1
-        {
-            get => anbarDataSet1;
-            set => anbarDataSet1 = value;
-        }
+        public ProductDataset AnbarDataSet1 = new ProductDataset();
 
         public ProductManagementForm(IProductService productService)
         {
@@ -58,14 +54,6 @@ namespace AnbarForm.MainForm
         {
             dataGridView1.Columns.Clear();
 
-            var idColumn = new DataGridViewTextBoxColumn
-            {
-                DataPropertyName = "Id",
-                HeaderText = "ID",
-                Name = "Id",
-                Visible = false
-            };
-            dataGridView1.Columns.Add(idColumn);
 
             dataGridView1.Columns.Add(new DataGridViewTextBoxColumn
             {
@@ -219,7 +207,7 @@ namespace AnbarForm.MainForm
             {
                 dataGridView1.EndEdit();
 
-                var changedTable = (AnbarDataSet.ProductsDataTable)AnbarDataSet1.Products.GetChanges();
+                var changedTable = (ProductDataset.ProductsDataTable)AnbarDataSet1.Products.GetChanges();
 
                 if (changedTable == null || changedTable.Rows.Count == 0)
                 {
@@ -231,10 +219,18 @@ namespace AnbarForm.MainForm
 
                 LogChanges();
 
-                var changeDataTable =
-                    await UiSafeExecutor.ExecuteAsync( () =>  _productService.SetProductValues(changedTable));
-                await UiSafeExecutor.ExecuteAsync( () =>  _productService.SaveAllChanges(changeDataTable));
+                var changeDataTable = await UiSafeExecutor.ExecuteAsync( () =>  _productService.SetProductValues(changedTable));
 
+                if (changeDataTable == null)
+                {
+                    return;
+                }
+                var err = await UiSafeExecutor.ExecuteAsync( () =>  _productService.SaveAllChanges(changeDataTable));
+
+                if (!err)
+                {
+                    return;
+                }
                 AnbarDataSet1.AcceptChanges();
 
 

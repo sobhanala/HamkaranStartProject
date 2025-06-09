@@ -93,9 +93,6 @@ namespace AnbarDomain.Tabels
         }
 
 
-        partial class WarehouseReceiptItemsDataTable
-        {
-        }
 
 
         partial class WarehouseReceiptsDataTable : IEnhancedDataTableMetadata
@@ -104,25 +101,6 @@ namespace AnbarDomain.Tabels
             public string viewName => this.TableName;
         }
 
-        partial class WarehousesDataTable
-        {
-        }
-
-        partial class ProductsDataTable : IAuditable
-        {
-            public override void EndInit()
-            {
-                base.EndInit();
-
-                TableNewRow += ProductsDataTable_TableNewRow;
-            }
-
-            //Important 
-            private void ProductsDataTable_TableNewRow(object sender, DataTableNewRowEventArgs e)
-            {
-
-            }
-        }
 
     }
 }
@@ -140,9 +118,7 @@ namespace AnbarDomain.Tabels.AnbarDataSetTableAdapters
 
     }
 
-    partial class WarehousesTableAdapter
-    {
-    }
+
 
     partial class WarehouseReceiptItemsWithProductViewTableAdapter
     {
@@ -151,9 +127,7 @@ namespace AnbarDomain.Tabels.AnbarDataSetTableAdapters
 
     }
 
-    partial class ProductsTableAdapter
-    {
-    }
+
 
     public partial class WarehouseReceiptsTableAdapter
     {
@@ -162,11 +136,3 @@ namespace AnbarDomain.Tabels.AnbarDataSetTableAdapters
     }
 }
 
-namespace AnbarDomain.Tabels.AnbarDataSetTableAdapters
-{
-
-
-    public partial class WarehousesTableAdapter
-    {
-    }
-}

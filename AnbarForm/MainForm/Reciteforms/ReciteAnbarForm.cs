@@ -11,6 +11,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using AnbarDomain.Tabels.warhousesTableAdapters;
 using Domain.Exceptions;
 using Infrastructure;
 
@@ -66,6 +67,11 @@ namespace AnbarForm.MainForm.Reciteforms
             cmbType.DisplayMember = "Name";
             cmbType.ValueMember = "Value";
             cmbType.DataSource = receiptTypes;
+            if (_receiptId.HasValue)
+            {
+                cmbType.Enabled = false;
+            }
+
         }
 
         private void TableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -83,9 +89,12 @@ namespace AnbarForm.MainForm.Reciteforms
             _headerBindingSource.EndEdit();
             _detailBindingSource.EndEdit();
 
-            await UiSafeExecutor.ExecuteAsync(() => _warehouseReceiptService.SaveReceiptWithItemsAsync(_currentDataSet));
+           var result =  await UiSafeExecutor.ExecuteAsync(() => _warehouseReceiptService.SaveReceiptWithItemsAsync(_currentDataSet));
 
-            MessageBox.Show("Receipt saved successfully.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+           if (!result)
+           {
+               return;
+           }
             this.DialogResult = DialogResult.OK;
             this.Close();
         }
@@ -94,17 +103,8 @@ namespace AnbarForm.MainForm.Reciteforms
         {
             _headerBindingSource.EndEdit();
 
-            if (_headerBindingSource.Current is DataRowView headerView)
-            {
-                foreach (DataColumn column in headerView.Row.Table.Columns)
-                {
-                    var value = headerView.Row[column];
-                    Debug.WriteLine($"{column.ColumnName}: {(value == DBNull.Value ? "NULL" : value)}");
-                }
-            }
-
             if (_headerBindingSource.Current is DataRowView rowView &&
-                rowView.Row is AnbarDataSet.WarehouseReceiptsRow receiptRow)
+                rowView.Row is AnbarDataSet.view_WarehouseReceiptsRow receiptRow)
             {
                 receiptRow.ReceiptNumber = resitenum;
             }
@@ -132,7 +132,7 @@ namespace AnbarForm.MainForm.Reciteforms
 
             MapToBindigSource();
             ConfigureBindingSource();
-            AddPartyButtonColumn();
+            ConfigDataGrid();
             BindTotalAmountInitial();
         }
 
@@ -169,25 +169,28 @@ namespace AnbarForm.MainForm.Reciteforms
 
         private void AddTempMasterRow()
         {
-            var newMasterRow = _currentDataSet.WarehouseReceipts.NewWarehouseReceiptsRow();
+            var newMasterRow = _currentDataSet.view_WarehouseReceipts.Newview_WarehouseReceiptsRow();
             newMasterRow.ReceiptDate = DateTime.Now;
             newMasterRow.TransportCost = 0m;
             newMasterRow.Discount = 0m;
             newMasterRow.TotalAmount = 0;
             newMasterRow.PartyId = 0;
             newMasterRow.WarehouseId = 0;
+            newMasterRow.WarehouseName = "";
+            newMasterRow.PartyName = "";
+            newMasterRow.PartyType = 0;
             newMasterRow.ReceiptStatus = 0;
-            _currentDataSet.WarehouseReceipts.AddWarehouseReceiptsRow(newMasterRow);
+            _currentDataSet.view_WarehouseReceipts.Addview_WarehouseReceiptsRow(newMasterRow);
         }
 
         #region Selectors
 
         private void BtnSelectWarehouse_Click_1(object sender, EventArgs e)
         {
-            var anbar = new AnbarDataSet();
+            var anbar = new warhouses();
             _warehousesTableAdapter.Fill(anbar.Warehouses);
 
-            var selector = new SelectorForm<AnbarDataSet.WarehousesDataTable>(anbar.Warehouses, "name", "Warehouse");
+            var selector = new SelectorForm<warhouses.WarehousesDataTable>(anbar.Warehouses, "name", "Warehouse");
             selector.StartPosition = FormStartPosition.Manual;
 
             var btn = sender as Button;
@@ -197,7 +200,7 @@ namespace AnbarForm.MainForm.Reciteforms
 
             if (selector.ShowDialog() == DialogResult.OK)
             {
-                var selectedRow = (AnbarDataSet.WarehousesRow)selector.SelectedRow;
+                var selectedRow = (warhouses.WarehousesRow)selector.SelectedRow;
 
                 if (selectedRow != null)
                 {
@@ -211,7 +214,7 @@ namespace AnbarForm.MainForm.Reciteforms
         private async void BtnSelectParty_Click_1(object sender, EventArgs e)
         {
             var anbar = await UiSafeExecutor.ExecuteAsync(() => _partyManagement.GetPartyDataSetAsync());
-            var selector = new SelectorForm<AnbarDataSet.PartiesDataTable>(anbar.Parties, "name", "Party");
+            var selector = new SelectorForm<warhouses.PartiesDataTable>(anbar.Parties, "name", "Party");
             selector.StartPosition = FormStartPosition.Manual;
 
             var btn = sender as Button;
@@ -221,7 +224,7 @@ namespace AnbarForm.MainForm.Reciteforms
 
             if (selector.ShowDialog() == DialogResult.OK)
             {
-                var selectedRow = (AnbarDataSet.PartiesRow)selector.SelectedRow;
+                var selectedRow = (warhouses.PartiesRow)selector.SelectedRow;
                 if (selectedRow != null)
                 {
 
@@ -233,13 +236,13 @@ namespace AnbarForm.MainForm.Reciteforms
 
         #endregion
 
-        private async void DgReciteItem_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
+        private async void DgReciteItem_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && dgReciteItem.Columns[e.ColumnIndex].Name == "ProductSelector")
             {
                 var anbar = await UiSafeExecutor.ExecuteAsync(() => _productService.GetDataSet());
 
-                var selector = new SelectorForm<AnbarDataSet.ProductsDataTable>(anbar.Products, "name", "Product");
+                var selector = new SelectorForm<ProductDataset.ProductsDataTable>(anbar.Products, "name", "Product");
                 selector.StartPosition = FormStartPosition.Manual;
 
                 var gridLocation = dgReciteItem.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
@@ -248,7 +251,7 @@ namespace AnbarForm.MainForm.Reciteforms
 
                 if (selector.ShowDialog() == DialogResult.OK)
                 {
-                    var selectedRow = (AnbarDataSet.ProductsRow)selector.SelectedRow;
+                    var selectedRow = (ProductDataset.ProductsRow)selector.SelectedRow;
                     if (selectedRow != null)
                     {
                         var row = dgReciteItem.Rows[e.RowIndex];
@@ -270,77 +273,8 @@ namespace AnbarForm.MainForm.Reciteforms
             }
         }
 
-        private void BtnAddRow_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (_headerBindingSource.Current is DataRowView masterRowView &&
-                    masterRowView.Row is AnbarDataSet.view_WarehouseReceiptsRow masterRow)
-                {
 
-                    var newDetailRow = _currentDataSet.WarehouseReceiptItemsWithProductView.NewWarehouseReceiptItemsWithProductViewRow();
-                    newDetailRow.ReceiptId = masterRow.Id; 
-                    newDetailRow.ProductId = 0;
-                    newDetailRow.ProductName = "";
-                    newDetailRow.ProductCode = "";
-                    newDetailRow.Quantity = 0;
-                    newDetailRow.UnitPrice = 0m;
-                    newDetailRow.TotalAmount = 0m;
-                    _currentDataSet.WarehouseReceiptItemsWithProductView.AddWarehouseReceiptItemsWithProductViewRow(newDetailRow);
-
-                    _detailBindingSource.ResetBindings(false);
-                    UpdateTotalAmount();
-                    Debug.WriteLine("All dataset rows:");
-                    foreach (DataRow row in _currentDataSet.WarehouseReceiptItemsWithProductView.Rows)
-                    {
-                        Debug.WriteLine($"Id: {row["Id"]}, ReceiptId: {row["ReceiptId"]}");
-                    }
-
-                    Debug.WriteLine("Filtered (visible) rows in binding source:");
-                    foreach (DataRowView view in _detailBindingSource)
-                    {
-                        Debug.WriteLine($"Id: {view["Id"]}, ReceiptId: {view["ReceiptId"]}");
-                    }
-
-                }
-
-                else
-                {
-                    MessageBox.Show("Please create or select a master receipt first.");
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error adding row: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void BtnDeleteRow_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                if (dgReciteItem.CurrentRow != null && !dgReciteItem.CurrentRow.IsNewRow)
-                {
-                    if (dgReciteItem.CurrentRow.DataBoundItem is DataRowView rowView)
-                    {
-                        rowView.Row.Delete();
-                        _detailBindingSource.ResetBindings(false);
-                        UpdateTotalAmount();
-                    }
-                    else
-                    {
-                        dgReciteItem.Rows.Remove(dgReciteItem.CurrentRow);
-                        UpdateTotalAmount();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error deleting row: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void AddPartyButtonColumn()
+        private void ConfigDataGrid()
         {
             if (!dgReciteItem.Columns.Contains("ProductSelector"))
             {
@@ -372,6 +306,11 @@ namespace AnbarForm.MainForm.Reciteforms
             {
                 dgReciteItem.Columns["TotalAmount"].ReadOnly = true;
                 dgReciteItem.Columns["TotalAmount"].Visible = false;
+            }
+            if (dgReciteItem.Columns.Contains("Id"))
+            {
+                dgReciteItem.Columns["Id"].ReadOnly = true;
+                dgReciteItem.Columns["Id"].Visible = false;
 
             }
         }
@@ -443,6 +382,83 @@ namespace AnbarForm.MainForm.Reciteforms
 
 
         #endregion
+
+
+
+        private void BtnAddRow_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                _headerBindingSource.EndEdit();
+                if (_headerBindingSource.Current is DataRowView masterRowView &&
+                    masterRowView.Row is AnbarDataSet.view_WarehouseReceiptsRow masterRow)
+                {
+
+                    var newDetailRow = _currentDataSet.WarehouseReceiptItemsWithProductView.NewWarehouseReceiptItemsWithProductViewRow();
+                    newDetailRow.ReceiptId = masterRow.Id;
+                    newDetailRow.ProductId = 0;
+                    newDetailRow.ProductName = "";
+                    newDetailRow.ProductCode = "";
+                    newDetailRow.Quantity = 0;
+                    newDetailRow.UnitPrice = 0m;
+                    newDetailRow.TotalAmount = 0m;
+                    _currentDataSet.WarehouseReceiptItemsWithProductView.AddWarehouseReceiptItemsWithProductViewRow(newDetailRow);
+
+                    _detailBindingSource.ResetBindings(false);
+                    UpdateTotalAmount();
+                    Debug.WriteLine("All dataset rows:");
+                    foreach (DataRow row in _currentDataSet.WarehouseReceiptItemsWithProductView.Rows)
+                    {
+                        Debug.WriteLine($"Id: {row["Id"]}, ReceiptId: {row["ReceiptId"]}");
+                    }
+
+                    Debug.WriteLine("Filtered (visible) rows in binding source:");
+                    foreach (DataRowView view in _detailBindingSource)
+                    {
+                        Debug.WriteLine($"Id: {view["Id"]}, ReceiptId: {view["ReceiptId"]}");
+                    }
+
+                }
+
+                else
+                {
+                    MessageBox.Show("Please create or select a master receipt first.");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error adding row: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+
+        private void BtnDeleteRow_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgReciteItem.CurrentRow != null && !dgReciteItem.CurrentRow.IsNewRow)
+                {
+                    if (dgReciteItem.CurrentRow.DataBoundItem is DataRowView rowView)
+                    {
+                        rowView.Row.Delete();
+                        _detailBindingSource.ResetBindings(false);
+                        UpdateTotalAmount();
+                    }
+                    else
+                    {
+                        dgReciteItem.Rows.Remove(dgReciteItem.CurrentRow);
+                        UpdateTotalAmount();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error deleting row: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
 
     }
 }

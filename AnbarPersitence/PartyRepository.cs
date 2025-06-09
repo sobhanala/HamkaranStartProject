@@ -17,7 +17,7 @@ using System.Linq;
 namespace AnbarPersitence
 {
     [Repository]
-    public class PartyRepository : TypedDataSetRepository<Party, int, AnbarDataSet>, IPartyRepository
+    public class PartyRepository : TypedDataSetRepository<Party, int, warhouses>, IPartyRepository
     {
 
 
@@ -25,7 +25,7 @@ namespace AnbarPersitence
 
 
         public PartyRepository(DbConnectionFactory connectionFactory, ILogger<PartyRepository> logger, ISessionService sessionService)
-            : base(connectionFactory, "Parties", "Id", GetColumnNames(new AnbarDataSet.PartiesDataTable()), logger, sessionService)
+            : base(connectionFactory, "Parties", "Id", GetColumnNames(new warhouses.PartiesDataTable()), logger, sessionService)
         {
             _sessionService = sessionService;
         }
@@ -34,12 +34,12 @@ namespace AnbarPersitence
 
 
 
-        protected override IEnumerable<Party> MapResultsToEntities(AnbarDataSet dataSet)
+        protected override IEnumerable<Party> MapResultsToEntities(warhouses dataSet)
         {
             return dataSet.Parties.Select(MapToDomainEntity).ToList();
         }
 
-        protected override Party MapSingleResultToEntity(AnbarDataSet dataSet)
+        protected override Party MapSingleResultToEntity(warhouses dataSet)
         {
             return dataSet.Parties.Count > 0 ? MapToDomainEntity(dataSet.Parties[0]) : null;
         }
@@ -61,7 +61,7 @@ namespace AnbarPersitence
         }
 
 
-        private Party MapToDomainEntity(AnbarDataSet.PartiesRow row)
+        private Party MapToDomainEntity(warhouses.PartiesRow row)
         {
             return new Party
             {

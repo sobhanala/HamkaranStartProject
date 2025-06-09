@@ -2,16 +2,17 @@
 using AnbarDomain.Tabels.AnbarDataSetTableAdapters;
 using System.Data;
 using System.Windows.Forms;
+using AnbarDomain.Tabels.ProductDatasetTableAdapters;
 
 namespace AnbarForm.MainForm.Reciteforms.selectors
 {
     public partial class ProductSelector : Form
     {
-        private AnbarDataSet _anbar = new AnbarDataSet();
+        private ProductDataset _anbar = new ProductDataset();
         private ProductsTableAdapter _productsAdapter = new ProductsTableAdapter();
         private BindingSource _bindingSource = new BindingSource();
 
-        public AnbarDataSet.ProductsRow SelectedProduct { get; private set; }
+        public ProductDataset.ProductsRow SelectedProduct { get; private set; }
         public ProductSelector()
         {
             InitializeComponent();
@@ -24,7 +25,7 @@ namespace AnbarForm.MainForm.Reciteforms.selectors
         {
             if (e.RowIndex >= 0 && _bindingSource.Current is DataRowView view)
             {
-                SelectedProduct = (AnbarDataSet.ProductsRow)view.Row;
+                SelectedProduct = (ProductDataset.ProductsRow)view.Row;
                 DialogResult = DialogResult.OK;
                 Close();
             }

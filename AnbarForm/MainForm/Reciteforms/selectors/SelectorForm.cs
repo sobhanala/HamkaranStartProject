@@ -29,8 +29,17 @@ namespace AnbarForm.MainForm.Reciteforms.selectors
 
             searchbox.TextChanged += SearchBox_TextChanged;
             dataGridView1.CellDoubleClick += DataGridView1_CellDoubleClick;
-
+            dataGridView1.DataBindingComplete += DataGridView1_DataBindingComplete;
             UpdateFieldDisplay();
+        }
+
+        private void DataGridView1_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            if (dataGridView1.Columns.Contains("Id"))
+            {
+                dataGridView1.Columns["Id"].Visible = false;
+                dataGridView1.Columns["Id"].ReadOnly = true;
+            }
         }
 
         private void SearchBox_TextChanged(object sender, EventArgs e)

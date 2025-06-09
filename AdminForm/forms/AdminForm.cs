@@ -146,8 +146,11 @@ namespace AdminForm.forms
                         MessageBox.Show($"Checked: {module.Name}");
                     }
                 }
-
-                await UiSafeExecutor.ExecuteAsync( async()=>await _userService.AddPermissionToUser(selectedIds, _selectedUser.Id));
+                var err = await UiSafeExecutor.ExecuteAsync( async()=>await _userService.AddPermissionToUser(selectedIds, _selectedUser.Id));
+                if (!err)
+                {
+                    return;
+                }
                 MessageBox.Show("Modules updated successfully!");
             }
             catch (Exception ex)

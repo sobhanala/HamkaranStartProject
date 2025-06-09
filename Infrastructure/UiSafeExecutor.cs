@@ -64,31 +64,38 @@ namespace Infrastructure
             return default;
         }
 
-        public static async Task ExecuteAsync(Func<Task> func)
+        public static async Task<bool> ExecuteAsync(Func<Task> func)
         {
             try
             {
                 await func();
+                return true;
             }
             catch (DatabaseException dbEx)
             {
                 Logger.LogWarning(dbEx, "Database warning during async UI operation");
                 MessageBox.Show(dbEx.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
             }
             catch (ValidationException ex)
             {
                 Logger.LogWarning(ex, "Validation error during async UI operation");
                 MessageBox.Show(ex.UserFriendlyMessage, "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+
             }
             catch (InventoryException ex)
             {
                 Logger.LogError(ex, "Inventory error during async UI operation");
                 MessageBox.Show("Error: " + ex.UserFriendlyMessage, "Inventory Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Unhandled exception during async UI operation");
                 MessageBox.Show("An unexpected error occurred. Please contact support.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
         }
 

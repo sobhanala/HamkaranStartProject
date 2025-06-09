@@ -4,7 +4,7 @@ using Domain.Repositorys;
 
 namespace AnbarDomain.repositorys
 {
-    public interface IPartyRepository : IGenericRepository<Party, int, AnbarDataSet>
+    public interface IPartyRepository : IGenericRepository<Party, int, warhouses>
     {
     }
 }

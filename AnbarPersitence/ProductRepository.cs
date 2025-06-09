@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 namespace AnbarPersitence
 {
     [Repository]
-    public class ProductRepository : TypedDataSetRepository<Product, int, AnbarDataSet>, IProductRepository
+    public class ProductRepository : TypedDataSetRepository<Product, int, ProductDataset>, IProductRepository
     {
         private readonly ILogger<ProductRepository> _logger;
 
@@ -25,7 +25,7 @@ namespace AnbarPersitence
 
 
         public ProductRepository(DbConnectionFactory connectionFactory, ILogger<ProductRepository> logger, ISessionService sessionService)
-            : base(connectionFactory, "Products", "Id", GetColumnNames(new AnbarDataSet.ProductsDataTable()), logger, sessionService)
+            : base(connectionFactory, "Products", "Id", GetColumnNames(new ProductDataset.ProductsDataTable()), logger, sessionService)
         {
             _logger = logger;
             _sessionService = sessionService;
@@ -40,12 +40,12 @@ namespace AnbarPersitence
         }
 
 
-        protected override IEnumerable<Product> MapResultsToEntities(AnbarDataSet dataSet)
+        protected override IEnumerable<Product> MapResultsToEntities(ProductDataset dataSet)
         {
             return dataSet.Products.Select(MapToDomainEntity).ToList();
         }
 
-        protected override Product MapSingleResultToEntity(AnbarDataSet dataSet)
+        protected override Product MapSingleResultToEntity(ProductDataset dataSet)
         {
             return dataSet.Products.Count > 0 ? MapToDomainEntity(dataSet.Products[0]) : null;
         }
@@ -67,7 +67,7 @@ namespace AnbarPersitence
 
 
 
-        private Product MapToDomainEntity(AnbarDataSet.ProductsRow row)
+        private Product MapToDomainEntity(ProductDataset.ProductsRow row)
         {
             return new Product
             {

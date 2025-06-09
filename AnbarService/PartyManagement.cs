@@ -21,7 +21,7 @@ namespace AnbarService
             _partyRepository = partyRepository;
         }
 
-        public async Task<AnbarDataSet> GetPartyDataSetAsync()
+        public async Task<warhouses> GetPartyDataSetAsync()
         {
             return await _partyRepository.GetDataSetAsync();
         }

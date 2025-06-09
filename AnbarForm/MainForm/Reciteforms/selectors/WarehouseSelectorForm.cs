@@ -3,15 +3,16 @@ using AnbarDomain.Tabels.AnbarDataSetTableAdapters;
 using System;
 using System.Data;
 using System.Windows.Forms;
+using AnbarDomain.Tabels.warhousesTableAdapters;
 
 namespace AnbarForm.MainForm.Reciteforms.selectors
 {
     public partial class WarehouseSelectorForm : Form
     {
-        private AnbarDataSet _anbar;
+        private warhouses _warhouse;
 
         private WarehousesTableAdapter _warehouseAdapter = new WarehousesTableAdapter();
-        public AnbarDataSet.WarehousesRow SelectedWarehouse { get; private set; }
+        public warhouses.WarehousesRow SelectedWarehouse { get; private set; }
 
         private BindingSource _bindingSource = new BindingSource();
         public WarehouseSelectorForm()
@@ -30,16 +31,16 @@ namespace AnbarForm.MainForm.Reciteforms.selectors
 
         private void InittializeTheDs()
         {
-            _anbar = new AnbarDataSet();
-            _warehouseAdapter.Fill(_anbar.Warehouses);
-            _bindingSource.DataSource = _anbar.Warehouses;
+            _warhouse = new warhouses();
+            _warehouseAdapter.Fill(_warhouse.Warehouses);
+            _bindingSource.DataSource = _warhouse.Warehouses;
         }
 
         private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (_bindingSource.Current is DataRowView rowView)
             {
-                SelectedWarehouse = (AnbarDataSet.WarehousesRow)rowView.Row;
+                SelectedWarehouse = (warhouses.WarehousesRow)rowView.Row;
                 this.DialogResult = DialogResult.OK;
                 this.Close();
 

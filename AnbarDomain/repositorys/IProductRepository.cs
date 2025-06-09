@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AnbarDomain.repositorys
 {
-    public interface IProductRepository : IGenericRepository<Product, int, AnbarDataSet>
+    public interface IProductRepository : IGenericRepository<Product, int, ProductDataset>
     {
         Task<int> GetMaxProductCode();
 

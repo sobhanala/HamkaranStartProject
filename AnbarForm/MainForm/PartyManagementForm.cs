@@ -5,6 +5,7 @@ using Domain.Common;
 using Domain.Exceptions;
 using System;
 using System.Data;
+using System.Drawing;
 using System.Windows.Forms;
 using Infrastructure;
 
@@ -14,17 +15,24 @@ namespace AnbarForm.MainForm
     {
         private readonly IPartyManagement _partyService;
 
-        public AnbarDataSet AnbarDataSet1
-        {
-            get => anbarDataSet1;
-            set => anbarDataSet1 = value;
-        }
+        public warhouses AnbarDataSet1 = new warhouses();
+
 
         public PartyManagementForm(IPartyManagement partyService)
         {
             _partyService = partyService;
             InitializeComponent();
             LoadData();
+
+        }
+
+        private void ConfigDataGrid(){
+            if (dataGridView1.Columns.Contains("Id"))
+            {
+                dataGridView1.Columns["Id"].ReadOnly = true;
+                dataGridView1.Columns["Id"].Visible = false;
+
+            }
         }
 
         private async void LoadData()
@@ -32,12 +40,14 @@ namespace AnbarForm.MainForm
             try
             {
                 AnbarDataSet1.Parties.Clear();
-                AnbarDataSet1 = await UiSafeExecutor.ExecuteAsync(()=> _partyService.GetPartyDataSetAsync());
+                AnbarDataSet1 = await UiSafeExecutor.ExecuteAsync(() => _partyService.GetPartyDataSetAsync());
 
 
                 AnbarDataSet1.Parties.AcceptChanges();
 
                 dataGridView1.DataSource = AnbarDataSet1.Parties;
+                ConfigDataGrid();
+
             }
             catch (Exception e)
             {
@@ -66,14 +76,14 @@ namespace AnbarForm.MainForm
                     CreatedAt = DateTime.Now
                 };
 
-                UiSafeExecutor.Execute(()=>_partyService.AddParty(party));
+                UiSafeExecutor.Execute(() => _partyService.AddParty(party));
 
                 MessageBox.Show("Party saved successfully!", "Success",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 LoadData();
             }
-    
+
             finally
             {
                 ClearInputFields();
@@ -92,8 +102,7 @@ namespace AnbarForm.MainForm
 
         private async void Btn_save_all_Click(object sender, EventArgs e)
         {
-            try
-            {
+        
                 dataGridView1.EndEdit();
 
                 DataTable changedTable = AnbarDataSet1.Parties.GetChanges();
@@ -107,7 +116,12 @@ namespace AnbarForm.MainForm
 
                 LogChanges();
 
-                await UiSafeExecutor.ExecuteAsync( async()=>await _partyService.SaveAllChanges(changedTable));
+                var err = await UiSafeExecutor.ExecuteAsync(
+                    async () => await _partyService.SaveAllChanges(changedTable));
+                if (!err)
+                {
+                    return;
+                }
 
                 AnbarDataSet1.Parties.AcceptChanges();
 
@@ -115,21 +129,7 @@ namespace AnbarForm.MainForm
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 LoadData();
-            }
-            catch (ValidationException ex)
-            {
-                MessageBox.Show(ex.UserFriendlyMessage);
 
-            }
-            catch (DatabaseException ex)
-            {
-                MessageBox.Show(ex.UserFriendlyMessage);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error saving changes: " + ex.Message, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private void LogChanges()
@@ -154,12 +154,29 @@ namespace AnbarForm.MainForm
         }
 
         // Other event handlers remain mostly unchanged
-        private void TextBox3_TextChanged(object sender, EventArgs e) { }
-        private void PartyManagementForm_Load(object sender, EventArgs e) { }
-        private void Txt_city_TextChanged(object sender, EventArgs e) { }
-        private void Txt_name_TextChanged(object sender, EventArgs e) { }
-        private void Tb_country_TextChanged(object sender, EventArgs e) { }
-        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e) { }
+        private void TextBox3_TextChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void PartyManagementForm_Load(object sender, EventArgs e)
+        {
+        }
+
+        private void Txt_city_TextChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void Txt_name_TextChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void Tb_country_TextChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
 
         private void DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

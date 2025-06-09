@@ -18,17 +18,17 @@ namespace AnbarService
             _productRepository = productRepository;
         }
 
-        public async Task SaveAllChanges(AnbarDataSet.ProductsDataTable changesTable)
+        public async Task SaveAllChanges(ProductDataset.ProductsDataTable changesTable)
         {
 
             await _productRepository.SaveChangesFromDataTable(changesTable);
         }
-        public async Task<AnbarDataSet> GetDataSet()
+        public async Task<ProductDataset> GetDataSet()
         {
             return await _productRepository.GetDataSetAsync();
         }
 
-        public async Task<AnbarDataSet.ProductsDataTable> SetProductValues(AnbarDataSet.ProductsDataTable changedTable)
+        public async Task<ProductDataset.ProductsDataTable> SetProductValues(ProductDataset.ProductsDataTable changedTable)
         {
 
             var count = 1;

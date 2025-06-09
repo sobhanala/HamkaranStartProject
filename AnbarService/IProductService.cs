@@ -6,9 +6,9 @@ namespace AnbarService
 
     public interface IProductService
     {
-        Task SaveAllChanges(AnbarDataSet.ProductsDataTable changesTable);
-        Task<AnbarDataSet> GetDataSet();
-        Task<AnbarDataSet.ProductsDataTable> SetProductValues(AnbarDataSet.ProductsDataTable changedTable);
+        Task SaveAllChanges(ProductDataset.ProductsDataTable changesTable);
+        Task<ProductDataset> GetDataSet();
+        Task<ProductDataset.ProductsDataTable> SetProductValues(ProductDataset.ProductsDataTable changedTable);
 
     }
 }
