@@ -71,7 +71,6 @@ namespace AnbarPersitence.Newway
             }
         }
 
-
         public async Task<int> UpdateTransaction(AnbarDataSet.view_WarehouseReceiptsDataTable data)
         {
             try

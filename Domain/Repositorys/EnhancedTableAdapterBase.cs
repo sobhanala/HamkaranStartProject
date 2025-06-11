@@ -15,7 +15,7 @@ namespace Domain.Repositorys
     /// moshkel injoori bud ke id -1 bud ye zamani ava taghir dadam ke in ghaziye hal she vali khub in migi db auto inc ro khammosh konam ke fek konam esthebahee 
     /// </summary>
     /// <typeparam name="TDataTable"></typeparam>
-    public abstract class EnhancedTableAdapterBase<TDataTable> : IEnhancedTableAdapter
+    public abstract class    EnhancedTableAdapterBase<TDataTable> : IEnhancedTableAdapter
         where TDataTable : DataTable, IEnhancedDataTableMetadata, new()
 
     {

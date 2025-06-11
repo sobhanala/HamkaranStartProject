@@ -9,8 +9,18 @@ namespace AnbarDomain.Tabels
 {
 
 
-    partial class AnbarDataSet
+    partial class AnbarDataSet:IDatasetMetaData<AnbarDataSet.view_WarehouseReceiptsDataTable,AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable>
     {
+        public view_WarehouseReceiptsDataTable GetHeaderTable()
+        {
+            return this.view_WarehouseReceipts;
+        }
+
+        public WarehouseReceiptItemsWithProductViewDataTable GetDetailTable()
+        {
+            return this.WarehouseReceiptItemsWithProductView;
+        }
+
         partial class view_WarehouseReceiptsDataTable : IEnhancedDataTableMetadata
         {
             public string tableName => "WarehouseReceipts";
@@ -100,6 +110,7 @@ namespace AnbarDomain.Tabels
             public string tableName => this.TableName;
             public string viewName => this.TableName;
         }
+
 
 
     }

@@ -2,8 +2,10 @@
 using AnbarDomain.Tabels;
 using Domain.Attribute;
 using System;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using AnbarDomain.Orders;
 using Domain.Exceptions;
 
 namespace AnbarService
@@ -35,14 +37,15 @@ namespace AnbarService
 
             foreach (var item in detail)
             {
+                var changeQuantity = CalculateInventoryChange(item);
                 var existingStock = await _inventoryRepository.GetAvailableStock(item.ProductId, headerRow.WarehouseId);
                 var existingRow = existingStock.FirstOrDefault();
 
-                int deltaQty = headerRow.ReceiptStatus == 0 ? item.Quantity : -item.Quantity;
+                int deltaQty = headerRow.ReceiptStatus == (int)ReciteType.Purchase? changeQuantity : -changeQuantity;
 
                 if (existingRow != null)
                 {
-                    if (headerRow.ReceiptStatus == 1 && existingRow.Quantity < item.Quantity)
+                    if (headerRow.ReceiptStatus == (int)ReciteType.Sale && existingRow.Quantity < item.Quantity)
                     {
                         throw new InventoryException(technicalMessage:" ",userFriendlyMessage: $"Insufficient stock for product {item.ProductId}", ErrorCode.InssufientProduct);
                     }
@@ -52,7 +55,7 @@ namespace AnbarService
                 }
                 else
                 {
-                    if (headerRow.ReceiptStatus == 1)
+                    if (headerRow.ReceiptStatus == (int)ReciteType.Purchase)
                     {
                         throw new InventoryException(technicalMessage:" ",userFriendlyMessage: $"No stock found for product {item.ProductId}", ErrorCode.NoStockFound);
                     }
@@ -62,6 +65,31 @@ namespace AnbarService
             }
 
             await _inventoryRepository.UpdateAsync(inventoryTable);
+        }
+
+        private static int CalculateInventoryChange(AnbarDataSet.WarehouseReceiptItemsWithProductViewRow item)
+        {
+            var headerquantity = 0;
+            switch (item.RowState)
+            {
+                case DataRowState.Added:
+                    headerquantity = item.Quantity;
+                    break;
+
+                case DataRowState.Modified:
+                    var oldQty = (int)item["Quantity", DataRowVersion.Original];
+                    var newQty = item.Quantity;
+                    headerquantity = newQty - oldQty;
+                    break;
+
+                case DataRowState.Deleted:
+                    var deletedQty = (int)item["Quantity", DataRowVersion.Original];
+
+                    headerquantity =deletedQty;
+                    break;
+            }
+
+            return headerquantity;
         }
 
 

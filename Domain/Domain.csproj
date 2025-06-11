@@ -123,6 +123,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Repositorys\BaseRepository.cs" />
+    <Compile Include="Repositorys\IDatasetMetaData.cs" />
     <Compile Include="Repositorys\TransactionManager.cs" />
     <Compile Include="Repositorys\EnhancedTableAdapterBase.cs" />
     <Compile Include="Repositorys\IEnhancedDataTableMetadata.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Repositorys\DbConnectionFactory.cs" />
     <Compile Include="Repositorys\IGenericRepository.cs" />
     <Compile Include="Repositorys\IUserRepository.cs" />
+    <Compile Include="SharedSevices\BaseMasterDetailService.cs" />
     <Compile Include="SharedSevices\ITransactionManager.cs" />
     <Compile Include="SharedSevices\ISessionService.cs" />
     <Compile Include="SharedSevices\IUserService.cs" />

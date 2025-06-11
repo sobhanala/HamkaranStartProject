@@ -74,12 +74,14 @@ namespace AnbarService
                 var header = await _receiptRepository.FetchAsync();
 
                 var lastRow = (AnbarDataSet.view_WarehouseReceiptsRow)header.Rows[header.Rows.Count - 1];
+                await _inventoryService.UpdateInventoryAsync(dataset.WarehouseReceiptItemsWithProductView, lastRow);
 
                 foreach (var item in dataset.WarehouseReceiptItemsWithProductView)
                 {
                     item.ReceiptId = lastRow.Id;
 
                 }
+
                 await _receiptItemRepository.UpdateAsync(dataset.WarehouseReceiptItemsWithProductView);
 
                 var detail = await _receiptItemRepository.FetchByReceiptIdWithProductInfo(lastRow.Id);
@@ -87,7 +89,6 @@ namespace AnbarService
                 await UpdateHeaderTotalAmount(detail, lastRow, header);
 
               
-                await _inventoryService.UpdateInventoryAsync(detail, lastRow);
 
                 
                 _transactionManager.CommitTransactionAsync();
