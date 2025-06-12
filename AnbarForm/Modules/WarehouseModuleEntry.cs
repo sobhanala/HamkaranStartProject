@@ -4,6 +4,7 @@ using Domain.Module;
 using Domain.SharedSevices;
 using Infrastructure;
 using System.Windows.Forms;
+using AnbarService.Interfaces;
 
 namespace AnbarForm.Modules
 {
@@ -22,7 +23,7 @@ namespace AnbarForm.Modules
         }
 
 
-        public int Id => PasswordHasher.GetDeterministicHashCode(Subname);
+        public int Id => ModuleHasher.GetDeterministicHashCode(Subname);
         public string Name => "WareHouseManagement Management";
         public string Subname => "Manages warehouse operations like inventory, stock, and orders.";
 

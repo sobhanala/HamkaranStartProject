@@ -11,28 +11,26 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain.Repositorys.Interfaces;
 
 namespace Persistence
 {
     [Repository]
-    public class PermissionRepository : TypedDataSetRepository<Permission, int, AnbarProjectDataSet>,
+    [Obsolete("Obsolete")]
+    public class PermissionRepository : TypedDataSetRepository<Permission, int, UserPermissionDataset>,
         IPermissionRepository
     {
         private readonly ILogger<PermissionRepository> _logger;
-        private readonly ISessionService _sessionService;
-
-
 
 
         public PermissionRepository(DbConnectionFactory connectionFactory, ILogger<PermissionRepository> logger, ISessionService sessionService)
-            : base(connectionFactory, "Permissions", "Id", GetColumnNames(new AnbarProjectDataSet.PermissionsDataTable()), logger, sessionService)
+            : base(connectionFactory, "Permissions", "Id", GetColumnNames(new UserPermissionDataset.PermissionsDataTable()), logger, sessionService)
         {
             _logger = logger;
-            _sessionService = sessionService;
         }
 
 
-        protected override IEnumerable<Permission> MapResultsToEntities(AnbarProjectDataSet dataSet)
+        protected override IEnumerable<Permission> MapResultsToEntities(UserPermissionDataset dataSet)
         {
             try
             {
@@ -48,7 +46,7 @@ namespace Persistence
             }
         }
 
-        protected override Permission MapSingleResultToEntity(AnbarProjectDataSet dataSet)
+        protected override Permission MapSingleResultToEntity(UserPermissionDataset dataSet)
         {
             return dataSet.Permissions.Count > 0 ? MapPermissionFromRow(dataSet.Permissions[0]) : null;
         }
@@ -65,7 +63,7 @@ namespace Persistence
             };
         }
 
-        private Permission MapPermissionFromRow(AnbarProjectDataSet.PermissionsRow permRow)
+        private Permission MapPermissionFromRow(UserPermissionDataset.PermissionsRow permRow)
         {
             return new Permission
             {
@@ -86,7 +84,7 @@ namespace Persistence
                 //TODO  I think the permission is not init correctly
                 var existing = (await GetAllAsync()).Where(p => p.UserId == userId).ToList();
 
-                var ds = new AnbarProjectDataSet();
+                var ds = new UserPermissionDataset();
                 var permissionTable = ds.Permissions;
                 var toInsert = selectedModuleIds.Where(selected => existing.All(e => e.Id != selected.Id));
                 foreach (var permission in toInsert)
@@ -140,7 +138,7 @@ namespace Persistence
         }
 
 
-        private AnbarProjectDataSet.PermissionsRow MapPermissionToRow(Permission permission, AnbarProjectDataSet.PermissionsDataTable permissionTable)
+        private UserPermissionDataset.PermissionsRow MapPermissionToRow(Permission permission, UserPermissionDataset.PermissionsDataTable permissionTable)
         {
             var row = permissionTable.NewPermissionsRow();
             row.UserId = permission.UserId;

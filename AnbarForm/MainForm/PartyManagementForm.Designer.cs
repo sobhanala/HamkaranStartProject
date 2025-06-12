@@ -49,10 +49,9 @@ namespace AnbarForm.MainForm
             // 
             // txt_name
             // 
-            this.txt_name.Location = new System.Drawing.Point(13, 28);
-            this.txt_name.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txt_name.Location = new System.Drawing.Point(10, 23);
             this.txt_name.Name = "txt_name";
-            this.txt_name.Size = new System.Drawing.Size(132, 22);
+            this.txt_name.Size = new System.Drawing.Size(100, 20);
             this.txt_name.TabIndex = 1;
             this.txt_name.Text = "Name";
             this.txt_name.TextChanged += new System.EventHandler(this.Txt_name_TextChanged);
@@ -64,29 +63,26 @@ namespace AnbarForm.MainForm
             // 
             // txt_email
             // 
-            this.txt_email.Location = new System.Drawing.Point(13, 71);
-            this.txt_email.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txt_email.Location = new System.Drawing.Point(10, 58);
             this.txt_email.Name = "txt_email";
-            this.txt_email.Size = new System.Drawing.Size(132, 22);
+            this.txt_email.Size = new System.Drawing.Size(100, 20);
             this.txt_email.TabIndex = 3;
             this.txt_email.Text = "Email";
             // 
             // txt_city
             // 
-            this.txt_city.Location = new System.Drawing.Point(13, 169);
-            this.txt_city.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txt_city.Location = new System.Drawing.Point(10, 137);
             this.txt_city.Name = "txt_city";
-            this.txt_city.Size = new System.Drawing.Size(132, 22);
+            this.txt_city.Size = new System.Drawing.Size(100, 20);
             this.txt_city.TabIndex = 4;
             this.txt_city.Text = "City";
             this.txt_city.TextChanged += new System.EventHandler(this.Txt_city_TextChanged);
             // 
             // txt_postalCode
             // 
-            this.txt_postalCode.Location = new System.Drawing.Point(13, 266);
-            this.txt_postalCode.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txt_postalCode.Location = new System.Drawing.Point(10, 216);
             this.txt_postalCode.Name = "txt_postalCode";
-            this.txt_postalCode.Size = new System.Drawing.Size(132, 22);
+            this.txt_postalCode.Size = new System.Drawing.Size(100, 20);
             this.txt_postalCode.TabIndex = 5;
             this.txt_postalCode.Text = "PostalCode";
             this.txt_postalCode.TextChanged += new System.EventHandler(this.TextBox3_TextChanged);
@@ -98,20 +94,18 @@ namespace AnbarForm.MainForm
             "Vendor",
             "customer",
             "supplier"});
-            this.comboBox1.Location = new System.Drawing.Point(13, 311);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBox1.Location = new System.Drawing.Point(10, 253);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(160, 24);
+            this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 6;
             this.comboBox1.Text = "Type";
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.ComboBox1_SelectedIndexChanged);
             // 
             // btn_submit
             // 
-            this.btn_submit.Location = new System.Drawing.Point(13, 362);
-            this.btn_submit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_submit.Location = new System.Drawing.Point(10, 294);
             this.btn_submit.Name = "btn_submit";
-            this.btn_submit.Size = new System.Drawing.Size(161, 84);
+            this.btn_submit.Size = new System.Drawing.Size(121, 68);
             this.btn_submit.TabIndex = 7;
             this.btn_submit.Text = "Save";
             this.btn_submit.UseVisualStyleBackColor = true;
@@ -123,11 +117,10 @@ namespace AnbarForm.MainForm
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.delete});
-            this.dataGridView1.Location = new System.Drawing.Point(185, 15);
-            this.dataGridView1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dataGridView1.Location = new System.Drawing.Point(139, 12);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(373, 342);
+            this.dataGridView1.Size = new System.Drawing.Size(280, 278);
             this.dataGridView1.TabIndex = 8;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DataGridView1_CellContentClick);
             // 
@@ -140,29 +133,26 @@ namespace AnbarForm.MainForm
             // 
             // tb_street
             // 
-            this.tb_street.Location = new System.Drawing.Point(13, 217);
-            this.tb_street.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tb_street.Location = new System.Drawing.Point(10, 176);
             this.tb_street.Name = "tb_street";
-            this.tb_street.Size = new System.Drawing.Size(132, 22);
+            this.tb_street.Size = new System.Drawing.Size(100, 20);
             this.tb_street.TabIndex = 9;
             this.tb_street.Text = "Street";
             // 
             // tb_country
             // 
-            this.tb_country.Location = new System.Drawing.Point(13, 123);
-            this.tb_country.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tb_country.Location = new System.Drawing.Point(10, 100);
             this.tb_country.Name = "tb_country";
-            this.tb_country.Size = new System.Drawing.Size(132, 22);
+            this.tb_country.Size = new System.Drawing.Size(100, 20);
             this.tb_country.TabIndex = 10;
             this.tb_country.Text = "Country";
             this.tb_country.TextChanged += new System.EventHandler(this.Tb_country_TextChanged);
             // 
             // btn_save_all
             // 
-            this.btn_save_all.Location = new System.Drawing.Point(185, 362);
-            this.btn_save_all.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_save_all.Location = new System.Drawing.Point(139, 294);
             this.btn_save_all.Name = "btn_save_all";
-            this.btn_save_all.Size = new System.Drawing.Size(373, 84);
+            this.btn_save_all.Size = new System.Drawing.Size(280, 68);
             this.btn_save_all.TabIndex = 11;
             this.btn_save_all.Text = "Save All";
             this.btn_save_all.UseVisualStyleBackColor = true;
@@ -170,9 +160,9 @@ namespace AnbarForm.MainForm
             // 
             // PartyManagementForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(643, 501);
+            this.ClientSize = new System.Drawing.Size(482, 407);
             this.Controls.Add(this.btn_save_all);
             this.Controls.Add(this.tb_country);
             this.Controls.Add(this.tb_street);
@@ -183,8 +173,10 @@ namespace AnbarForm.MainForm
             this.Controls.Add(this.txt_city);
             this.Controls.Add(this.txt_email);
             this.Controls.Add(this.txt_name);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "PartyManagementForm";
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "PartyManagementForm";
             this.Load += new System.EventHandler(this.PartyManagementForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

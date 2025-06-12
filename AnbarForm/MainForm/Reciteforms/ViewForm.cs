@@ -2,6 +2,7 @@
 using AnbarService;
 using System;
 using System.Windows.Forms;
+using AnbarService.Interfaces;
 using Infrastructure;
 
 namespace AnbarForm.MainForm.Reciteforms

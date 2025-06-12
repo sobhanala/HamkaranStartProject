@@ -1,6 +1,7 @@
 ﻿using AnbarDomain.Tabels;
 using Domain.Repositorys;
 using System.Threading.Tasks;
+using Domain.Repositorys.Interfaces;
 
 namespace AnbarDomain.repositorys
 {

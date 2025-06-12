@@ -1,7 +1,7 @@
-﻿using AnbarDomain.Tabels;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using AnbarDomain.Tabels;
 
-namespace AnbarService
+namespace AnbarService.Interfaces
 {
     public interface IInventoryService
     {

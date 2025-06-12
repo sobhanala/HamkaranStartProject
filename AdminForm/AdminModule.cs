@@ -15,7 +15,7 @@ namespace AdminForm
             _userManagement = userManagement;
         }
 
-        public int Id => PasswordHasher.GetDeterministicHashCode(Subname);
+        public int Id => ModuleHasher.GetDeterministicHashCode(Subname);
 
         public string Name => "Admin";
         public string Subname => "this module is for Admin to assign roles ";

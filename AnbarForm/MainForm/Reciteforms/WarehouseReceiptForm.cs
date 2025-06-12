@@ -5,6 +5,7 @@ using System;
 using System.Data;
 using System.Linq;
 using System.Windows.Forms;
+using AnbarService.Interfaces;
 using Infrastructure;
 
 
@@ -21,7 +22,6 @@ namespace AnbarForm.MainForm.Reciteforms
             set => _anbarBackingField = value;
         }
 
-        private AnbarDataSet.view_WarehouseReceiptsDataTable _receiptsTable;
         private readonly BindingSource _masterBindingSource = new BindingSource();
         private readonly IWarehouseReceipt _warehouseReceiptService;
         private readonly IPartyManagement _partyManagement;
@@ -166,6 +166,11 @@ namespace AnbarForm.MainForm.Reciteforms
                     }
                 }
             }
+        }
+
+        private void DataGridViewMaster_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

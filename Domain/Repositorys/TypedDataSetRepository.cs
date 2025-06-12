@@ -8,6 +8,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain.Repositorys.Interfaces;
 
 namespace Domain.Repositorys
 {
@@ -26,7 +27,7 @@ namespace Domain.Repositorys
             DbConnectionFactory connectionFactory,
             string tableName,
             string keyColumn,
-            string[] tableColumns, ILogger<TypedDataSetRepository<TEntity, TKey, TDataSet>> logger, ISessionService sessionService) : base(connectionFactory, sessionService)
+            string[] tableColumns, ILogger<TypedDataSetRepository<TEntity, TKey, TDataSet>> logger, ISessionService sessionService) : base(connectionFactory)
         {
             TableName = tableName ?? throw new ArgumentNullException(nameof(tableName));
             KeyColumn = keyColumn ?? throw new ArgumentNullException(nameof(keyColumn));

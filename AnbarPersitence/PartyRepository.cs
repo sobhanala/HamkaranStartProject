@@ -17,17 +17,12 @@ using System.Linq;
 namespace AnbarPersitence
 {
     [Repository]
+    [Obsolete("Obsolete")]
     public class PartyRepository : TypedDataSetRepository<Party, int, warhouses>, IPartyRepository
     {
-
-
-        private readonly ISessionService _sessionService;
-
-
         public PartyRepository(DbConnectionFactory connectionFactory, ILogger<PartyRepository> logger, ISessionService sessionService)
             : base(connectionFactory, "Parties", "Id", GetColumnNames(new warhouses.PartiesDataTable()), logger, sessionService)
         {
-            _sessionService = sessionService;
         }
 
 

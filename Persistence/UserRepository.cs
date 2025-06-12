@@ -12,22 +12,21 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain.Repositorys.Interfaces;
 
 namespace Persistence
 {
     [Repository]
-    public class UserRepository : TypedDataSetRepository<User, int, AnbarProjectDataSet>, IUserRepository
+    [Obsolete("Obsolete")]
+    public class UserRepository : TypedDataSetRepository<User, int, UserPermissionDataset>, IUserRepository
     {
         private readonly ILogger<UserRepository> _logger;
 
-        private readonly ISessionService _sessionService;
-
 
         public UserRepository(DbConnectionFactory connectionFactory, ILogger<UserRepository> logger, ISessionService sessionService)
-            : base(connectionFactory, "Users", "Id", GetColumnNames(new AnbarProjectDataSet.UsersDataTable()), logger, sessionService)
+            : base(connectionFactory, "Users", "Id", GetColumnNames(new UserPermissionDataset.UsersDataTable()), logger, sessionService)
         {
             _logger = logger;
-            _sessionService = sessionService;
         }
 
         #region User Operations
@@ -42,7 +41,7 @@ namespace Persistence
                 var query = GenerateSelectQuery(TableName, TableColumns, whereClause);
                 var parameter = CreateParameter("@Username", username, DbType.String);
 
-                var dataSet = await ExecuteTypedDataSetAsync<AnbarProjectDataSet>(
+                var dataSet = await ExecuteTypedDataSetAsync<UserPermissionDataset>(
                     query,
                     CommandType.Text,
                     TableName,
@@ -66,12 +65,12 @@ namespace Persistence
         {
             try
             {
-                var permissionColumns = GetColumnNames(new AnbarProjectDataSet.PermissionsDataTable());
+                var permissionColumns = GetColumnNames(new UserPermissionDataset.PermissionsDataTable());
 
                 var query = GenerateSelectQuery("Permissions", permissionColumns, "UserId = @UserId");
                 var parameter = CreateParameter("@UserId", userId, DbType.Int32);
 
-                var dataSet = await ExecuteTypedDataSetAsync<AnbarProjectDataSet>(
+                var dataSet = await ExecuteTypedDataSetAsync<UserPermissionDataset>(
                     query,
                     CommandType.Text,
                     "Permissions",
@@ -95,12 +94,12 @@ namespace Persistence
 
         #region Mapping Methods
 
-        protected override IEnumerable<User> MapResultsToEntities(AnbarProjectDataSet dataSet)
+        protected override IEnumerable<User> MapResultsToEntities(UserPermissionDataset dataSet)
         {
             return dataSet.Users.Select(MapUserFromRow).ToList();
         }
 
-        protected override User MapSingleResultToEntity(AnbarProjectDataSet dataSet)
+        protected override User MapSingleResultToEntity(UserPermissionDataset dataSet)
         {
             return dataSet.Users.Count > 0 ? MapUserFromRow(dataSet.Users[0]) : null;
         }
@@ -119,7 +118,7 @@ namespace Persistence
             };
         }
 
-        private User MapUserFromRow(AnbarProjectDataSet.UsersRow userRow)
+        private User MapUserFromRow(UserPermissionDataset.UsersRow userRow)
         {
             return new User
             {
@@ -133,7 +132,7 @@ namespace Persistence
             };
         }
 
-        private Permission MapPermissionFromRow(AnbarProjectDataSet.PermissionsRow permRow)
+        private Permission MapPermissionFromRow(UserPermissionDataset.PermissionsRow permRow)
         {
             return new Permission
             {

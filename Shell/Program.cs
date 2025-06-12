@@ -97,7 +97,6 @@ namespace Shell
             var modules = moduleLoader.LoadModules();
             ModuleManager.RegisterModules(modules);
             moduleLoader.InitializeModules(modules);
-            moduleLoader.DisplayModuleInfo(modules);
         }
 
 

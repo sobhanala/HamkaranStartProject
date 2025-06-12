@@ -2,7 +2,7 @@
 {
 
 
-    partial class AnbarProjectDataSet
+    partial class UserPermissionDataset
     {
         partial class PermissionsDataTable
         {

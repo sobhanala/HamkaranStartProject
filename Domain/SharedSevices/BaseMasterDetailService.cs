@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Repositorys;
+using Domain.Repositorys.Interfaces;
 
 namespace Domain.SharedSevices
 {
@@ -33,7 +34,6 @@ namespace Domain.SharedSevices
         protected abstract Task<THeaderTable> FetchMasterAsync();
 
         public  abstract Task<TDetailTable> FetchDetailsByMasterIdAsync(int masterId);
-        protected abstract void  ProcessDetailsAfterMasterSaveAsync(TDataSet dataset);
 
     protected virtual Task BeforeSaveAsync(TDataSet dataset)
         {
@@ -98,7 +98,6 @@ namespace Domain.SharedSevices
             catch
             {
                  _transactionManager.RollbackTransactionAsync();
-                 dataset.RejectChanges();
                 throw;
             }
         }
@@ -106,11 +105,10 @@ namespace Domain.SharedSevices
         public virtual async Task DeleteMasterDetailAsync(int id)
         {
             _transactionManager.BeginTransactionAsync();
-            TDataSet dataset = null;
             try
             {
 
-                 dataset = await FetchMasterDetailDatasetAsync(id);
+                 var dataset = await FetchMasterDetailDatasetAsync(id);
                 await BeforeDeleteAsync(dataset);
                 await _headerRepo.DeleteByForeignKeyAsync(id);
                 await _detailRepo.DeleteByIdAsync(id);
@@ -120,7 +118,6 @@ namespace Domain.SharedSevices
             }
             catch
             {
-                if (dataset != null) dataset.RejectChanges();
                 _transactionManager.RollbackTransactionAsync();
                 throw;
             }

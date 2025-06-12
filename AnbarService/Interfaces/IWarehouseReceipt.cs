@@ -1,8 +1,8 @@
-﻿using AnbarDomain.Tabels;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using AnbarDomain.Tabels;
 using Domain.SharedSevices;
 
-namespace AnbarService
+namespace AnbarService.Interfaces
 {
     public interface IWarehouseReceipt : IMasterDetailService<AnbarDataSet>
     {

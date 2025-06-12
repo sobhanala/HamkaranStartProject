@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Domain.Exceptions;
+using Domain.Repositorys.Interfaces;
 
 namespace Domain.Repositorys
 {
@@ -305,13 +306,15 @@ namespace Domain.Repositorys
             try
             {
                 var fkName = DataTable.fkMasterDetail;
-                var command = new SqlCommand($"DELETE FROM [{TableName}] WHERE [{fkName}] = @fk", Connection);
-                command.Parameters.AddWithValue("@fk", foreignKeyValue);
+                using (var command = new SqlCommand($"DELETE FROM [{TableName}] WHERE [{fkName}] = @fk", Connection))
+                {
+                    command.Parameters.AddWithValue("@fk", foreignKeyValue);
 
-                if (Transaction != null)
-                    command.Transaction = Transaction;
+                    if (Transaction != null)
+                        command.Transaction = Transaction;
 
-                return await command.ExecuteNonQueryAsync();
+                    return await command.ExecuteNonQueryAsync();
+                }
             }
             catch (Exception ex)
             {
@@ -319,7 +322,6 @@ namespace Domain.Repositorys
                 throw new DatabaseException(ex.Message, $"Cannot DeleteByForeignKey {TableName}", ErrorCode.DataBaseError, ex);
             }
         }
-
 
         #endregion
 

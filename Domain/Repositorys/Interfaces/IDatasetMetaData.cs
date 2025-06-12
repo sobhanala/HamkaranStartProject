@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace Domain.Repositorys
+namespace Domain.Repositorys.Interfaces
 {
     public interface IDatasetMetaData<THeaderTable, TDetailTable>
         where THeaderTable : DataTable

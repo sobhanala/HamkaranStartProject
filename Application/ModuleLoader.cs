@@ -38,14 +38,5 @@ namespace Application
                 }
             }
         }
-
-        public void DisplayModuleInfo(List<IModule> modules)
-        {
-            Console.WriteLine($"\nLoaded {modules.Count} modules:");
-            foreach (var module in modules)
-            {
-                Console.WriteLine($"- {module.Name}: {module.Subname}");
-            }
-        }
     }
 }

@@ -9,10 +9,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Domain.Repositorys.Interfaces;
 
 namespace Application
 {
     [Service]
+    [Obsolete("Obsolete")]
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;

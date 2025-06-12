@@ -142,7 +142,6 @@ namespace AdminForm.forms
 
                         var module = ModuleManager.Modules[i];
                         selectedIds.Add(i);
-                        // Optionally display the name (for debug)
                         MessageBox.Show($"Checked: {module.Name}");
                     }
                 }

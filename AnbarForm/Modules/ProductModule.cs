@@ -2,6 +2,7 @@
 using Domain.Module;
 using Infrastructure;
 using System.Windows.Forms;
+using AnbarService.Interfaces;
 
 namespace AnbarForm.Modules
 {
@@ -14,7 +15,7 @@ namespace AnbarForm.Modules
         {
             _productService = productService;
         }
-        public int Id => PasswordHasher.GetDeterministicHashCode(Subname);
+        public int Id => ModuleHasher.GetDeterministicHashCode(Subname);
         public string Name => "Product Management";
         public string Subname => "Add , Delete ,Update Tour Products";
 

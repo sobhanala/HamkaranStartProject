@@ -1,12 +1,15 @@
-﻿using AnbarDomain.repositorys;
+﻿using System;
+using AnbarDomain.repositorys;
 using AnbarDomain.Tabels;
 using Domain.Attribute;
 using System.Data;
 using System.Threading.Tasks;
+using AnbarService.Interfaces;
 
 namespace AnbarService
 {
     [Service]
+    [Obsolete("Obsolete")]
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;

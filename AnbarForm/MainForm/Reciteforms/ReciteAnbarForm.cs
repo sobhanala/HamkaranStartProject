@@ -12,6 +12,7 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using AnbarDomain.Tabels.warhousesTableAdapters;
+using AnbarService.Interfaces;
 using Domain.Exceptions;
 using Infrastructure;
 
@@ -27,7 +28,7 @@ namespace AnbarForm.MainForm.Reciteforms
         private readonly IWarehouseReceipt _warehouseReceiptService;
         private readonly IPartyManagement _partyManagement;
         private readonly IProductService _productService;
-        private int? _receiptId;
+        private readonly int? _receiptId;
 
 
 

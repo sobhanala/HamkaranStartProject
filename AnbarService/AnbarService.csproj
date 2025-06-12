@@ -42,12 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InventoryService.cs" />
-    <Compile Include="IInventoryService.cs" />
+    <Compile Include="Interfaces\IInventoryService.cs" />
     <Compile Include="WarehouseReceiptService.cs" />
-    <Compile Include="IWarehouseReceipt.cs" />
+    <Compile Include="Interfaces\IWarehouseReceipt.cs" />
     <Compile Include="ProductService.cs" />
-    <Compile Include="IProductService.cs" />
-    <Compile Include="IPartyManagement.cs" />
+    <Compile Include="Interfaces\IProductService.cs" />
+    <Compile Include="Interfaces\IPartyManagement.cs" />
     <Compile Include="PartyManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -61,5 +61,6 @@
       <Name>Domain</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

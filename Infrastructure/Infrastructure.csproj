@@ -93,8 +93,7 @@
   <ItemGroup>
     <Compile Include="AppLogger.cs" />
     <Compile Include="UiSafeExecutor.cs" />
-    <Compile Include="ExceptionLoggingExtensions.cs" />
-    <Compile Include="PasswordHasher.cs" />
+    <Compile Include="ModuleHasher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

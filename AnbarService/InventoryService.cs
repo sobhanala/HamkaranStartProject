@@ -6,6 +6,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using AnbarDomain.Orders;
+using AnbarService.Interfaces;
 using Domain.Exceptions;
 
 namespace AnbarService

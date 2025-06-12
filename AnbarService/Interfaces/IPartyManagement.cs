@@ -1,10 +1,10 @@
-﻿using AnbarDomain.Partys;
-using AnbarDomain.Tabels;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using AnbarDomain.Partys;
+using AnbarDomain.Tabels;
 
-namespace AnbarService
+namespace AnbarService.Interfaces
 {
     public interface IPartyManagement
     {

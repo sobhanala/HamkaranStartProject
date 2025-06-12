@@ -5,8 +5,6 @@ namespace Infrastructure
 {
     public static class AppLogger
     {
-        public static ILoggerFactory LoggerFactory { get; set; }
-
         private static ILoggerFactory _loggerFactory;
 
         public static void Initialize(ILoggerFactory loggerFactory)

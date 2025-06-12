@@ -3,10 +3,9 @@ using AnbarDomain.Tabels;
 using Domain.Attribute;
 using Domain.SharedSevices;
 using System;
-using System.Data;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AnbarService.Interfaces;
 using Domain.Exceptions;
 
 
@@ -36,7 +35,7 @@ namespace AnbarService
             return recitenum;
         }
 
-
+        #region BaseClassAbstractsAndMetohd
 
         protected override async Task<AnbarDataSet.view_WarehouseReceiptsDataTable> FetchMasterAsync()
         {
@@ -48,9 +47,6 @@ namespace AnbarService
             return await _receiptItemRepository.FetchByForeignKeyAsync(masterId);
         }
 
-        protected override   void ProcessDetailsAfterMasterSaveAsync(AnbarDataSet dataset)
-        {
-        }
 
         protected override async Task BeforeSaveAsync(AnbarDataSet dataset)
         {
@@ -94,9 +90,9 @@ namespace AnbarService
         }
 
 
+        
 
-
-
+        #endregion
 
         #region Private
 
@@ -124,34 +120,6 @@ namespace AnbarService
 
             await _receiptRepository.UpdateAsync(header);
         }
-
-
-
-
-
-
-
-
-
-        private void LogTableRows(DataTable table, string tableName, string context)
-        {
-            Debug.WriteLine($"\n---- {context}: Table = {tableName} ----");
-
-            foreach (DataRow row in table.Rows)
-            {
-                var rowState = row.RowState;
-                var rowValues = string.Join(", ", table.Columns
-                    .Cast<DataColumn>()
-                    .Select(c => $"{c.ColumnName}={row[c]}"));
-
-                Debug.WriteLine($"[{rowState}] {rowValues}");
-            }
-
-            Debug.WriteLine($"---- End of {context} ----\n");
-        }
-
-
-
 
         #endregion
 

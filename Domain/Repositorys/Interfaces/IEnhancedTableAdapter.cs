@@ -2,7 +2,7 @@
 using System.Data;
 using System.Threading.Tasks;
 
-namespace Domain.Repositorys
+namespace Domain.Repositorys.Interfaces
 {
     public interface IEnhancedTableAdapter : IDisposable
     {

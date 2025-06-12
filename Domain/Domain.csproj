@@ -88,18 +88,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attribute\AuditableDataTable.cs" />
-    <Compile Include="Attribute\AuditableDataRow.cs" />
     <Compile Include="Attribute\IAuditable.cs" />
     <Compile Include="Attribute\RepositoryAttribute.cs" />
     <Compile Include="Attribute\ServiceAttribute.cs" />
     <Compile Include="Common\BaseEntity.cs" />
     <Compile Include="Common\Address.cs" />
-    <Compile Include="Data\AnbarProjectDataSet.cs">
-      <DependentUpon>AnbarProjectDataSet.xsd</DependentUpon>
+    <Compile Include="Data\UserPermissonDataset.cs">
+      <DependentUpon>UserPermissonDataset.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Data\AnbarProjectDataSet.Designer.cs">
-      <DependentUpon>AnbarProjectDataSet.xsd</DependentUpon>
+    <Compile Include="Data\UserPermissonDataset.Designer.cs">
+      <DependentUpon>UserPermissonDataset.xsd</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -123,16 +121,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Repositorys\BaseRepository.cs" />
-    <Compile Include="Repositorys\IDatasetMetaData.cs" />
+    <Compile Include="Repositorys\Interfaces\IDatasetMetaData.cs" />
     <Compile Include="Repositorys\TransactionManager.cs" />
     <Compile Include="Repositorys\EnhancedTableAdapterBase.cs" />
-    <Compile Include="Repositorys\IEnhancedDataTableMetadata.cs" />
-    <Compile Include="Repositorys\IEnhancedTableAdapter.cs" />
-    <Compile Include="Repositorys\IPermissionRepository.cs" />
+    <Compile Include="Repositorys\Interfaces\IEnhancedDataTableMetadata.cs" />
+    <Compile Include="Repositorys\Interfaces\IEnhancedTableAdapter.cs" />
+    <Compile Include="Repositorys\Interfaces\IPermissionRepository.cs" />
     <Compile Include="Repositorys\TypedDataSetRepository.cs" />
     <Compile Include="Repositorys\DbConnectionFactory.cs" />
-    <Compile Include="Repositorys\IGenericRepository.cs" />
-    <Compile Include="Repositorys\IUserRepository.cs" />
+    <Compile Include="Repositorys\Interfaces\IGenericRepository.cs" />
+    <Compile Include="Repositorys\Interfaces\IUserRepository.cs" />
     <Compile Include="SharedSevices\BaseMasterDetailService.cs" />
     <Compile Include="SharedSevices\IMasterDetailService.cs" />
     <Compile Include="SharedSevices\ITransactionManager.cs" />
@@ -144,16 +142,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Data\AnbarProjectDataSet.xsc">
-      <DependentUpon>AnbarProjectDataSet.xsd</DependentUpon>
+    <None Include="Data\UserPermissonDataset.xsc">
+      <DependentUpon>UserPermissonDataset.xsd</DependentUpon>
     </None>
-    <None Include="Data\AnbarProjectDataSet.xsd">
+    <None Include="Data\UserPermissonDataset.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>AnbarProjectDataSet.Designer.cs</LastGenOutput>
+      <LastGenOutput>UserPermissonDataset.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Data\AnbarProjectDataSet.xss">
-      <DependentUpon>AnbarProjectDataSet.xsd</DependentUpon>
+    <None Include="Data\UserPermissonDataset.xss">
+      <DependentUpon>UserPermissonDataset.xsd</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

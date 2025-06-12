@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 namespace AnbarPersitence
 {
     [Repository]
+    [Obsolete("Obsolete")]
     public class ProductRepository : TypedDataSetRepository<Product, int, ProductDataset>, IProductRepository
     {
         private readonly ILogger<ProductRepository> _logger;

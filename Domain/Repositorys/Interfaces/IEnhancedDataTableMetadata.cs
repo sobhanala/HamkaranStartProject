@@ -1,4 +1,4 @@
-﻿namespace Domain.Repositorys
+﻿namespace Domain.Repositorys.Interfaces
 {
     public interface IEnhancedDataTableMetadata
     {

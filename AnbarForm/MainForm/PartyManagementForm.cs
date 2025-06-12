@@ -7,6 +7,7 @@ using System;
 using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
+using AnbarService.Interfaces;
 using Infrastructure;
 
 namespace AnbarForm.MainForm

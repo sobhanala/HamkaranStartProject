@@ -6,7 +6,7 @@ namespace AnbarForm.MainForm.Reciteforms.selectors
 {
     public class SelectorForm<T> : BaseSelector where T : DataTable
     {
-        private BindingSource _bindingSource = new BindingSource();
+        private readonly BindingSource _bindingSource = new BindingSource();
         public DataRow SelectedRow { get; private set; }
         private readonly string _filterColumn;
 

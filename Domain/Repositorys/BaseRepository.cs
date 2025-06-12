@@ -1,5 +1,4 @@
-﻿using Domain.SharedSevices;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -14,7 +13,7 @@ namespace Domain.Repositorys
     {
         private readonly DbConnectionFactory _connectionFactory;
 
-        protected BaseRepository(DbConnectionFactory connectionFactory, ISessionService sessionService)
+        protected BaseRepository(DbConnectionFactory connectionFactory)
         {
             _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
         }
@@ -227,7 +226,7 @@ namespace Domain.Repositorys
                     var result = await command.ExecuteScalarAsync();
                     if (result == DBNull.Value)
                     {
-                        return default(T);
+                        return default;
                     }
                     return (T)Convert.ChangeType(result, typeof(T));
                 }

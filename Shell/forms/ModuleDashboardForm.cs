@@ -75,8 +75,7 @@ namespace Shell.forms
         }
         private void OnModuleNodeClicked(object sender, TreeNodeMouseClickEventArgs e)
         {
-            var module = e.Node?.Tag as IModule;
-            if (module == null) return;
+            if (!(e.Node?.Tag is IModule module)) return;
 
             try
             {

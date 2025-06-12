@@ -20,9 +20,9 @@ namespace Domain.Data {
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
     [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedDataSetSchema")]
-    [global::System.Xml.Serialization.XmlRootAttribute("AnbarProjectDataSet")]
+    [global::System.Xml.Serialization.XmlRootAttribute("UserPermissionDataset")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
-    public partial class AnbarProjectDataSet : global::System.Data.DataSet {
+    public partial class UserPermissionDataset : global::System.Data.DataSet {
         
         private UsersDataTable tableUsers;
         
@@ -34,7 +34,7 @@ namespace Domain.Data {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public AnbarProjectDataSet() {
+        public UserPermissionDataset() {
             this.BeginInit();
             this.InitClass();
             global::System.ComponentModel.CollectionChangeEventHandler schemaChangedHandler = new global::System.ComponentModel.CollectionChangeEventHandler(this.SchemaChanged);
@@ -45,7 +45,7 @@ namespace Domain.Data {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        protected AnbarProjectDataSet(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+        protected UserPermissionDataset(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
                 this.InitVars(false);
@@ -144,7 +144,7 @@ namespace Domain.Data {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         public override global::System.Data.DataSet Clone() {
-            AnbarProjectDataSet cln = ((AnbarProjectDataSet)(base.Clone()));
+            UserPermissionDataset cln = ((UserPermissionDataset)(base.Clone()));
             cln.InitVars();
             cln.SchemaSerializationMode = this.SchemaSerializationMode;
             return cln;
@@ -226,7 +226,7 @@ namespace Domain.Data {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitClass() {
-            this.DataSetName = "AnbarProjectDataSet";
+            this.DataSetName = "UserPermissionDataset";
             this.Prefix = "";
             this.Namespace = "http://tempuri.org/AnbarProjectDataSet.xsd";
             this.EnforceConstraints = true;
@@ -264,7 +264,7 @@ namespace Domain.Data {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedDataSetSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-            AnbarProjectDataSet ds = new AnbarProjectDataSet();
+            UserPermissionDataset ds = new UserPermissionDataset();
             global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
             global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
             global::System.Xml.Schema.XmlSchemaAny any = new global::System.Xml.Schema.XmlSchemaAny();
@@ -605,7 +605,7 @@ namespace Domain.Data {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                AnbarProjectDataSet ds = new AnbarProjectDataSet();
+                UserPermissionDataset ds = new UserPermissionDataset();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -930,7 +930,7 @@ namespace Domain.Data {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                AnbarProjectDataSet ds = new AnbarProjectDataSet();
+                UserPermissionDataset ds = new UserPermissionDataset();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -1310,7 +1310,7 @@ namespace Domain.Data {
         }
     }
 }
-namespace Domain.Data.AnbarProjectDataSetTableAdapters {
+namespace Domain.Data.UserPermissionDatasetTableAdapters {
     
     
     /// <summary>
@@ -1515,7 +1515,7 @@ SELECT Id, Username, IsActive, PasswordHash, Role, CreatedAt, LastLogin FROM Use
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(AnbarProjectDataSet.UsersDataTable dataTable) {
+        public virtual int Fill(UserPermissionDataset.UsersDataTable dataTable) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
@@ -1528,9 +1528,9 @@ SELECT Id, Username, IsActive, PasswordHash, Role, CreatedAt, LastLogin FROM Use
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual AnbarProjectDataSet.UsersDataTable GetData() {
+        public virtual UserPermissionDataset.UsersDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            AnbarProjectDataSet.UsersDataTable dataTable = new AnbarProjectDataSet.UsersDataTable();
+            UserPermissionDataset.UsersDataTable dataTable = new UserPermissionDataset.UsersDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
@@ -1538,14 +1538,14 @@ SELECT Id, Username, IsActive, PasswordHash, Role, CreatedAt, LastLogin FROM Use
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(AnbarProjectDataSet.UsersDataTable dataTable) {
+        public virtual int Update(UserPermissionDataset.UsersDataTable dataTable) {
             return this.Adapter.Update(dataTable);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(AnbarProjectDataSet dataSet) {
+        public virtual int Update(UserPermissionDataset dataSet) {
             return this.Adapter.Update(dataSet, "Users");
         }
         
@@ -1985,7 +1985,7 @@ SELECT Id, UserId, ModuleId, Authority, CreatedAt FROM Permissions WHERE (Id = @
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(AnbarProjectDataSet.PermissionsDataTable dataTable) {
+        public virtual int Fill(UserPermissionDataset.PermissionsDataTable dataTable) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
@@ -1998,9 +1998,9 @@ SELECT Id, UserId, ModuleId, Authority, CreatedAt FROM Permissions WHERE (Id = @
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual AnbarProjectDataSet.PermissionsDataTable GetData() {
+        public virtual UserPermissionDataset.PermissionsDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            AnbarProjectDataSet.PermissionsDataTable dataTable = new AnbarProjectDataSet.PermissionsDataTable();
+            UserPermissionDataset.PermissionsDataTable dataTable = new UserPermissionDataset.PermissionsDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
@@ -2008,14 +2008,14 @@ SELECT Id, UserId, ModuleId, Authority, CreatedAt FROM Permissions WHERE (Id = @
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(AnbarProjectDataSet.PermissionsDataTable dataTable) {
+        public virtual int Update(UserPermissionDataset.PermissionsDataTable dataTable) {
             return this.Adapter.Update(dataTable);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int Update(AnbarProjectDataSet dataSet) {
+        public virtual int Update(UserPermissionDataset dataSet) {
             return this.Adapter.Update(dataSet, "Permissions");
         }
         
@@ -2239,7 +2239,7 @@ SELECT Id, UserId, ModuleId, Authority, CreatedAt FROM Permissions WHERE (Id = @
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        private int UpdateUpdatedRows(AnbarProjectDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateUpdatedRows(UserPermissionDataset dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             if ((this._usersTableAdapter != null)) {
                 global::System.Data.DataRow[] updatedRows = dataSet.Users.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
@@ -2267,7 +2267,7 @@ SELECT Id, UserId, ModuleId, Authority, CreatedAt FROM Permissions WHERE (Id = @
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        private int UpdateInsertedRows(AnbarProjectDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateInsertedRows(UserPermissionDataset dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             if ((this._usersTableAdapter != null)) {
                 global::System.Data.DataRow[] addedRows = dataSet.Users.Select(null, null, global::System.Data.DataViewRowState.Added);
@@ -2293,7 +2293,7 @@ SELECT Id, UserId, ModuleId, Authority, CreatedAt FROM Permissions WHERE (Id = @
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        private int UpdateDeletedRows(AnbarProjectDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
+        private int UpdateDeletedRows(UserPermissionDataset dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
             if ((this._permissionsTableAdapter != null)) {
                 global::System.Data.DataRow[] deletedRows = dataSet.Permissions.Select(null, null, global::System.Data.DataViewRowState.Deleted);
@@ -2343,7 +2343,7 @@ SELECT Id, UserId, ModuleId, Authority, CreatedAt FROM Permissions WHERE (Id = @
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        public virtual int UpdateAll(AnbarProjectDataSet dataSet) {
+        public virtual int UpdateAll(UserPermissionDataset dataSet) {
             if ((dataSet == null)) {
                 throw new global::System.ArgumentNullException("dataSet");
             }
