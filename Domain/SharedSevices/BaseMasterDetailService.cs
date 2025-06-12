@@ -110,11 +110,11 @@ namespace Domain.SharedSevices
 
                  var dataset = await FetchMasterDetailDatasetAsync(id);
                 await BeforeDeleteAsync(dataset);
-                await _headerRepo.DeleteByForeignKeyAsync(id);
-                await _detailRepo.DeleteByIdAsync(id);
-                await AfterSaveAsync(dataset);
+
+                await _detailRepo.DeleteByForeignKeyAsync(id);
+                await _headerRepo.DeleteByIdAsync(id);
+                await AfterDeleteAsync(dataset);
                 _transactionManager.CommitTransactionAsync();
-                dataset.AcceptChanges();
             }
             catch
             {
