@@ -1,15 +1,12 @@
 ﻿using AnbarDomain.Tabels;
 using System.Threading.Tasks;
+using Domain.SharedSevices;
 
 namespace AnbarService
 {
-    public interface IWarehouseReceipt
+    public interface IWarehouseReceipt : IMasterDetailService<AnbarDataSet>
     {
-        Task<AnbarDataSet> GetFullDatasetAsync();
-        Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FillByReceiptIdWithProductInfo(int receiptId);
-        Task SaveReceiptWithItemsAsync(AnbarDataSet dataset);
+        Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FetchDetailsByMasterIdAsync(int receiptId);
         Task<string> GenerateNewReceiptNumber();
-        Task DeleteReceiptWithInventoryAsync(AnbarDataSet.view_WarehouseReceiptsRow receiptRow);
-        Task FillReceiptById(AnbarDataSet dataSet, int reciteId);
     }
 }

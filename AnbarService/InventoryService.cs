@@ -55,7 +55,7 @@ namespace AnbarService
                 }
                 else
                 {
-                    if (headerRow.ReceiptStatus == (int)ReciteType.Purchase)
+                    if (headerRow.ReceiptStatus == (int)ReciteType.Sale)
                     {
                         throw new InventoryException(technicalMessage:" ",userFriendlyMessage: $"No stock found for product {item.ProductId}", ErrorCode.NoStockFound);
                     }

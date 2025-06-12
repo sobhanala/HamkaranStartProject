@@ -10,5 +10,8 @@ namespace Domain.Repositorys
         Task<int> UpdateAsync(DataTable dataTable);
         Task<int> GetByIdAsync(DataTable dataTable, int id);
         Task<int> DeleteByIdAsync(int id);
+
+        Task FillByForeignKeyAsync(DataTable table, object foreignKeyValue);
+        Task<int> DeleteByForeignKeyAsync(object foreignKeyValue);
     }
 }

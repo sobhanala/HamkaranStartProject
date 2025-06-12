@@ -9,7 +9,7 @@ namespace AnbarDomain.Tabels
 {
 
 
-    partial class AnbarDataSet:IDatasetMetaData<AnbarDataSet.view_WarehouseReceiptsDataTable,AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable>
+    partial class AnbarDataSet : IDatasetMetaData<AnbarDataSet.view_WarehouseReceiptsDataTable, AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable>
     {
         public view_WarehouseReceiptsDataTable GetHeaderTable()
         {
@@ -25,6 +25,7 @@ namespace AnbarDomain.Tabels
         {
             public string tableName => "WarehouseReceipts";
             public string viewName => "view_WarehouseReceipts";
+            public string fkMasterDetail => "";
 
             public override void EndInit()
             {
@@ -62,6 +63,8 @@ namespace AnbarDomain.Tabels
         {
             public string tableName => "Inventory";
             public string viewName => "Inventory";
+            public string fkMasterDetail => "";
+
         }
 
         partial class WarehouseReceiptItemsWithProductViewDataTable : IEnhancedDataTableMetadata
@@ -82,14 +85,8 @@ namespace AnbarDomain.Tabels
                         this.ProductNameColumn.ExtendedProperties["IsViewColumn"] = true;
                     }
 
-                    if (this.Columns.Contains(TotalAmountColumn.ColumnName))
-                    {
-                        this.TotalAmountColumn.ExtendedProperties["IsViewColumn"] = true;
-                    }
-                    if (this.Columns.Contains(TotalAmountCalculatedColumn.ColumnName))
-                    {
-                        this.TotalAmountCalculatedColumn.ExtendedProperties["IsViewColumn"] = true;
-                    }
+
+
                 }
                 catch (Exception ex)
                 {
@@ -100,16 +97,11 @@ namespace AnbarDomain.Tabels
 
             public string tableName => "WarehouseReceiptItems";
             public string viewName => "WarehouseReceiptItemsWithProductView";
+            public string fkMasterDetail => "ReceiptId";
         }
 
 
 
-
-        partial class WarehouseReceiptsDataTable : IEnhancedDataTableMetadata
-        {
-            public string tableName => this.TableName;
-            public string viewName => this.TableName;
-        }
 
 
 
@@ -140,10 +132,5 @@ namespace AnbarDomain.Tabels.AnbarDataSetTableAdapters
 
 
 
-    public partial class WarehouseReceiptsTableAdapter
-    {
-
-        public DbDataAdapter GetAdapter() => this.Adapter;
-    }
 }
 

@@ -138,7 +138,7 @@ namespace AnbarForm.MainForm.Reciteforms
                 await UiSafeExecutor.ExecuteAsync(async () =>
                 {
 
-                    await _warehouseReceiptService.DeleteReceiptWithInventoryAsync(row);
+                    await _warehouseReceiptService.DeleteMasterDetailAsync(row.Id);
                     MessageBox.Show("Receipt deleted successfully.", "Success", MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
 

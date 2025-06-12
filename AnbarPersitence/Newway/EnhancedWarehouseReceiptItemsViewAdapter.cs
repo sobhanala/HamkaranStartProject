@@ -32,19 +32,11 @@ namespace AnbarPersitence.Newway
         }
 
 
-        public async Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FetchByReceiptIdWithProductInfo(int receiptId)
+        public async Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FetchByForeignKeyAsync(int receiptId)
         {
             try
             {
-                var command = new SqlCommand("SELECT * FROM WarehouseReceiptItemsWithProductView WHERE ReceiptId = @ReceiptId", Connection);
-
-                command.Parameters.AddWithValue("@ReceiptId", receiptId);
-                if (Transaction != null)
-                {
-                    command.Transaction = Transaction;
-                }
-                var a = await FetchAsyncByCommand(command);
-                return a;
+                return await base.FetchByForeignKeyAsync(receiptId);
             }
             catch (Exception ex)
             {
@@ -52,46 +44,31 @@ namespace AnbarPersitence.Newway
                 throw new DatabaseException(ex.Message, "cannot FetchByReceiptIdWithProductInfo Track", ErrorCode.DataBaseError, ex); 
             }
         }
-        public async Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FillByReceiptIdWithProductInfo(AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable Table, int receiptId)
-        {
-            try
-            {
-                var command = new SqlCommand("SELECT * FROM WarehouseReceiptItemsWithProductView WHERE ReceiptId = @ReceiptId", Connection);
+        //public async Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FillByReceiptIdWithProductInfo(AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable Table, int receiptId)
+        //{
+        //    try
+        //    {
+        //       return await  base.FillByForeignKeyAsync(Table, receiptId);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.LogError(ex, "Error loading items for ReceiptId: {ReceiptId}", receiptId);
+        //        throw new DatabaseException(ex.Message, "cannot FetchByReceiptIdWithProductInfo Track", ErrorCode.DataBaseError, ex);
+        //    }
+        //}
 
-                command.Parameters.AddWithValue("@ReceiptId", receiptId);
-                if (Transaction != null)
-                {
-                    command.Transaction = Transaction;
-                }
-                var a = await FillAsyncByCommand(Table ,command);
-                return a;
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, "Error loading items for ReceiptId: {ReceiptId}", receiptId);
-                throw new DatabaseException(ex.Message, "cannot FetchByReceiptIdWithProductInfo Track", ErrorCode.DataBaseError, ex);
-            }
-        }
-
-        public async Task<int> DeleteByReciteInfo(int receiptId)
-        {
-            try
-            {
-                var command = new SqlCommand("DELETE FROM WarehouseReceiptItems WHERE ReceiptId = @ReceiptId", Connection);
-
-                command.Parameters.AddWithValue("@ReceiptId", receiptId);
-                if (Transaction != null)
-                {
-                    command.Transaction = Transaction;
-                }
-                return await command.ExecuteNonQueryAsync();
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, "Error loading items for ReceiptId: {ReceiptId}", receiptId);
-                 throw new DatabaseException(ex.Message, "cannot DeleteByReciteInfo Track", ErrorCode.DataBaseError, ex); ;
-            }
-        }
+        //public async Task<int> DeleteByReciteInfo(int receiptId)
+        //{
+        //    try
+        //    {
+        //       return  await DeleteByForeignKeyAsync(receiptId);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.LogError(ex, "Error loading items for ReceiptId: {ReceiptId}", receiptId);
+        //         throw new DatabaseException(ex.Message, "cannot DeleteByReciteInfo Track", ErrorCode.DataBaseError, ex); ;
+        //    }
+        //}
 
 
 

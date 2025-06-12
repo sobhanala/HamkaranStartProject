@@ -22,7 +22,7 @@ namespace AnbarPersitence.Newway
         protected override DbDataAdapter DataAdapter => _baseAdapter.GetAdapter();
 
         public EnhancedWarehouseReceiptsviewTableAdapter(
-            ILogger<EnhancedWarehouseReceiptsTableAdapter> logger,
+            ILogger<EnhancedWarehouseReceiptsviewTableAdapter> logger,
             ISessionService sessionService, ITransactionManager _manager)
             : base(logger, sessionService, _manager)
         {
@@ -57,6 +57,29 @@ namespace AnbarPersitence.Newway
             }
         }
 
+        public async Task<int> GetLastInsertedReceiptIdAsync()
+        {
+            var query = "SELECT ISNULL(MAX(Id), 0) + 1 FROM WarehouseReceipts";
+
+            try
+            {
+                using (var command = new SqlCommand(query, Connection))
+                {
+                    if (Connection.State != ConnectionState.Open)
+                        await Connection.OpenAsync();
+                    command.Transaction = Transaction;
+
+                    var result = await command.ExecuteScalarAsync();
+                    return Convert.ToInt32(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error retrieving last inserted receipt ID");
+                throw new DatabaseException(ex.Message, "Error retrieving last inserted receipt ID", ErrorCode.DataBaseError, ex);
+            }
+        }
+
         public async Task<AnbarDataSet.view_WarehouseReceiptsDataTable> FetchAsync()
         {
             try
@@ -71,23 +94,23 @@ namespace AnbarPersitence.Newway
             }
         }
 
-        public async Task<int> UpdateTransaction(AnbarDataSet.view_WarehouseReceiptsDataTable data)
-        {
-            try
-            {
-                var insertCommand = CreateInsertCommand();
-                _baseAdapter.GetAdapter().InsertCommand = insertCommand;
-                var updated = await base.UpdateAsync(data);
+        //public async Task<int> UpdateTransaction(AnbarDataSet.view_WarehouseReceiptsDataTable data)
+        //{
+        //    try
+        //    {
+        //        var insertCommand = CreateInsertCommand();
+        //        _baseAdapter.GetAdapter().InsertCommand = insertCommand;
+        //        var updated = await base.UpdateAsync(data);
 
-                return updated;
-            }
-            catch (Exception e)
-            {
-                Logger.LogError(e, "Error UpdateTransaction");
-                throw new DatabaseException(e.Message, "cannot UpdateTransaction Track", ErrorCode.DataBaseError, e); ;
-            }
+        //        return updated;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Logger.LogError(e, "Error UpdateTransaction");
+        //        throw new DatabaseException(e.Message, "cannot UpdateTransaction Track", ErrorCode.DataBaseError, e); ;
+        //    }
 
-        }
+        //}
 
 
         protected override void ApplyTransactionToCommands(SqlTransaction transaction)

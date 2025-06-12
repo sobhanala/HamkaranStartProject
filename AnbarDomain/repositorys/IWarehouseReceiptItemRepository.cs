@@ -6,11 +6,9 @@ namespace AnbarDomain.repositorys
 {
     public interface IWarehouseReceiptItemRepository : IEnhancedTableAdapter
     {
-        Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FetchByReceiptIdWithProductInfo(int receiptId);
-        Task<int> DeleteByReciteInfo(int receiptId);
-
-        Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FillByReceiptIdWithProductInfo(
-            AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable table, int receiptId);
+        Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FetchByForeignKeyAsync(int receiptId);
+       
+        
 
     }
 }

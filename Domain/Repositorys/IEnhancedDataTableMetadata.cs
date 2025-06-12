@@ -4,5 +4,6 @@
     {
         string tableName { get; }
         string viewName { get; }
+        string fkMasterDetail { get; }
     }
 }

@@ -89,7 +89,7 @@ namespace AnbarForm.MainForm.Reciteforms
             _headerBindingSource.EndEdit();
             _detailBindingSource.EndEdit();
 
-           var result =  await UiSafeExecutor.ExecuteAsync(() => _warehouseReceiptService.SaveReceiptWithItemsAsync(_currentDataSet));
+           var result =  await UiSafeExecutor.ExecuteAsync(() => _warehouseReceiptService.SaveMasterDetailAsync(_currentDataSet));
 
            if (!result)
            {
@@ -139,21 +139,19 @@ namespace AnbarForm.MainForm.Reciteforms
         private void ConfigureBindingSource()
         {
             _headerBindingSource.ListChanged += HeaderBindingSource_ListChanged;
-            _detailBindingSource.ListChanged += DetailBindingSource_ListChanged;
+            _detailBindingSource.CurrentItemChanged += _detailBindingSource_CurrentItemChanged1;
             numCost.ValueChanged += (s, e) => _headerBindingSource.EndEdit();
             numDiscount.ValueChanged += (s, e) => _headerBindingSource.EndEdit();
 
         }
 
-        private void DetailBindingSource_ListChanged(object sender, ListChangedEventArgs e)
+        private void _detailBindingSource_CurrentItemChanged1(object sender, EventArgs e)
         {
-            if (e.ListChangedType == ListChangedType.ItemChanged ||
-                e.ListChangedType == ListChangedType.ItemDeleted ||
-                e.ListChangedType == ListChangedType.ItemAdded)
-            {
-                UpdateTotalAmount();
-            }
+            RecalculateCurrentRowTotalAndUpdate();
+            UpdateTotalAmount();
+
         }
+
 
         private void HeaderBindingSource_ListChanged(object sender, ListChangedEventArgs e)
         {
@@ -164,12 +162,30 @@ namespace AnbarForm.MainForm.Reciteforms
             }
         }
 
+        private void RecalculateCurrentRowTotalAndUpdate()
+        {
+            if (_detailBindingSource.Current is DataRowView rowView)
+            {
+                if (rowView.Row is AnbarDataSet.WarehouseReceiptItemsWithProductViewRow row)
+                {
+                    decimal quantity = row.IsQuantityNull() ? 0 : row.Quantity;
+                    decimal unitPrice = row.IsUnitPriceNull() ? 0 : row.UnitPrice;
+
+                    row.TotalAmount = quantity * unitPrice;
+                }
+            }
+
+            UpdateTotalAmount();
+        }
+
+
 
 
 
         private void AddTempMasterRow()
         {
             var newMasterRow = _currentDataSet.view_WarehouseReceipts.Newview_WarehouseReceiptsRow();
+            newMasterRow.Id = -1;
             newMasterRow.ReceiptDate = DateTime.Now;
             newMasterRow.TransportCost = 0m;
             newMasterRow.Discount = 0m;
@@ -287,25 +303,11 @@ namespace AnbarForm.MainForm.Reciteforms
                 };
                 dgReciteItem.Columns.Add(partyButtonColumn);
             }
-            if (dgReciteItem.Columns.Contains("TotalAmountView"))
-            {
-                var totalAmountViewColumn = new DataGridViewTextBoxColumn
-                {
-                    Name = "TotalAmountView",
-                    HeaderText = "Total Amount (View)",
-                    DataPropertyName = "TotalAmountCalculated", 
-                    DefaultCellStyle =
-                    {
-                        Format = "C2", BackColor = Color.LightYellow, ForeColor = Color.DarkGreen
 
-                    }
-                };
-                dgReciteItem.Columns.Add(totalAmountViewColumn);
-            }
             if (dgReciteItem.Columns.Contains("TotalAmount"))
             {
                 dgReciteItem.Columns["TotalAmount"].ReadOnly = true;
-                dgReciteItem.Columns["TotalAmount"].Visible = false;
+                dgReciteItem.Columns["TotalAmount"].Visible = true;
             }
             if (dgReciteItem.Columns.Contains("Id"))
             {
@@ -332,9 +334,9 @@ namespace AnbarForm.MainForm.Reciteforms
             {
                 var row = (AnbarDataSet.WarehouseReceiptItemsWithProductViewRow)rowView.Row;
 
-                if (!row.IsTotalAmountCalculatedNull())
+                if (!row.IsTotalAmountNull())
                 {
-                    subtotal += row.TotalAmountCalculated;
+                    subtotal += row.TotalAmount;
                 }
             }
 

@@ -160,7 +160,7 @@ namespace Domain.Repositorys
             }
         }
 
-        public virtual async Task<TDataTable> FillAsyncByCommand(TDataTable dataTable, SqlCommand command)
+        public virtual async Task FillAsyncByCommand(DataTable dataTable, SqlCommand command)
         {
             try
             {
@@ -174,8 +174,6 @@ namespace Domain.Repositorys
 
                     await Task.Run(() => adapter.Fill(dataTable));
                 }
-
-                return dataTable;
             }
             catch (Exception ex)
             {
@@ -224,6 +222,7 @@ namespace Domain.Repositorys
                 ApplyAuditFields(dataTable);
 
                 ApplyTransactionToCommands(Transaction);
+                DataAdapter.AcceptChangesDuringUpdate = false;
                 return await Task.Run(() => DataAdapter.Update(dataTable));
             }
             catch (Exception ex)
@@ -234,31 +233,7 @@ namespace Domain.Repositorys
             }
         }
 
-        public virtual async Task<int> UpdateAsync(DataSet dataSet, string tableName)
-        {
-            try
-            {
-                if (Connection.State != ConnectionState.Open)
-                    await Connection.OpenAsync();
-
-                if (dataSet.Tables.Contains(tableName))
-                {
-                    var table = dataSet.Tables[tableName];
-                    ApplyAuditFields(table);
-                    return await Task.Run(() => DataAdapter.Update(dataSet, tableName));
-                }
-
-                return 0;
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, "Error updating DataSet table {TableName}", tableName);
-                
-                throw new DatabaseException(ex.Message, "cannot UpdateAsync Track", ErrorCode.DataBaseError, ex);
-
-            }
-        }
-
+       
         public virtual async Task<TDataTable> FetchTypedAsync()
         {
             try
@@ -283,11 +258,74 @@ namespace Domain.Repositorys
         }
 
 
-        //TODO
-        public virtual void SetAuditUser(int userId)
+        #region FkMethods
+
+        public async Task<TDataTable> FetchByForeignKeyAsync(object foreignKeyValue)
         {
-            AuditUserId = userId;
+            try
+            {
+                var fkName = DataTable.fkMasterDetail;
+                var command = new SqlCommand($"SELECT * FROM [{ViewName}] WHERE [{fkName}] = @fk", Connection);
+                command.Parameters.AddWithValue("@fk", foreignKeyValue);
+
+                if (Transaction != null)
+                    command.Transaction = Transaction;
+
+                return await FetchAsyncByCommand(command);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error fetching by foreign key in {ViewName}", ViewName);
+                throw new DatabaseException(ex.Message, $"Cannot FetchByForeignKey {ViewName}", ErrorCode.DataBaseError, ex);
+            }
         }
+
+        public async Task FillByForeignKeyAsync(DataTable table, object foreignKeyValue)
+        {
+            try
+            {
+                var fkName = DataTable.fkMasterDetail;
+                var command = new SqlCommand($"SELECT * FROM [{ViewName}] WHERE [{fkName}] = @fk", Connection);
+                command.Parameters.AddWithValue("@fk", foreignKeyValue);
+
+                if (Transaction != null)
+                    command.Transaction = Transaction;
+
+                await FillAsyncByCommand(table, command);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error filling by foreign key in {ViewName}", ViewName);
+                throw new DatabaseException(ex.Message, $"Cannot FillByForeignKey {ViewName}", ErrorCode.DataBaseError, ex);
+            }
+        }
+
+        public async Task<int> DeleteByForeignKeyAsync(object foreignKeyValue)
+        {
+            try
+            {
+                var fkName = DataTable.fkMasterDetail;
+                var command = new SqlCommand($"DELETE FROM [{TableName}] WHERE [{fkName}] = @fk", Connection);
+                command.Parameters.AddWithValue("@fk", foreignKeyValue);
+
+                if (Transaction != null)
+                    command.Transaction = Transaction;
+
+                return await command.ExecuteNonQueryAsync();
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error deleting by foreign key in {TableName}", TableName);
+                throw new DatabaseException(ex.Message, $"Cannot DeleteByForeignKey {TableName}", ErrorCode.DataBaseError, ex);
+            }
+        }
+
+
+        #endregion
+
+
+
+        #region Applys
 
         protected virtual void ApplyAuditFields(DataTable dataTable)
         {
@@ -343,7 +381,9 @@ namespace Domain.Repositorys
                 Logger.LogError(ex, "Error disposing enhanced adapter for {TableName}", TableName);
             }
         }
+        
 
+        #endregion
 
 
         #region Parameter creation 

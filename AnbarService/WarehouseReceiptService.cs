@@ -13,20 +13,20 @@ using Domain.Exceptions;
 namespace AnbarService
 {
     [Service]
-    class WarehouseReceiptService : IWarehouseReceipt
+    class WarehouseReceiptService : BaseMasterDetailService<IWarehouseReceiptRepository,IWarehouseReceiptItemRepository,AnbarDataSet
+        ,AnbarDataSet.view_WarehouseReceiptsDataTable,AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable>,IWarehouseReceipt
     {
         private readonly IWarehouseReceiptRepository _receiptRepository;
         private readonly IWarehouseReceiptItemRepository _receiptItemRepository;
-        private readonly ITransactionManager _transactionManager;
         private readonly IInventoryService _inventoryService;
 
 
 
-        public WarehouseReceiptService(IWarehouseReceiptRepository receiptRepository, IWarehouseReceiptItemRepository receiptItemRepository, ITransactionManager transactionManager, IInventoryService inventoryService)
+        public WarehouseReceiptService(IWarehouseReceiptRepository receiptRepository, IWarehouseReceiptItemRepository receiptItemRepository, ITransactionManager transactionManager, IInventoryService inventoryService) : 
+            base(headerRepo:receiptRepository,detailRepo:receiptItemRepository,transactionManager)
         {
             _receiptRepository = receiptRepository;
             _receiptItemRepository = receiptItemRepository;
-            _transactionManager = transactionManager;
             _inventoryService = inventoryService;
         }
 
@@ -37,93 +37,63 @@ namespace AnbarService
         }
 
 
-        public async Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FillByReceiptIdWithProductInfo(int receiptId)
+
+        protected override async Task<AnbarDataSet.view_WarehouseReceiptsDataTable> FetchMasterAsync()
         {
-            return await _receiptItemRepository.FetchByReceiptIdWithProductInfo(receiptId);
+            return await _receiptRepository.FetchAsync();
         }
 
-
-        public async Task<AnbarDataSet> GetFullDatasetAsync()
+        public override async Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FetchDetailsByMasterIdAsync(int masterId)
         {
-            var dataSet = new AnbarDataSet();
-            await _receiptRepository.FillAsync(dataSet.view_WarehouseReceipts);
-            await _receiptItemRepository.FillAsync(dataSet.WarehouseReceiptItemsWithProductView);
-
-            return dataSet;
+            return await _receiptItemRepository.FetchByForeignKeyAsync(masterId);
         }
 
-        public async Task FillReceiptById(AnbarDataSet dataSet,int reciteId)
+        protected override   void ProcessDetailsAfterMasterSaveAsync(AnbarDataSet dataset)
         {
-            await _receiptRepository.GetByIdAsync(dataSet.view_WarehouseReceipts,reciteId);
-            await _receiptItemRepository.FillByReceiptIdWithProductInfo(dataSet.WarehouseReceiptItemsWithProductView, reciteId);
-
         }
 
-
-        public async Task SaveReceiptWithItemsAsync(AnbarDataSet dataset)
+        protected override async Task BeforeSaveAsync(AnbarDataSet dataset)
         {
+            var masterRow = (AnbarDataSet.view_WarehouseReceiptsRow)dataset.view_WarehouseReceipts.Rows[dataset.view_WarehouseReceipts.Rows.Count - 1];
 
-            _transactionManager.BeginTransactionAsync();
-            try
+            if (masterRow.Id==-1)
             {
-
-                await _receiptRepository.UpdateTransaction(dataset.view_WarehouseReceipts);
-
-
-
-                var header = await _receiptRepository.FetchAsync();
-
-                var lastRow = (AnbarDataSet.view_WarehouseReceiptsRow)header.Rows[header.Rows.Count - 1];
-                await _inventoryService.UpdateInventoryAsync(dataset.WarehouseReceiptItemsWithProductView, lastRow);
+                var lastRowId = await _receiptRepository.GetLastInsertedReceiptIdAsync();
 
                 foreach (var item in dataset.WarehouseReceiptItemsWithProductView)
                 {
-                    item.ReceiptId = lastRow.Id;
+                    item.ReceiptId = lastRowId;
 
                 }
 
-                await _receiptItemRepository.UpdateAsync(dataset.WarehouseReceiptItemsWithProductView);
+                foreach (var header in dataset.view_WarehouseReceipts)
+                {
+                    header.Id = lastRowId;
 
-                var detail = await _receiptItemRepository.FetchByReceiptIdWithProductInfo(lastRow.Id);
-
-                await UpdateHeaderTotalAmount(detail, lastRow, header);
-
-              
-
-                
-                _transactionManager.CommitTransactionAsync();
-
-
+                }
             }
-            catch (Exception ex)
-            {
-                _transactionManager.RollbackTransactionAsync();
-                throw;
-            }
+            await _inventoryService.UpdateInventoryAsync(dataset.WarehouseReceiptItemsWithProductView, masterRow);
+
+
         }
 
 
-        public async Task DeleteReceiptWithInventoryAsync(AnbarDataSet.view_WarehouseReceiptsRow receiptRow)
+        protected override async Task AfterSaveAsync(AnbarDataSet dataset)
         {
-            _transactionManager.BeginTransactionAsync();
 
-            try
-            {
-                var detail = await _receiptItemRepository.FetchByReceiptIdWithProductInfo(receiptRow.Id);
+            var masterRow = (AnbarDataSet.view_WarehouseReceiptsRow) dataset.view_WarehouseReceipts.Rows[dataset.view_WarehouseReceipts.Rows.Count - 1];
 
-                await _inventoryService.DeleteInventoryAsync(detail, receiptRow);
-                await _receiptItemRepository.DeleteByReciteInfo(receiptRow.Id);
+            await UpdateHeaderTotalAmount(dataset.WarehouseReceiptItemsWithProductView, masterRow, dataset.view_WarehouseReceipts);
 
-                await _receiptRepository.DeleteByIdAsync(receiptRow.Id);
-
-                _transactionManager.CommitTransactionAsync();
-            }
-            catch (Exception ex)
-            {
-                _transactionManager.RollbackTransactionAsync();
-                throw;
-            }
         }
+
+        protected override async  Task BeforeDeleteAsync(AnbarDataSet dataset)
+        {
+            var header = dataset.view_WarehouseReceipts.FirstOrDefault(); 
+            await _inventoryService.DeleteInventoryAsync(dataset.WarehouseReceiptItemsWithProductView, header);
+        }
+
+
 
 
 
@@ -152,7 +122,7 @@ namespace AnbarService
 
 
 
-            await _receiptRepository.UpdateTransaction(header);
+            await _receiptRepository.UpdateAsync(header);
         }
 
 

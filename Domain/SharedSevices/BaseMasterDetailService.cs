@@ -29,22 +29,102 @@ namespace Domain.SharedSevices
             _transactionManager = transactionManager;
         }
 
+
+        protected abstract Task<THeaderTable> FetchMasterAsync();
+
+        public  abstract Task<TDetailTable> FetchDetailsByMasterIdAsync(int masterId);
+        protected abstract void  ProcessDetailsAfterMasterSaveAsync(TDataSet dataset);
+
+    protected virtual Task BeforeSaveAsync(TDataSet dataset)
+        {
+            return Task.CompletedTask;
+        }
+
+        protected virtual Task AfterSaveAsync(TDataSet dataset)
+        {
+            return Task.CompletedTask;
+        }
+
+        protected virtual Task BeforeDeleteAsync(TDataSet dataset)
+        {
+            return Task.CompletedTask;
+        }
+
+        protected virtual Task AfterDeleteAsync(TDataSet dataset)
+        {
+            return Task.CompletedTask;
+        }
+
+
         public virtual  async Task<TDataSet> GetFullDatasetAsync()
         {
             var dataSet = new TDataSet();
-
             await _headerRepo.FillAsync(dataSet.GetHeaderTable());
-            await _detailRepo.FillAsync(dataSet.GetDetailTable());
-
             return dataSet;
         }
 
         public async Task FillReceiptById(TDataSet dataSet, int receiptId)
         {
-            await FillHeaderByIdAsync(dataSet, receiptId);
-            await FillDetailByHeaderIdAsync(dataSet, receiptId);
+            await _headerRepo.GetByIdAsync(dataSet.GetHeaderTable(), receiptId);
+            await _detailRepo.FillByForeignKeyAsync(dataSet.GetDetailTable(), receiptId);
+
+        }
+        public  async Task<TDataSet> FetchMasterDetailDatasetAsync(int masterId)
+        {
+            var ds = new TDataSet();
+            await _headerRepo.GetByIdAsync(ds.GetHeaderTable(), masterId);
+            await _detailRepo.FillByForeignKeyAsync(ds.GetDetailTable(), masterId);
+            return ds;
         }
 
+
+
+        public virtual async Task SaveMasterDetailAsync(TDataSet dataset)
+        {
+             _transactionManager.BeginTransactionAsync();
+            try
+            {
+                await BeforeSaveAsync(dataset);
+                await _headerRepo.UpdateAsync(dataset.GetHeaderTable());
+
+                await _detailRepo.UpdateAsync(dataset.GetDetailTable());
+
+                await AfterSaveAsync(dataset);
+
+                _transactionManager.CommitTransactionAsync();
+                dataset.AcceptChanges();
+              
+            }
+            catch
+            {
+                 _transactionManager.RollbackTransactionAsync();
+                 dataset.RejectChanges();
+                throw;
+            }
+        }
+
+        public virtual async Task DeleteMasterDetailAsync(int id)
+        {
+            _transactionManager.BeginTransactionAsync();
+            TDataSet dataset = null;
+            try
+            {
+
+                 dataset = await FetchMasterDetailDatasetAsync(id);
+                await BeforeDeleteAsync(dataset);
+                await _headerRepo.DeleteByForeignKeyAsync(id);
+                await _detailRepo.DeleteByIdAsync(id);
+                await AfterSaveAsync(dataset);
+                _transactionManager.CommitTransactionAsync();
+                dataset.AcceptChanges();
+            }
+            catch
+            {
+                if (dataset != null) dataset.RejectChanges();
+                _transactionManager.RollbackTransactionAsync();
+                throw;
+            }
+        }
 
 
     }

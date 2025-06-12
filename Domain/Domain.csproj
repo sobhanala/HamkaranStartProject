@@ -134,6 +134,7 @@
     <Compile Include="Repositorys\IGenericRepository.cs" />
     <Compile Include="Repositorys\IUserRepository.cs" />
     <Compile Include="SharedSevices\BaseMasterDetailService.cs" />
+    <Compile Include="SharedSevices\IMasterDetailService.cs" />
     <Compile Include="SharedSevices\ITransactionManager.cs" />
     <Compile Include="SharedSevices\ISessionService.cs" />
     <Compile Include="SharedSevices\IUserService.cs" />

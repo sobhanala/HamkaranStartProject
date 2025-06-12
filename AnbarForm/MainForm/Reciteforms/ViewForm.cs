@@ -39,7 +39,7 @@ namespace AnbarForm.MainForm.Reciteforms
             masterTable.ImportRow(receiptRow);
             masterGrid.DataSource = masterTable;
 
-            var viewTable = await UiSafeExecutor.ExecuteAsync(()=>  _warehouseReceiptService.FillByReceiptIdWithProductInfo(receiptId: _receiptRow.Id)); 
+            var viewTable = await UiSafeExecutor.ExecuteAsync(()=>  _warehouseReceiptService.FetchDetailsByMasterIdAsync(receiptId: _receiptRow.Id)); 
 
             detailGrid.DataSource = viewTable;
         }
