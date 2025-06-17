@@ -12,9 +12,7 @@ using Domain.Repositorys.Interfaces;
 
 namespace Domain.Repositorys
 {
-    /// <summary>
-    /// moshkel injoori bud ke id -1 bud ye zamani ava taghir dadam ke in ghaziye hal she vali khub in migi db auto inc ro khammosh konam ke fek konam esthebahee 
-    /// </summary>
+
     /// <typeparam name="TDataTable"></typeparam>
     public abstract class    EnhancedTableAdapterBase<TDataTable> : IEnhancedTableAdapter
         where TDataTable : DataTable, IEnhancedDataTableMetadata, new()
@@ -325,7 +323,28 @@ namespace Domain.Repositorys
 
         #endregion
 
+        public async Task<int> GetLastInsertedReceiptIdAsync()
+        {
+            var query = $"SELECT ISNULL(MAX(Id), 0) + 1 FROM {TableName}";
 
+            try
+            {
+                using (var command = new SqlCommand(query, Connection))
+                {
+                    if (Connection.State != ConnectionState.Open)
+                        await Connection.OpenAsync();
+                    command.Transaction = Transaction;
+
+                    var result = await command.ExecuteScalarAsync();
+                    return Convert.ToInt32(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error retrieving last inserted receipt ID");
+                throw new DatabaseException(ex.Message, "Error retrieving last inserted receipt ID", ErrorCode.DataBaseError, ex);
+            }
+        }
 
         #region Applys
 

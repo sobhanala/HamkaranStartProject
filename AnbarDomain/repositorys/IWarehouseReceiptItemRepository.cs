@@ -5,7 +5,7 @@ using Domain.Repositorys.Interfaces;
 
 namespace AnbarDomain.repositorys
 {
-    public interface IWarehouseReceiptItemRepository : IEnhancedTableAdapter
+    public interface IWarehouseReceiptItemRepository : IDetailBase
     {
         Task<AnbarDataSet.WarehouseReceiptItemsWithProductViewDataTable> FetchByForeignKeyAsync(int receiptId);
        

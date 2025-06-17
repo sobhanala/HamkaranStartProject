@@ -56,8 +56,6 @@ namespace AnbarForm.MainForm.Reciteforms
             numCost.DataBindings.Add("Value", _headerBindingSource, "TransportCost", true, DataSourceUpdateMode.OnPropertyChanged);
             numDiscount.DataBindings.Add("Value", _headerBindingSource, "Discount", true, DataSourceUpdateMode.OnPropertyChanged);
             cmbType.DataBindings.Add("SelectedValue", _headerBindingSource, "ReceiptStatus", true, DataSourceUpdateMode.OnPropertyChanged);
-
-
         }
 
         private void ConfigureComboBox()
@@ -314,6 +312,11 @@ namespace AnbarForm.MainForm.Reciteforms
             {
                 dgReciteItem.Columns["Id"].ReadOnly = true;
                 dgReciteItem.Columns["Id"].Visible = false;
+            }
+            if (dgReciteItem.Columns.Contains("ReceiptId"))
+            {
+                dgReciteItem.Columns["ReceiptId"].ReadOnly = true;
+                dgReciteItem.Columns["ReceiptId"].Visible = false;
 
             }
         }

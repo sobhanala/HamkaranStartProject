@@ -122,6 +122,8 @@
     </Compile>
     <Compile Include="Repositorys\BaseRepository.cs" />
     <Compile Include="Repositorys\Interfaces\IDatasetMetaData.cs" />
+    <Compile Include="Repositorys\Interfaces\IDetailBase.cs" />
+    <Compile Include="Repositorys\Interfaces\IMasterBase.cs" />
     <Compile Include="Repositorys\TransactionManager.cs" />
     <Compile Include="Repositorys\EnhancedTableAdapterBase.cs" />
     <Compile Include="Repositorys\Interfaces\IEnhancedDataTableMetadata.cs" />

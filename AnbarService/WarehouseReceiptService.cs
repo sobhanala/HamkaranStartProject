@@ -50,6 +50,22 @@ namespace AnbarService
 
         protected override async Task BeforeSaveAsync(AnbarDataSet dataset)
         {
+            ValidateDataSet(dataset);
+
+            var masterRow = await SetIdToDetail(dataset);
+            await _inventoryService.UpdateInventoryAsync(dataset.WarehouseReceiptItemsWithProductView, masterRow);
+        }
+
+        private static void ValidateDataSet(AnbarDataSet dataset)
+        {
+            if (dataset.WarehouseReceiptItemsWithProductView == null || dataset.WarehouseReceiptItemsWithProductView.Count == 0)
+            {
+                throw new WarehouseReceiptException("","Cannot save a warehouse receipt without at least one item.",ErrorCode.EmptyReciteTryToSave);
+            }
+        }
+
+        private async Task<AnbarDataSet.view_WarehouseReceiptsRow> SetIdToDetail(AnbarDataSet dataset)
+        {
             var masterRow = (AnbarDataSet.view_WarehouseReceiptsRow)dataset.view_WarehouseReceipts.Rows[dataset.view_WarehouseReceipts.Rows.Count - 1];
 
             if (masterRow.Id==-1)
@@ -68,9 +84,8 @@ namespace AnbarService
 
                 }
             }
-            await _inventoryService.UpdateInventoryAsync(dataset.WarehouseReceiptItemsWithProductView, masterRow);
 
-
+            return masterRow;
         }
 
 

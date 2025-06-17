@@ -57,28 +57,9 @@ namespace AnbarPersitence.Newway
             }
         }
 
-        public async Task<int> GetLastInsertedReceiptIdAsync()
-        {
-            var query = "SELECT ISNULL(MAX(Id), 0) + 1 FROM WarehouseReceipts";
 
-            try
-            {
-                using (var command = new SqlCommand(query, Connection))
-                {
-                    if (Connection.State != ConnectionState.Open)
-                        await Connection.OpenAsync();
-                    command.Transaction = Transaction;
+        //TODO 
 
-                    var result = await command.ExecuteScalarAsync();
-                    return Convert.ToInt32(result);
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex, "Error retrieving last inserted receipt ID");
-                throw new DatabaseException(ex.Message, "Error retrieving last inserted receipt ID", ErrorCode.DataBaseError, ex);
-            }
-        }
 
         public async Task<AnbarDataSet.view_WarehouseReceiptsDataTable> FetchAsync()
         {
@@ -93,25 +74,6 @@ namespace AnbarPersitence.Newway
                 throw new DatabaseException(e.Message, "cannot FetchAsync Track", ErrorCode.DataBaseError, e); ;
             }
         }
-
-        //public async Task<int> UpdateTransaction(AnbarDataSet.view_WarehouseReceiptsDataTable data)
-        //{
-        //    try
-        //    {
-        //        var insertCommand = CreateInsertCommand();
-        //        _baseAdapter.GetAdapter().InsertCommand = insertCommand;
-        //        var updated = await base.UpdateAsync(data);
-
-        //        return updated;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Logger.LogError(e, "Error UpdateTransaction");
-        //        throw new DatabaseException(e.Message, "cannot UpdateTransaction Track", ErrorCode.DataBaseError, e); ;
-        //    }
-
-        //}
-
 
         protected override void ApplyTransactionToCommands(SqlTransaction transaction)
         {

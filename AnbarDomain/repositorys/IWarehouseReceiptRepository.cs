@@ -5,11 +5,9 @@ using Domain.Repositorys.Interfaces;
 
 namespace AnbarDomain.repositorys
 {
-    public interface IWarehouseReceiptRepository : IEnhancedTableAdapter
+    public interface IWarehouseReceiptRepository : IMasterBase
     {
         Task<string> GetNextReceiptNumberAsync();
-        //Task<int> UpdateTransaction(AnbarDataSet.view_WarehouseReceiptsDataTable data);
         Task<AnbarDataSet.view_WarehouseReceiptsDataTable> FetchAsync();
-        Task<int> GetLastInsertedReceiptIdAsync();
     }
 }

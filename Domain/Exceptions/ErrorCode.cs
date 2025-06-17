@@ -29,6 +29,7 @@
         /// 
         /// </summary>
         WerHouseTransactionFailed=70,
+        EmptyReciteTryToSave,
 
 
 

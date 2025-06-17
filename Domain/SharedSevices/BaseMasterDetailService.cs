@@ -10,8 +10,8 @@ using Domain.Repositorys.Interfaces;
 namespace Domain.SharedSevices
 {
     public abstract class BaseMasterDetailService<THeaderRepo,TDetailRepo,TDataSet, THeaderTable, TDetailTable>
-    where THeaderRepo:class,IEnhancedTableAdapter
-    where TDetailRepo:class, IEnhancedTableAdapter
+    where THeaderRepo:class,IMasterBase
+    where TDetailRepo:class, IDetailBase
     where TDataSet : DataSet, IDatasetMetaData<THeaderTable,TDetailTable>,new()   
     where THeaderTable:DataTable
     where TDetailTable:DataTable
@@ -35,7 +35,7 @@ namespace Domain.SharedSevices
 
         public  abstract Task<TDetailTable> FetchDetailsByMasterIdAsync(int masterId);
 
-    protected virtual Task BeforeSaveAsync(TDataSet dataset)
+        protected virtual Task BeforeSaveAsync(TDataSet dataset)
         {
             return Task.CompletedTask;
         }
@@ -108,7 +108,8 @@ namespace Domain.SharedSevices
             try
             {
 
-                 var dataset = await FetchMasterDetailDatasetAsync(id);
+                var dataset = await FetchMasterDetailDatasetAsync(id);
+
                 await BeforeDeleteAsync(dataset);
 
                 await _detailRepo.DeleteByForeignKeyAsync(id);
