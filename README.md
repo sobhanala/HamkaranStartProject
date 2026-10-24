@@ -1,4 +1,4 @@
-# Anbar â€” Warehouse Management Desktop Project
+# Anbar — Warehouse Management Desktop Project
 
 A C# Windows Forms project for warehouse and inventory management, organized around domain entities, persistence, application services, and UI modules.
 
