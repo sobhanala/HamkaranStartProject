@@ -338,3 +338,12 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+# Local development files
+**/bin/
+**/obj/
+*.csproj.user
+.env
+.env.*
+!.env.example
+appsettings.Local.json
